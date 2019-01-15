@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Numismatic.Properties {
+namespace NumismaticXP.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Numismatic.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Numismatic.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NumismaticXP.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -75,7 +75,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Blue_Ball {
             get {
-                object obj = ResourceManager.GetObject("Blue Ball", resourceCulture);
+                object obj = ResourceManager.GetObject("Blue_Ball", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Cancel_Red_Button {
             get {
-                object obj = ResourceManager.GetObject("Cancel Red Button", resourceCulture);
+                object obj = ResourceManager.GetObject("Cancel_Red_Button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Gear_Alt {
             get {
-                object obj = ResourceManager.GetObject("Gear Alt", resourceCulture);
+                object obj = ResourceManager.GetObject("Gear_Alt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Get_Document {
             get {
-                object obj = ResourceManager.GetObject("Get Document", resourceCulture);
+                object obj = ResourceManager.GetObject("Get_Document", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Get_Info_Blue_Button {
             get {
-                object obj = ResourceManager.GetObject("Get Info Blue Button", resourceCulture);
+                object obj = ResourceManager.GetObject("Get_Info_Blue_Button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Green_Ball {
             get {
-                object obj = ResourceManager.GetObject("Green Ball", resourceCulture);
+                object obj = ResourceManager.GetObject("Green_Ball", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Grey_Ball {
             get {
-                object obj = ResourceManager.GetObject("Grey Ball", resourceCulture);
+                object obj = ResourceManager.GetObject("Grey_Ball", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Import_Document {
             get {
-                object obj = ResourceManager.GetObject("Import Document", resourceCulture);
+                object obj = ResourceManager.GetObject("Import_Document", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Menu_Item {
             get {
-                object obj = ResourceManager.GetObject("Menu Item", resourceCulture);
+                object obj = ResourceManager.GetObject("Menu_Item", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace Numismatic.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Mr__Bomb {
+        internal static System.Drawing.Bitmap Mr_Bomb {
             get {
-                object obj = ResourceManager.GetObject("Mr. Bomb", resourceCulture);
+                object obj = ResourceManager.GetObject("Mr_Bomb", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Orange_Ball {
             get {
-                object obj = ResourceManager.GetObject("Orange Ball", resourceCulture);
+                object obj = ResourceManager.GetObject("Orange_Ball", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,7 +205,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Play_All {
             get {
-                object obj = ResourceManager.GetObject("Play All", resourceCulture);
+                object obj = ResourceManager.GetObject("Play_All", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,7 +215,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Red_Ball {
             get {
-                object obj = ResourceManager.GetObject("Red Ball", resourceCulture);
+                object obj = ResourceManager.GetObject("Red_Ball", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -235,7 +235,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Rename_Document {
             get {
-                object obj = ResourceManager.GetObject("Rename Document", resourceCulture);
+                object obj = ResourceManager.GetObject("Rename_Document", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -245,7 +245,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Spotlight_Blue_Button {
             get {
-                object obj = ResourceManager.GetObject("Spotlight Blue Button", resourceCulture);
+                object obj = ResourceManager.GetObject("Spotlight_Blue_Button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -265,7 +265,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Stop_All {
             get {
-                object obj = ResourceManager.GetObject("Stop All", resourceCulture);
+                object obj = ResourceManager.GetObject("Stop_All", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -285,7 +285,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Transfer_Document {
             get {
-                object obj = ResourceManager.GetObject("Transfer Document", resourceCulture);
+                object obj = ResourceManager.GetObject("Transfer_Document", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -295,7 +295,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Trash_Empty {
             get {
-                object obj = ResourceManager.GetObject("Trash Empty", resourceCulture);
+                object obj = ResourceManager.GetObject("Trash_Empty", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -325,7 +325,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Web_Browser {
             get {
-                object obj = ResourceManager.GetObject("Web Browser", resourceCulture);
+                object obj = ResourceManager.GetObject("Web_Browser", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -335,7 +335,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Write_Document {
             get {
-                object obj = ResourceManager.GetObject("Write Document", resourceCulture);
+                object obj = ResourceManager.GetObject("Write_Document", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -345,7 +345,7 @@ namespace Numismatic.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Yellow_Ball {
             get {
-                object obj = ResourceManager.GetObject("Yellow Ball", resourceCulture);
+                object obj = ResourceManager.GetObject("Yellow_Ball", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

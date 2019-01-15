@@ -1,54 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Numismatic.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="ServerAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">krzaq.pl</Value>
-    </Setting>
-    <Setting Name="ServerPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3306</Value>
-    </Setting>
-    <Setting Name="Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)">krzaczek_numis</Value>
-    </Setting>
-    <Setting Name="Username" Type="System.String" Scope="User">
-      <Value Profile="(Default)">krzaczek</Value>
-    </Setting>
-    <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">95iAfmE6Mm6MbW5q6sGUwKtUYOwvHWvU6dUG0g4Rg1o=</Value>
-    </Setting>
-    <Setting Name="SslMode" Type="MySql.Data.MySqlClient.MySqlSslMode" Scope="User">
-      <Value Profile="(Default)">None</Value>
-    </Setting>
-    <Setting Name="SavedLogin" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="RememberPassword" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="SavedPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="MainWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="MainHeight" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="LastSelectedCoin" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="SortByColumn" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="SortDirection" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LastSelectedMode" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ColumnsSettings" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

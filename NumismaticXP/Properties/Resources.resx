@@ -112,37 +112,34 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Web Browser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Web_Browser" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Web Browser.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Blue Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\png\Blue Ball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Mr. Bomb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Mr_Bomb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Mr. Bomb.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Orange Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Orange_Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Orange Ball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Get Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Get_Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Get Document.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Excel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Excel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Write Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Write_Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Write Document.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="User" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -151,13 +148,13 @@
   <data name="Remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Spotlight Blue Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Spotlight_Blue_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Spotlight Blue Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Transfer Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Transfer_Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Transfer Document.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Gear Alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Gear_Alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Gear Alt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Transfer" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -166,43 +163,46 @@
   <data name="Add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Yellow Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Yellow_Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Yellow Ball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Stop All" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Stop_All" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Stop All.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Trash Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Trash_Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Trash Empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Import Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Import_Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Import Document.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Cancel Red Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Cancel_Red_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Cancel Red Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Green Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Green_Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Green Ball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Get Info Blue Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Get_Info_Blue_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Get Info Blue Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Red Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Red_Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Red Ball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Menu Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Menu_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Menu Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Play All" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Play_All" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Play All.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Grey Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Grey_Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Grey Ball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Rename Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Rename_Document" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\Rename Document.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="User2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\png\User2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Blue_Ball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\png\Blue Ball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
