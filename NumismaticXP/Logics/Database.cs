@@ -1,12 +1,12 @@
-﻿using MySql.Data.MySqlClient;
-using Numismatic.Forms;
-using Numismatic.Models;
+﻿using NumismaticXP.Forms;
+using NumismaticXP.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Windows.Forms;
 
-namespace Numismatic.Logics
+namespace NumismaticXP.Logics
 {
     static class Database
     {
@@ -26,7 +26,7 @@ namespace Numismatic.Logics
             {
                 bool contentsUser = type == CollectionType.Owned || type == CollectionType.Redundant;
 
-                List<uint> filter = Main.LoggedUser.ShowCoins;
+                List<int> filter = GetUserCoinFilter();
 
                 string query =
                     $"SELECT Coin.Id AS CoinID, Name, Value, Edition, Emission, {(contentsUser ? null : "IFNULL(Amount, 0) AS")} Amount " +
@@ -38,22 +38,22 @@ namespace Numismatic.Logics
                         query += $"WHERE TRUE ";
                         break;
                     case CollectionType.Owned:
-                        query += $"WHERE Collection.Id_user = {Main.LoggedUser.Id} AND Amount > 0 ";
+                        query += $"WHERE Amount > 0 ";
                         break;
                     case CollectionType.Redundant:
-                        query += $"WHERE Collection.Id_user = {Main.LoggedUser.Id} AND Amount > 1 ";
+                        query += $"WHERE Amount > 1 ";
                         break;
                     case CollectionType.Missing:
                         query += "WHERE (Amount IS NULL OR Amount = 0) ";
                         break;
                 }
 
-                if (filter.Count > 0) query += $"AND Value IN ({string.Join(",", Main.LoggedUser.ShowCoins)});";
+                if (filter.Count > 0) query += $"AND Value IN ({string.Join(",", GetUserCoinFilter())});";
 
                 try
                 {
                     DataSet dataSet = new DataSet();
-                    MySqlDataAdapter myadapter = new MySqlDataAdapter(query, Main.Servant.Connection);
+                    SQLiteDataAdapter myadapter = new SQLiteDataAdapter(query, Main.Connector.Connection);
                     myadapter.Fill(dataSet);
                     return dataSet.Tables[0];
                 }
@@ -73,20 +73,20 @@ namespace Numismatic.Logics
 
             try
             {
-                using (MySqlDataReader reader = Main.Servant.ExecuteReader(query))
+                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
                 {
                     while (reader.Read())
                     {
                         coins.Add(new Coin()
                         {
-                            Name = reader.GetString("Name"),
-                            Value = reader.GetUInt32("Value"),
-                            Diameter = reader.GetDecimal("Diameter"),
-                            Fineness = reader.GetString("Fineness"),
-                            Weight = reader.GetDecimal("Weight"),
-                            Edition = reader.GetUInt32("Edition"),
-                            Emission = reader.GetDateTime("Emission"),
-                            Stamp = reader.GetString("Stamp")
+                            Name = reader.GetString(0),
+                            Value = reader.GetInt32(1),
+                            Diameter = reader.GetDecimal(2),
+                            Fineness = reader.GetString(3),
+                            Weight = reader.GetDecimal(4),
+                            Edition = reader.GetInt32(5),
+                            Emission = reader.GetDateTime(6),
+                            Stamp = reader.GetString(7)
                         });
                     }
                 }
@@ -104,9 +104,9 @@ namespace Numismatic.Logics
         {
             try
             {
-                Main.Servant.BeginTransaction();
+                Main.Connector.BeginTransaction();
                 coins.ForEach(coin => Insert(coin));
-                Main.Servant.CommitTransaction();
+                Main.Connector.CommitTransaction();
             }
             catch (Exception ex)
             {
@@ -122,7 +122,7 @@ namespace Numismatic.Logics
 
             try
             {
-                Main.Servant.ExecuteNonQuery(query, coin.ToDictionary());
+                Main.Connector.ExecuteNonQuery(query, coin.ToDictionary());
             }
             catch (Exception ex)
             {
@@ -131,19 +131,19 @@ namespace Numismatic.Logics
             }
         }
 
-        public static List<uint> GetCoinValues()
+        public static List<int> GetCoinValues()
         {
-            List<uint> output = new List<uint>();
+            List<int> output = new List<int>();
 
             string query = "SELECT DISTINCT Value FROM Coin ORDER BY Value DESC;";
 
             try
             {
-                using (MySqlDataReader reader = Main.Servant.ExecuteReader(query))
+                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
                 {
                     while (reader.Read())
                     {
-                        output.Add(reader.GetUInt32("Value"));
+                        output.Add(reader.GetInt32(0));
                     }
                 }
             }
@@ -158,17 +158,16 @@ namespace Numismatic.Logics
 
         public static void SaveCoinsFilter(List<uint> filter)
         {
-            string query = "UPDATE User SET Show_coins = @filter WHERE Id = @usr";
+            string query = "UPDATE User SET Show_coins = @filter;";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                { "@usr", Main.LoggedUser.Id },
                 { "@filter", string.Join(";", filter) }
             };
 
             try
             {
-                Main.Servant.ExecuteNonQuery(query, parameters);
+                Main.Connector.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
@@ -178,18 +177,13 @@ namespace Numismatic.Logics
         }
 
         #region "User methods"
-        public static uint GetUserUniqueCoins()
+        public static int GetUserUniqueCoins()
         {
-            string query = "SELECT COUNT(*) FROM Collection WHERE Id_user = @usr AND Amount > 0";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "@usr", Main.LoggedUser.Id }
-            };
+            string query = "SELECT COUNT(*) FROM Collection WHERE Amount > 0";
 
             try
             {
-                return Convert.ToUInt32(Main.Servant.ExecuteScalar(query, parameters));
+                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
@@ -198,18 +192,13 @@ namespace Numismatic.Logics
             }
         }
 
-        public static uint GetUserTotalCoins()
+        public static int GetUserTotalCoins()
         {
-            string query = "SELECT SUM(Amount) FROM Collection WHERE Id_user = @usr";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "@usr", Main.LoggedUser.Id }
-            };
+            string query = "SELECT SUM(Amount) FROM Collection";
 
             try
             {
-                return Convert.ToUInt32(Main.Servant.ExecuteScalar(query, parameters));
+                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
@@ -220,16 +209,11 @@ namespace Numismatic.Logics
 
         public static decimal GetUserTotalWeight()
         {
-            string query = "SELECT SUM(Amount * Weight) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin WHERE Id_user = @usr";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "@usr", Main.LoggedUser.Id }
-            };
+            string query = "SELECT SUM(Amount * Weight) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin";
 
             try
             {
-                return Convert.ToDecimal(Main.Servant.ExecuteScalar(query, parameters));
+                return Convert.ToDecimal(Main.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
@@ -240,16 +224,11 @@ namespace Numismatic.Logics
 
         public static decimal GetUserTotalValue()
         {
-            string query = "SELECT SUM(Amount * Value) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin WHERE Id_user = @usr";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "@usr", Main.LoggedUser.Id }
-            };
+            string query = "SELECT SUM(Amount * Value) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin";
 
             try
             {
-                return Convert.ToDecimal(Main.Servant.ExecuteScalar(query, parameters));
+                return Convert.ToDecimal(Main.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
@@ -258,21 +237,16 @@ namespace Numismatic.Logics
             }
         }
 
-        public static List<uint> GetUserCoinFilter()
+        public static List<int> GetUserCoinFilter()
         {
-            List<uint> output = new List<uint>();
+            List<int> output = new List<int>();
 
-            string query = "SELECT Show_coins FROM User WHERE Id = @usr";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "@usr", Main.LoggedUser.Id }
-            };
+            string query = "SELECT Show_coins FROM User";
 
             string[] values;
             try
             {
-                values = Main.Servant.ExecuteScalar(query, parameters).ToString().Split(';');
+                values = Main.Connector.ExecuteScalar(query).ToString().Split(';');
             }
             catch (Exception ex)
             {
@@ -284,7 +258,7 @@ namespace Numismatic.Logics
             {
                 foreach (string value in values)
                 {
-                    output.Add(uint.Parse(value));
+                    output.Add(int.Parse(value));
                 }
             }
 
@@ -295,11 +269,10 @@ namespace Numismatic.Logics
         #region "Events & Errors"
         public static void AddError(string message, string className, string functionName, string comment = null)
         {
-            string query = "INSERT INTO ErrorHistory(Id_user, Class, Function, Message, Comment) VALUES(@usr, @class, @func, @msg, @comm)";
+            string query = "INSERT INTO ErrorHistory(Class, Function, Message, Comment) VALUES(@class, @func, @msg, @comm)";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                { "@usr", Main.LoggedUser.Id },
                 { "@class", className },
                 { "@func", functionName },
                 { "@msg", message },
@@ -308,7 +281,7 @@ namespace Numismatic.Logics
 
             try
             {
-                Main.Servant.ExecuteNonQuery(query, parameters);
+                Main.Connector.ExecuteNonQuery(query, parameters);
             }
             catch
             {
@@ -320,22 +293,21 @@ namespace Numismatic.Logics
         {
             List<Error> errors = new List<Error>();
 
-            string query = "SELECT Id_user, Date, Class, Function, Message, Comment FROM ErrorHistory";
+            string query = "SELECT Date, Class, Function, Message, Comment FROM ErrorHistory";
 
             try
             {
-                using (MySqlDataReader reader = Main.Servant.ExecuteReader(query))
+                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
                 {
                     while (reader.Read())
                     {
                         errors.Add(new Error()
                         {
-                            UserId = reader.GetUInt32("Id_user"),
-                            Date = reader.GetDateTime("Date"),
-                            ClassName = reader.GetString("Class"),
-                            FunctionName = reader.GetString("Function"),
-                            Message = reader.GetString("Message"),
-                            Comment = reader.GetString("Comment")
+                            Date = reader.GetDateTime(0),
+                            ClassName = reader.GetString(1),
+                            FunctionName = reader.GetString(2),
+                            Message = reader.GetString(3),
+                            Comment = reader.GetString(4)
                         });
                     }
                 }
@@ -360,11 +332,11 @@ namespace Numismatic.Logics
 
             try
             {
-                Main.Servant.ExecuteNonQuery(query, parameters);
+                Main.Connector.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
-                AddError(Main.LoggedUser.Id.ToString(), ex.Message, "Database", "AddEvent");
+                AddError(ex.Message, "Database", "AddEvent");
             }
         }
 
@@ -372,11 +344,11 @@ namespace Numismatic.Logics
         {
             try
             {
-                Main.Servant.ExecuteNonQuery("DELETE FROM Collection; DELETE FROM Coin;");
+                Main.Connector.ExecuteNonQuery("DELETE FROM Collection; DELETE FROM Coin;");
             }
             catch (Exception ex)
             {
-                AddError(Main.LoggedUser.Id.ToString(), ex.Message, "Database", "FullClear");
+                AddError(ex.Message, "Database", "FullClear");
 
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Numismatic.Forms
+namespace NumismaticXP.Forms
 {
     public partial class AboutForm : Form
     {

@@ -1,7 +1,6 @@
-﻿using MySql.Data.MySqlClient;
-using MySQLConnector;
-using Numismatic.Logics;
-using Numismatic.Models;
+﻿using NumismaticXP.Logics;
+using NumismaticXP.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,12 +8,12 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 
 //TODO: Dodać export do pliku *.PDF (pdfsharp)
-//TODO: Dodać tryb off-line
 //TODO: Dodać moduł wyświetlania błędów
 //TODO: Dodać moduł wyświetlania zmian
 //TODO: Dodać moduł edycji użytkowników
@@ -23,59 +22,46 @@ using System.Windows.Forms;
 //TODO: Przejść na EntityFramework
 //TODO: Zaawansowana synchronizacja
 
-namespace Numismatic.Forms
+namespace NumismaticXP.Forms
 {
     public partial class Main : Form
     {
         #region "Class fields"
-        private static MySQLServant _servant;
+        private static SQLiteConnector _connector;
         private static Thread statusRefresher;
-        private static bool _rebuildConnectionString = false;
+        private static string _databaseFile = "database.db";
 
         private bool justLoggedIn = true;
         private bool columnsChanged = false;
-        private bool internetConnection = false;
         #endregion
 
         #region "Static methods"
-        internal static MySQLServant Servant
+        internal static SQLiteConnector Connector
         {
             get
             {
-                //Check if servant is not null and do not require connection string rebuilding.
-                if (_servant == null)
+                //Check if Connector is not null and do not require connection string rebuilding.
+                if (_connector == null)
                 {
-                    _rebuildConnectionString = false;
-                    _servant = new MySQLServant(ConnectionString);
-                }
-                else if (_rebuildConnectionString)
-                {
-                    _rebuildConnectionString = false;
-                    _servant.ConnectionString = ConnectionString;
+                    _connector = new SQLiteConnector(ConnectionString);
                 }
 
-                //Return ready servant.
-                return _servant;
+                //Return ready Connector.
+                return _connector;
             }
-        }
-
-        internal static void RequestConnectionStringRebuild()
-        {
-            _rebuildConnectionString = true;
         }
 
         //Construct and return connection string.
         internal static string ConnectionString
         {
-            get => $"Server={Properties.Settings.Default.ServerAddress};" +
-                $"Port={Properties.Settings.Default.ServerPort};" +
-                $"Database={Properties.Settings.Default.Database};" +
-                $"Uid={Properties.Settings.Default.Username};" +
-                $"Pwd={new AES().Decrypt(Properties.Settings.Default.Password)};" +
-                $"SslMode={Properties.Settings.Default.SslMode};";
-        }
+            get
+            {
+                string execLocation = Assembly.GetExecutingAssembly().Location;
+                string databaseFilePath = $"{Path.GetDirectoryName(execLocation)}\\{_databaseFile}";
 
-        internal static User LoggedUser;
+                return $"Data Source={databaseFilePath}";
+            }
+        }
 
         //Hash entered string using SHA256
         internal static string HashSHA256(string input)
@@ -149,19 +135,6 @@ namespace Numismatic.Forms
             LabelUser.Text = "Nie zalogowano";
         }
 
-        private void Main_Shown(object sender, EventArgs e)
-        {
-            //Check if is there internet connection and then LogIn
-            if (internetConnection = CheckForInternetConnection())
-            {
-                PrepareLogIn();
-            }
-            else
-            {
-
-            }
-        }
-
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveDataGridViewColumnSettings();
@@ -217,7 +190,7 @@ namespace Numismatic.Forms
                             }
                         }
 
-                        streamWriter.WriteLine(string.Join("\t", line));
+                        streamWriter.WriteLine(string.Join("\t", line.ToArray()));
 
                         foreach (DataGridViewRow record in DataGridViewCoins.Rows)
                         {
@@ -238,7 +211,7 @@ namespace Numismatic.Forms
                                 }
                             }
 
-                            streamWriter.WriteLine(string.Join("\t", line));
+                            streamWriter.WriteLine(string.Join("\t", line.ToArray()));
                         }
                     }
                 }
@@ -264,12 +237,6 @@ namespace Numismatic.Forms
             }
         }
 
-        private void ButtonLogout_Click(object sender, EventArgs e)
-        {
-            //LogIn dialog
-            HandleLogOut();
-        }
-
         private void ButtonFinish_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -277,14 +244,6 @@ namespace Numismatic.Forms
         #endregion
 
         #region "Admin category"
-        private void ButtonAddUser_Click(object sender, EventArgs e)
-        {
-            using (AddUserForm addUserForm = new AddUserForm())
-            {
-                addUserForm.ShowDialog();
-            }
-        }
-
         private void ButtonClearDatabase_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Czy na pewno chcesz usunąć wszystkie kolekcje użytkowników wraz z bazą monet?", "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -317,36 +276,33 @@ namespace Numismatic.Forms
 
             if (Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) == 0)
             {
-                query = "INSERT INTO Collection (Id_user, Id_coin, Amount) VALUES (@user, @coin, @amount);";
+                query = "INSERT INTO Collection (Id_coin, Amount) VALUES (@coin, @amount);";
                 parameters = new Dictionary<string, object>()
                 {
                     { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) },
-                    { "user", LoggedUser.Id },
                     { "amount", 1 }
                 };
 
                 try
                 {
-                    Servant.ExecuteNonQuery(query, parameters);
+                    Connector.ExecuteNonQuery(query, parameters);
                 }
-                catch (MySqlException ex) when (ex.Message.Contains("UNIQUE"))
+                catch (Exception ex) when (ex.Message.Contains("UNIQUE"))
                 {
                     query = "UPDATE Collection SET Amount = @amount WHERE Id_coin = @coin AND Id_user = @user;";
-                    Servant.ExecuteNonQuery(query, parameters);
+                    Connector.ExecuteNonQuery(query, parameters);
                 }
             }
             else
             {
-                query = "UPDATE Collection SET Amount = Amount + 1 WHERE Id_coin = @coin AND Id_user = @user;";
+                query = "UPDATE Collection SET Amount = Amount + 1 WHERE Id_coin = @coin;";
                 parameters = new Dictionary<string, object>()
                 {
-                    { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) },
-                    { "user", LoggedUser.Id }
+                    { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) }
                 };
-                Servant.ExecuteNonQuery(query, parameters);
+                Connector.ExecuteNonQuery(query, parameters);
             }
 
-            LoggedUser.Changed();
             DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
         }
 
@@ -354,16 +310,14 @@ namespace Numismatic.Forms
         {
             if (Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
             {
-                string query = "UPDATE Collection SET Amount = Amount - 1 WHERE Id_coin = @coin AND Id_user = @user;";
+                string query = "UPDATE Collection SET Amount = Amount - 1 WHERE Id_coin = @coin;";
                 Dictionary<string, object> parameters = new Dictionary<string, object>()
                 {
-                    { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) },
-                    { "user", LoggedUser.Id }
+                    { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) }
                 };
 
-                Servant.ExecuteNonQuery(query, parameters);
+                Connector.ExecuteNonQuery(query, parameters);
 
-                LoggedUser.Changed();
                 DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
             }
         }
@@ -444,44 +398,6 @@ namespace Numismatic.Forms
         #endregion
 
         #region "Methods"
-        private void PrepareLogIn()
-        {
-            using (LoginForm loginForm = new LoginForm(internetConnection))
-            {
-                loginForm.ShowDialog();
-
-                if (loginForm.DialogResult == DialogResult.OK)
-                {
-                    //If logged user is an admin then allow him to change settings or add new users
-                    ButtonAdminTools.Visible = LoggedUser.IsAdmin;
-                    MenuStrip.Enabled = true;
-                    ToolStrip.Enabled = true;
-                    LabelUser.Text = LoggedUser.Login;
-                    LabelUser.Image = internetConnection ? Properties.Resources.User : Properties.Resources.User2;
-
-                    ButtonShow_Click(ButtonShowCoins.DropDownItems[Properties.Settings.Default.LastSelectedMode] ?? ButtonShowAllCoins, null);
-                }
-                else Application.Exit();
-            }
-        }
-
-        private void HandleLogOut()
-        {
-            SaveDataGridViewColumnSettings();
-
-            LoggedUser = null;
-            DataGridViewCoins.DataSource = null;
-            MenuStrip.Enabled = false;
-            ToolStrip.Enabled = false;
-            LabelCoins.Text = "Monety";
-            LabelCoins.Image = Properties.Resources.Grey_Ball;
-            LabelUser.Text = "Wylogowano";
-            LabelUser.Image = null;
-            LabelStatus.Text = null;
-
-            PrepareLogIn();
-        }
-
         private void RefreshDataGridView(ToolStripMenuItem button = null)
         {
             if (!justLoggedIn) SaveDataGridViewColumnSettings();
@@ -510,7 +426,7 @@ namespace Numismatic.Forms
                     columnsSettings.Add($"{column.Name}:{column.DisplayIndex}:{column.Width}");
                 }
 
-                Properties.Settings.Default.ColumnsSettings = string.Join(";", columnsSettings);
+                Properties.Settings.Default.ColumnsSettings = string.Join(";", columnsSettings.ToArray());
                 Properties.Settings.Default.Save();
 
                 columnsChanged = false;
@@ -539,9 +455,9 @@ namespace Numismatic.Forms
             {
                 DataGridViewColumn column = DataGridViewCoins.Columns[Properties.Settings.Default.SortByColumn];
 
-                Enum.TryParse(Properties.Settings.Default.SortDirection, out ListSortDirection sortDirection);
+                //Enum.TryParse(Properties.Settings.Default.SortDirection, out ListSortDirection sortDirection);
 
-                DataGridViewCoins.Sort(column, sortDirection);
+                DataGridViewCoins.Sort(column, (ListSortDirection)Enum.Parse(typeof(ListSortDirection), Properties.Settings.Default.SortDirection));
             }
 
             SelectLastSelectedCoinInDataGridView();

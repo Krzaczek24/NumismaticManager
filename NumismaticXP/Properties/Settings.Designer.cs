@@ -22,5 +22,89 @@ namespace NumismaticXP.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MainWidth {
+            get {
+                return ((int)(this["MainWidth"]));
+            }
+            set {
+                this["MainWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MainHeight {
+            get {
+                return ((int)(this["MainHeight"]));
+            }
+            set {
+                this["MainHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public uint LastSelectedCoin {
+            get {
+                return ((uint)(this["LastSelectedCoin"]));
+            }
+            set {
+                this["LastSelectedCoin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SortByColumn {
+            get {
+                return ((string)(this["SortByColumn"]));
+            }
+            set {
+                this["SortByColumn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SortDirection {
+            get {
+                return ((string)(this["SortDirection"]));
+            }
+            set {
+                this["SortDirection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastSelectedMode {
+            get {
+                return ((string)(this["LastSelectedMode"]));
+            }
+            set {
+                this["LastSelectedMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ColumnsSettings {
+            get {
+                return ((string)(this["ColumnsSettings"]));
+            }
+            set {
+                this["ColumnsSettings"] = value;
+            }
+        }
     }
 }

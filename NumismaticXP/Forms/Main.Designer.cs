@@ -1,4 +1,4 @@
-﻿namespace Numismatic.Forms
+﻿namespace NumismaticXP.Forms
 {
     partial class Main
     {
@@ -38,14 +38,12 @@
             this.ButtonSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.ButtonLogout = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonFinish = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonAdminTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.ButtonManageUsers = new System.Windows.Forms.ToolStripMenuItem();
+            this.ButtonClearDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonAddUser = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonEditUser = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonRemoveUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.ButtonClearDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.LabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.LabelCoins = new System.Windows.Forms.ToolStripStatusLabel();
@@ -93,7 +91,6 @@
             this.ButtonSettings,
             this.ButtonAbout,
             this.toolStripSeparator3,
-            this.ButtonLogout,
             this.ButtonFinish});
             this.ButtonGeneral.Name = "ButtonGeneral";
             this.ButtonGeneral.Size = new System.Drawing.Size(63, 21);
@@ -101,132 +98,100 @@
             // 
             // ButtonNBP
             // 
-            this.ButtonNBP.Image = global::Numismatic.Properties.Resources.Web_Browser;
+            this.ButtonNBP.Image = global::NumismaticXP.Properties.Resources.Web_Browser;
             this.ButtonNBP.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonNBP.Name = "ButtonNBP";
-            this.ButtonNBP.Size = new System.Drawing.Size(196, 38);
+            this.ButtonNBP.Size = new System.Drawing.Size(168, 38);
             this.ButtonNBP.Text = "Strona NBP";
             this.ButtonNBP.Click += new System.EventHandler(this.ButtonNBP_Click);
             // 
             // ButtonSynchronize
             // 
-            this.ButtonSynchronize.Image = global::Numismatic.Properties.Resources.Transfer_Document;
+            this.ButtonSynchronize.Image = global::NumismaticXP.Properties.Resources.Transfer_Document;
             this.ButtonSynchronize.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonSynchronize.Name = "ButtonSynchronize";
-            this.ButtonSynchronize.Size = new System.Drawing.Size(196, 38);
+            this.ButtonSynchronize.Size = new System.Drawing.Size(168, 38);
             this.ButtonSynchronize.Text = "&Synchronizuj";
             this.ButtonSynchronize.Click += new System.EventHandler(this.ButtonSync_Click);
             // 
             // ButtonExport
             // 
-            this.ButtonExport.Image = global::Numismatic.Properties.Resources.Import_Document;
+            this.ButtonExport.Image = global::NumismaticXP.Properties.Resources.Import_Document;
             this.ButtonExport.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonExport.Name = "ButtonExport";
-            this.ButtonExport.Size = new System.Drawing.Size(196, 38);
+            this.ButtonExport.Size = new System.Drawing.Size(168, 38);
             this.ButtonExport.Text = "&Eksportuj";
             this.ButtonExport.Click += new System.EventHandler(this.ButtonExport_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(193, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(165, 6);
             // 
             // ButtonSettings
             // 
-            this.ButtonSettings.Image = global::Numismatic.Properties.Resources.Gear_Alt;
+            this.ButtonSettings.Image = global::NumismaticXP.Properties.Resources.Gear_Alt;
             this.ButtonSettings.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonSettings.Name = "ButtonSettings";
-            this.ButtonSettings.Size = new System.Drawing.Size(196, 38);
+            this.ButtonSettings.Size = new System.Drawing.Size(168, 38);
             this.ButtonSettings.Text = "&Ustawienia";
             this.ButtonSettings.Click += new System.EventHandler(this.ButtonSettings_Click);
             // 
             // ButtonAbout
             // 
-            this.ButtonAbout.Image = global::Numismatic.Properties.Resources.Get_Info_Blue_Button;
+            this.ButtonAbout.Image = global::NumismaticXP.Properties.Resources.Get_Info_Blue_Button;
             this.ButtonAbout.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonAbout.Name = "ButtonAbout";
-            this.ButtonAbout.Size = new System.Drawing.Size(196, 38);
+            this.ButtonAbout.Size = new System.Drawing.Size(168, 38);
             this.ButtonAbout.Text = "&O programie";
             this.ButtonAbout.Click += new System.EventHandler(this.ButtonAbout_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(193, 6);
-            // 
-            // ButtonLogout
-            // 
-            this.ButtonLogout.Image = global::Numismatic.Properties.Resources.Stop;
-            this.ButtonLogout.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ButtonLogout.Name = "ButtonLogout";
-            this.ButtonLogout.Size = new System.Drawing.Size(196, 38);
-            this.ButtonLogout.Text = "&Wyloguj";
-            this.ButtonLogout.Click += new System.EventHandler(this.ButtonLogout_Click);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(165, 6);
             // 
             // ButtonFinish
             // 
-            this.ButtonFinish.Image = global::Numismatic.Properties.Resources.Mr__Bomb;
+            this.ButtonFinish.Image = global::NumismaticXP.Properties.Resources.Mr_Bomb;
             this.ButtonFinish.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonFinish.Name = "ButtonFinish";
-            this.ButtonFinish.Size = new System.Drawing.Size(196, 38);
+            this.ButtonFinish.Size = new System.Drawing.Size(168, 38);
             this.ButtonFinish.Text = "&Zakończ";
             this.ButtonFinish.Click += new System.EventHandler(this.ButtonFinish_Click);
             // 
             // ButtonAdminTools
             // 
             this.ButtonAdminTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ButtonManageUsers,
             this.ButtonClearDatabase});
             this.ButtonAdminTools.Name = "ButtonAdminTools";
             this.ButtonAdminTools.Size = new System.Drawing.Size(168, 21);
             this.ButtonAdminTools.Text = "&Narzędzia administratora";
             this.ButtonAdminTools.Visible = false;
             // 
-            // ButtonManageUsers
+            // ButtonClearDatabase
             // 
-            this.ButtonManageUsers.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ButtonAddUser,
-            this.ButtonEditUser,
-            this.ButtonRemoveUser});
-            this.ButtonManageUsers.Image = global::Numismatic.Properties.Resources.User;
-            this.ButtonManageUsers.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ButtonManageUsers.Name = "ButtonManageUsers";
-            this.ButtonManageUsers.Size = new System.Drawing.Size(235, 38);
-            this.ButtonManageUsers.Text = "&Zarządzaj użytkownikami";
+            this.ButtonClearDatabase.Image = global::NumismaticXP.Properties.Resources.Mr_Bomb;
+            this.ButtonClearDatabase.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ButtonClearDatabase.Name = "ButtonClearDatabase";
+            this.ButtonClearDatabase.Size = new System.Drawing.Size(172, 38);
+            this.ButtonClearDatabase.Text = "&Wyczyść bazę";
+            this.ButtonClearDatabase.Click += new System.EventHandler(this.ButtonClearDatabase_Click);
             // 
             // ButtonAddUser
             // 
-            this.ButtonAddUser.Image = global::Numismatic.Properties.Resources.Add;
-            this.ButtonAddUser.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonAddUser.Name = "ButtonAddUser";
-            this.ButtonAddUser.Size = new System.Drawing.Size(200, 38);
-            this.ButtonAddUser.Text = "&Dodaj użytkownika";
-            this.ButtonAddUser.Click += new System.EventHandler(this.ButtonAddUser_Click);
+            this.ButtonAddUser.Size = new System.Drawing.Size(32, 19);
             // 
             // ButtonEditUser
             // 
-            this.ButtonEditUser.Image = global::Numismatic.Properties.Resources.Rename_Document;
-            this.ButtonEditUser.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonEditUser.Name = "ButtonEditUser";
-            this.ButtonEditUser.Size = new System.Drawing.Size(200, 38);
-            this.ButtonEditUser.Text = "&Edytuj użytkownika";
+            this.ButtonEditUser.Size = new System.Drawing.Size(32, 19);
             // 
             // ButtonRemoveUser
             // 
-            this.ButtonRemoveUser.Image = global::Numismatic.Properties.Resources.Remove;
-            this.ButtonRemoveUser.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonRemoveUser.Name = "ButtonRemoveUser";
-            this.ButtonRemoveUser.Size = new System.Drawing.Size(200, 38);
-            this.ButtonRemoveUser.Text = "&Usuń użytkownika";
-            // 
-            // ButtonClearDatabase
-            // 
-            this.ButtonClearDatabase.Image = global::Numismatic.Properties.Resources.Mr__Bomb;
-            this.ButtonClearDatabase.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ButtonClearDatabase.Name = "ButtonClearDatabase";
-            this.ButtonClearDatabase.Size = new System.Drawing.Size(235, 38);
-            this.ButtonClearDatabase.Text = "&Wyczyść bazę";
-            this.ButtonClearDatabase.Click += new System.EventHandler(this.ButtonClearDatabase_Click);
+            this.ButtonRemoveUser.Size = new System.Drawing.Size(32, 19);
             // 
             // StatusStrip
             // 
@@ -235,7 +200,7 @@
             this.LabelStatus,
             this.LabelCoins,
             this.LabelUser});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 321);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 455);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(609, 41);
             this.StatusStrip.TabIndex = 1;
@@ -254,7 +219,7 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.LabelCoins.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
-            this.LabelCoins.Image = global::Numismatic.Properties.Resources.Grey_Ball;
+            this.LabelCoins.Image = global::NumismaticXP.Properties.Resources.Grey_Ball;
             this.LabelCoins.ImageAlign = System.Drawing.ContentAlignment.TopRight;
             this.LabelCoins.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.LabelCoins.Name = "LabelCoins";
@@ -303,7 +268,7 @@
             this.ButtonShowOwnedCoins,
             this.ButtonShowRedundantCoins,
             this.ButtonShowMissingCoins});
-            this.ButtonShowCoins.Image = global::Numismatic.Properties.Resources.Menu_Item;
+            this.ButtonShowCoins.Image = global::NumismaticXP.Properties.Resources.Menu_Item;
             this.ButtonShowCoins.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonShowCoins.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonShowCoins.Name = "ButtonShowCoins";
@@ -312,7 +277,7 @@
             // 
             // ButtonShowAllCoins
             // 
-            this.ButtonShowAllCoins.Image = global::Numismatic.Properties.Resources.Blue_Ball;
+            this.ButtonShowAllCoins.Image = global::NumismaticXP.Properties.Resources.Blue_Ball;
             this.ButtonShowAllCoins.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonShowAllCoins.Name = "ButtonShowAllCoins";
             this.ButtonShowAllCoins.Size = new System.Drawing.Size(173, 38);
@@ -321,7 +286,7 @@
             // 
             // ButtonShowOwnedCoins
             // 
-            this.ButtonShowOwnedCoins.Image = global::Numismatic.Properties.Resources.Green_Ball;
+            this.ButtonShowOwnedCoins.Image = global::NumismaticXP.Properties.Resources.Green_Ball;
             this.ButtonShowOwnedCoins.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonShowOwnedCoins.Name = "ButtonShowOwnedCoins";
             this.ButtonShowOwnedCoins.Size = new System.Drawing.Size(173, 38);
@@ -330,7 +295,7 @@
             // 
             // ButtonShowRedundantCoins
             // 
-            this.ButtonShowRedundantCoins.Image = global::Numismatic.Properties.Resources.Yellow_Ball;
+            this.ButtonShowRedundantCoins.Image = global::NumismaticXP.Properties.Resources.Yellow_Ball;
             this.ButtonShowRedundantCoins.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonShowRedundantCoins.Name = "ButtonShowRedundantCoins";
             this.ButtonShowRedundantCoins.Size = new System.Drawing.Size(173, 38);
@@ -339,7 +304,7 @@
             // 
             // ButtonShowMissingCoins
             // 
-            this.ButtonShowMissingCoins.Image = global::Numismatic.Properties.Resources.Red_Ball;
+            this.ButtonShowMissingCoins.Image = global::NumismaticXP.Properties.Resources.Red_Ball;
             this.ButtonShowMissingCoins.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonShowMissingCoins.Name = "ButtonShowMissingCoins";
             this.ButtonShowMissingCoins.Size = new System.Drawing.Size(173, 38);
@@ -353,7 +318,7 @@
             // 
             // ButtonIncrement
             // 
-            this.ButtonIncrement.Image = global::Numismatic.Properties.Resources.Add;
+            this.ButtonIncrement.Image = global::NumismaticXP.Properties.Resources.Add;
             this.ButtonIncrement.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonIncrement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonIncrement.Name = "ButtonIncrement";
@@ -363,7 +328,7 @@
             // 
             // ButtonDecrement
             // 
-            this.ButtonDecrement.Image = global::Numismatic.Properties.Resources.Remove;
+            this.ButtonDecrement.Image = global::NumismaticXP.Properties.Resources.Remove;
             this.ButtonDecrement.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonDecrement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonDecrement.Name = "ButtonDecrement";
@@ -378,7 +343,7 @@
             // 
             // LabelSearch
             // 
-            this.LabelSearch.Image = global::Numismatic.Properties.Resources.Spotlight_Blue_Button;
+            this.LabelSearch.Image = global::NumismaticXP.Properties.Resources.Spotlight_Blue_Button;
             this.LabelSearch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.LabelSearch.Margin = new System.Windows.Forms.Padding(2, 1, 3, 2);
             this.LabelSearch.Name = "LabelSearch";
@@ -396,7 +361,7 @@
             // ButtonClearSearch
             // 
             this.ButtonClearSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonClearSearch.Image = global::Numismatic.Properties.Resources.Trash_Empty;
+            this.ButtonClearSearch.Image = global::NumismaticXP.Properties.Resources.Trash_Empty;
             this.ButtonClearSearch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ButtonClearSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonClearSearch.Name = "ButtonClearSearch";
@@ -424,7 +389,7 @@
             this.DataGridViewCoins.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.DataGridViewCoins.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DataGridViewCoins.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridViewCoins.Size = new System.Drawing.Size(584, 251);
+            this.DataGridViewCoins.Size = new System.Drawing.Size(584, 385);
             this.DataGridViewCoins.TabIndex = 3;
             this.DataGridViewCoins.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewCoins_CellClick);
             this.DataGridViewCoins.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewCoins_CellDoubleClick);
@@ -438,7 +403,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(609, 362);
+            this.ClientSize = new System.Drawing.Size(609, 496);
             this.Controls.Add(this.DataGridViewCoins);
             this.Controls.Add(this.ToolStrip);
             this.Controls.Add(this.StatusStrip);
@@ -449,10 +414,9 @@
             this.MainMenuStrip = this.MenuStrip;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Numismatic v0.1";
+            this.Text = "Numismatic v0.2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
-            this.Shown += new System.EventHandler(this.Main_Shown);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.StatusStrip.ResumeLayout(false);
@@ -486,7 +450,6 @@
         private System.Windows.Forms.ToolStripMenuItem ButtonShowMissingCoins;
         private System.Windows.Forms.ToolStripMenuItem ButtonAdminTools;
         private System.Windows.Forms.DataGridView DataGridViewCoins;
-        private System.Windows.Forms.ToolStripMenuItem ButtonManageUsers;
         private System.Windows.Forms.ToolStripMenuItem ButtonAddUser;
         private System.Windows.Forms.ToolStripMenuItem ButtonClearDatabase;
         private System.Windows.Forms.ToolStripTextBox TextBoxSearch;
@@ -496,7 +459,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem ButtonAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem ButtonLogout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton ButtonClearSearch;
         private System.Windows.Forms.ToolStripMenuItem ButtonExport;

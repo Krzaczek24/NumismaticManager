@@ -1,4 +1,4 @@
-﻿namespace Numismatic.Forms
+﻿namespace NumismaticXP.Forms
 {
     partial class CoinDetailsForm
     {

@@ -1,11 +1,11 @@
-﻿using Numismatic.Logics;
-using Numismatic.Models;
+﻿using NumismaticXP.Logics;
+using NumismaticXP.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Numismatic.Forms
+namespace NumismaticXP.Forms
 {
     public partial class SynchronizationForm : Form
     {
@@ -53,17 +53,17 @@ namespace Numismatic.Forms
                 try
                 {
                     Main.SetStatus($"Zapisano 0 z {nbpCoins.Count} monet (0%)");
-                    Main.Servant.BeginTransaction();
+                    Main.Connector.BeginTransaction();
                     for (int i = 0; i < nbpCoins.Count; i++)
                     {
                         Database.Insert(nbpCoins[i]);
                         Main.SetStatus($"Zapisano {i + 1} z {nbpCoins.Count} monet ({(i + 1) * 100 / nbpCoins.Count}%)");
                     }
-                    Main.Servant.CommitTransaction();
+                    Main.Connector.CommitTransaction();
                 }
                 catch
                 {
-                    Main.Servant.RollbackTransaction();
+                    Main.Connector.RollbackTransaction();
                     MessageBox.Show($"Wystąpił błąd podczas zapisywania monet do bazy.\n\nWszelkie zmiany zostały wycofane. Jeżeli nadal chcesz przeprowadzić synchronizację, skorzystaj z ręcznej synchronizacji.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }                
             }
@@ -143,7 +143,7 @@ namespace Numismatic.Forms
             //string query = "INSERT INTO Coin(Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp) " +
             //                "VALUES(@name, @value, @diameter, @fineness, @weight, @edition, @emission, @stamp);";
 
-            //Servant.BeginTransaction();
+            //Connector.BeginTransaction();
 
             ////Parsowanie otrzymanych danych by były zgodne z bazą danych
             //foundCoins.ForEach(delegate (Dictionary<string, string> coin)
@@ -175,7 +175,7 @@ namespace Numismatic.Forms
 
             //    try
             //    {
-            //        Servant.ExecuteNonQuery(query, parameters);
+            //        Connector.ExecuteNonQuery(query, parameters);
             //    }
             //    catch (MySqlException ex)
             //    {
@@ -186,27 +186,27 @@ namespace Numismatic.Forms
             //    }
             //});
 
-            //Servant.CommitTransaction();
+            //Connector.CommitTransaction();
 
             //DialogResult = DialogResult.OK;
         }
 
         private void ButtonWipeUserCollection_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Czy na pewno chcesz usunąć całą swoją kolekcję?\n(pozycji: {Main.LoggedUser.UniqueCoins} | monet: {Main.LoggedUser.TotalCoins} | wartość: {Main.LoggedUser.TotalValue} zł)", "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"Czy na pewno chcesz usunąć całą swoją kolekcję?\n(pozycji: {Database.GetUserUniqueCoins()} | monet: {Database.GetUserTotalCoins()} | wartość: {Database.GetUserTotalValue()} zł)", "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 DialogResult = DialogResult.OK;
 
                 try
                 {
-                    Main.Servant.BeginTransaction();
-                    Main.Servant.ExecuteNonQuery($"UPDATE Collection SET Amount = 0 WHERE Id_user = {Main.LoggedUser.Id};");
-                    Main.Servant.CommitTransaction();
+                    Main.Connector.BeginTransaction();
+                    Main.Connector.ExecuteNonQuery($"UPDATE Collection SET Amount = 0;");
+                    Main.Connector.CommitTransaction();
                     MessageBox.Show("Pomyślnie usunięto kolekcję.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch
                 {
-                    Main.Servant.RollbackTransaction();
+                    Main.Connector.RollbackTransaction();
                     MessageBox.Show("Wystąpił błąd podczas usuwania kolekcji!\nOperacja została wycofana.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

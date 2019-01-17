@@ -1,8 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Windows.Forms;
 
-namespace Numismatic.Forms
+namespace NumismaticXP.Forms
 {
     public partial class CoinDetailsForm : Form
     {
@@ -24,18 +24,18 @@ namespace Numismatic.Forms
                 { "id", coinId }
             };
 
-            using (MySqlDataReader reader = Main.Servant.ExecuteReader(query, parameters))
+            using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query, parameters))
             {
                 reader.Read();
 
-                TextBoxCoinName.Text = reader.GetString("Name");
-                TextBoxCoinValue.Text = $"{reader.GetUInt32("Value"):c0}";
-                TextBoxCoinDiameter.Text = $"{reader.GetDecimal("Diameter")} mm";
-                TextBoxCoinFineness.Text = reader.GetString("Fineness");
-                TextBoxCoinWeight.Text = $"{reader.GetDecimal("Weight")} g";
-                TextBoxCoinEdition.Text = $"{reader.GetUInt32("Edition"):n0}";
-                TextBoxCoinEmission.Text = $"{reader.GetDateTime("Emission"):d}";
-                TextBoxCoinStamp.Text = reader.GetString("Stamp");
+                TextBoxCoinName.Text = reader.GetString(0);
+                TextBoxCoinValue.Text = $"{reader.GetInt32(1):c0}";
+                TextBoxCoinDiameter.Text = $"{reader.GetDecimal(2)} mm";
+                TextBoxCoinFineness.Text = reader.GetString(3);
+                TextBoxCoinWeight.Text = $"{reader.GetDecimal(4)} g";
+                TextBoxCoinEdition.Text = $"{reader.GetInt32(5):n0}";
+                TextBoxCoinEmission.Text = $"{reader.GetDateTime(6):d}";
+                TextBoxCoinStamp.Text = reader.GetString(7);
             }
         }
     }

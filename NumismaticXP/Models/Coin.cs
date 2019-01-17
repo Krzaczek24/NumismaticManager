@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Levenshtein;
 
-namespace Numismatic.Models
+namespace NumismaticXP.Models
 {
     class Coin
     {
@@ -12,7 +12,7 @@ namespace Numismatic.Models
         public string Name { get; set; }
 
         [DisplayName("Nominał")]
-        public uint Value { get; set; }
+        public int Value { get; set; }
 
         [DisplayName("Średnica")]
         public decimal Diameter { get; set; }
@@ -24,7 +24,7 @@ namespace Numismatic.Models
         public decimal Weight { get; set; }
 
         [DisplayName("Nakład")]
-        public uint Edition { get; set; }
+        public int Edition { get; set; }
 
         [DisplayName("Data wydania")]
         public DateTime Emission { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Numismatic.Forms
+﻿namespace NumismaticXP.Forms
 {
     partial class AboutForm
     {
@@ -49,7 +49,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(230, 41);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Numismatic v1.0";
+            this.label1.Text = "Numismatic";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ButtonClose

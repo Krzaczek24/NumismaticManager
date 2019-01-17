@@ -1,9 +1,9 @@
-﻿using Numismatic.Logics;
+﻿using NumismaticXP.Logics;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Numismatic.Forms
+namespace NumismaticXP.Forms
 {
     public partial class SettingsForm : Form
     {
@@ -14,10 +14,12 @@ namespace Numismatic.Forms
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            List<uint> coinValues = Database.GetCoinValues();
-            List<uint> userFilter = Main.LoggedUser.ShowCoins;
+            List<int> coinValues = Database.GetCoinValues();
+            List<int> userFilter = Database.GetUserCoinFilter();
 
-            foreach (uint coinValue in coinValues)
+            // TODO: Przenieść ustawienie filtra wyświetlanych monet do ustawień aplikacji
+
+            foreach (int coinValue in coinValues)
             {
                 CheckBoxesCoins.Items.Add(coinValue, userFilter.Contains(coinValue));
             }

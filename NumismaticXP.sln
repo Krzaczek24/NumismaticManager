@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumismaticXP", "NumismaticX
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLite", "SQLite\SQLite.csproj", "{9FF26AF9-B250-4E1B-93A1-FA5061DFF940}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Levenshtein", "Levenshtein\Levenshtein.csproj", "{016DCF1B-3C08-486A-9E1C-BBBA550BCD2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9FF26AF9-B250-4E1B-93A1-FA5061DFF940}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FF26AF9-B250-4E1B-93A1-FA5061DFF940}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FF26AF9-B250-4E1B-93A1-FA5061DFF940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016DCF1B-3C08-486A-9E1C-BBBA550BCD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016DCF1B-3C08-486A-9E1C-BBBA550BCD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016DCF1B-3C08-486A-9E1C-BBBA550BCD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016DCF1B-3C08-486A-9E1C-BBBA550BCD2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

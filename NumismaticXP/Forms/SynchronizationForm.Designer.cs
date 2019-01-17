@@ -1,4 +1,4 @@
-﻿namespace Numismatic.Forms
+﻿namespace NumismaticXP.Forms
 {
     partial class SynchronizationForm
     {
@@ -98,7 +98,7 @@
             this.ButtonFastSynchronize.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFastSynchronize.Image = global::Numismatic.Properties.Resources.Play_All;
+            this.ButtonFastSynchronize.Image = global::NumismaticXP.Properties.Resources.Play_All;
             this.ButtonFastSynchronize.Location = new System.Drawing.Point(3, 3);
             this.ButtonFastSynchronize.Name = "ButtonFastSynchronize";
             this.ButtonFastSynchronize.Size = new System.Drawing.Size(103, 86);
@@ -116,7 +116,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonAdvancedSynchronize.Enabled = false;
-            this.ButtonAdvancedSynchronize.Image = global::Numismatic.Properties.Resources.Play;
+            this.ButtonAdvancedSynchronize.Image = global::NumismaticXP.Properties.Resources.Play;
             this.ButtonAdvancedSynchronize.Location = new System.Drawing.Point(3, 95);
             this.ButtonAdvancedSynchronize.Name = "ButtonAdvancedSynchronize";
             this.ButtonAdvancedSynchronize.Size = new System.Drawing.Size(103, 86);
@@ -133,7 +133,7 @@
             this.ButtonWipeUserCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonWipeUserCollection.Image = global::Numismatic.Properties.Resources.Mr__Bomb;
+            this.ButtonWipeUserCollection.Image = global::NumismaticXP.Properties.Resources.Mr_Bomb;
             this.ButtonWipeUserCollection.Location = new System.Drawing.Point(3, 187);
             this.ButtonWipeUserCollection.Name = "ButtonWipeUserCollection";
             this.ButtonWipeUserCollection.Size = new System.Drawing.Size(103, 88);

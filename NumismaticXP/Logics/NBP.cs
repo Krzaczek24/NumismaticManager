@@ -1,11 +1,11 @@
 ﻿using HtmlAgilityPack;
-using Numismatic.Forms;
-using Numismatic.Models;
+using NumismaticXP.Forms;
+using NumismaticXP.Models;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Numismatic.Logics
+namespace NumismaticXP.Logics
 {
     static class NBP
     {

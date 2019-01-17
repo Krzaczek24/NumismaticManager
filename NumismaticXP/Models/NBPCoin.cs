@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 
-namespace Numismatic.Models
+namespace NumismaticXP.Models
 {
     class NBPCoin
     {
@@ -71,11 +71,11 @@ namespace Numismatic.Models
             get => new Coin()
             {
                 Name = _name,
-                Value = uint.Parse(_value),
+                Value = int.Parse(_value),
                 Diameter = decimal.Parse(_diameter),
                 Fineness = _fineness,
                 Weight = decimal.Parse(_weight),
-                Edition = uint.Parse(_edition),
+                Edition = int.Parse(_edition),
                 Emission = System.DateTime.Parse(Emission),
                 Stamp = _stamp
             };
