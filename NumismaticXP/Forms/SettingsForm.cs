@@ -17,27 +17,50 @@ namespace NumismaticXP.Forms
             List<int> coinValues = Database.GetCoinValues();
             List<int> userFilter = new List<int>();
 
-            foreach (string value in Properties.Settings.Default.CoinFilter.Split(','))
+            if (Properties.Settings.Default.CoinFilter.Length > 0)
             {
-                userFilter.Add(int.Parse(value));
+                foreach (string value in Properties.Settings.Default.CoinFilter.Split(','))
+                {
+                    userFilter.Add(int.Parse(value));
+                }
             }
 
             foreach (int coinValue in coinValues)
             {
                 CheckBoxesCoins.Items.Add(coinValue, userFilter.Contains(coinValue));
+
+                if (userFilter.Contains(coinValue))
+                {
+                    ListBoxShown.Items.Add(coinValue);
+                }
+                else
+                {
+                    ListBoxHidden.Items.Add(coinValue);
+                }
             }
+
+            TextBoxWebsitePath.Text = Properties.Settings.Default.NBPSite;
         }
 
         private void ButtonSaveSettings_Click(object sender, EventArgs e)
         {
-            List<uint> coinValues = new List<uint>();
+            List<int> coinValues = new List<int>();
 
-            foreach (uint coinValue in CheckBoxesCoins.CheckedItems)
+            foreach (int coinValue in CheckBoxesCoins.CheckedItems)
             {
                 coinValues.Add(coinValue);
             }
 
-            Database.SaveCoinsFilter(coinValues);
+            Properties.Settings.Default.CoinFilter = string.Join(",", coinValues);
+
+            //foreach (int coinValue in ListBoxShown.Items)
+            //{
+            //    coinValues.Add(coinValue);
+            //}
+
+            //Properties.Settings.Default.CoinFilter = string.Join(",", coinValues);
+
+            Properties.Settings.Default.NBPSite = TextBoxWebsitePath.Text;
 
             DialogResult = DialogResult.OK;
         }

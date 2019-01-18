@@ -14,14 +14,11 @@ namespace NumismaticXP.Logics
             //Przygotowanie wątków
             List<Thread> threads = new List<Thread>();
 
-            //Przygotowanie listy dla postępów każdego wątka
-            //ConcurrentDictionary<string, int> progress = new ConcurrentDictionary<string, int>();
-
             //Przygotowanie listy dla wszystkich znalezionych monet
             ConcurrentBag<Coin> foundCoins = new ConcurrentBag<Coin>();
 
             //Pobranie treści strony zawierającej spis roczników
-            HtmlAgilityPack.HtmlDocument catalogWebsite = new HtmlWeb().Load("https://www.nbp.pl/home.aspx?f=/banknoty_i_monety/monety_okolicznosciowe/katalog.html");
+            HtmlAgilityPack.HtmlDocument catalogWebsite = new HtmlWeb().Load(Properties.Settings.Default.NBPSite);
 
             //Wybranie elementów [div] z atrybutem [class] o wartości [aslices] (tabela z rocznikami)
             HtmlNodeCollection yearsTable = catalogWebsite.DocumentNode.SelectNodes("//div[@class='aslices']//a");
@@ -32,7 +29,6 @@ namespace NumismaticXP.Logics
             //Utworzenie dla każdego rocznika nowego wątku i dodanie go do listy wątków
             foreach (HtmlNode yearValue in yearsTable)
             {
-                //threads.Add(new Thread(() => DownloadCoinsFromYear(yearValue.InnerHtml, foundCoins, progress)));
                 threads.Add(new Thread(() => DownloadCoinsFromYear(yearValue.InnerHtml, foundCoins)));
             }
 
@@ -41,7 +37,6 @@ namespace NumismaticXP.Logics
 
             //Oczekiwanie na zakończenie pracy wszystkich wątków
             Main.SetStatus($"Pobrano 0 z {yearsTable.Count} roczników (0%)");
-            //threads.ForEach(thread => thread.Join());
             while (threads.Exists(thread => thread.IsAlive))
             {
                 int extinctThreads = threads.FindAll(thread => !thread.IsAlive).Count;
@@ -52,14 +47,11 @@ namespace NumismaticXP.Logics
             return new List<Coin>(foundCoins.ToArray());
         }
 
-        //private static void DownloadCoinsFromYear(string year, ConcurrentBag<Coin> foundCoins, ConcurrentDictionary<string, int> progress)
         private static void DownloadCoinsFromYear(string year, ConcurrentBag<Coin> foundCoins)
         {
-            //Dodanie początkowych wartości do listy postępów wątków
-            //progress.TryAdd(year, 0);
-
             //Pobranie strony z monetami z podanego roku
-            HtmlAgilityPack.HtmlDocument coinsWebsite = new HtmlWeb().Load($"https://www.nbp.pl/home.aspx?f=/banknoty_i_monety/monety_okolicznosciowe/{year}.html");
+            int lastSlashPosition = Properties.Settings.Default.NBPSite.LastIndexOf('/');
+            HtmlAgilityPack.HtmlDocument coinsWebsite = new HtmlWeb().Load($"{Properties.Settings.Default.NBPSite.Remove(lastSlashPosition)}/{year}.html");
 
             //Wybranie wszystkich elementów [table] z atrybutem [class] o wartości [moneta] (występują w poprzednich latach)
             HtmlNodeCollection coinTables = coinsWebsite.DocumentNode.SelectNodes("//table[@class='moneta']");

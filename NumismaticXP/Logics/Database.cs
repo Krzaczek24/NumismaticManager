@@ -143,22 +143,17 @@ namespace NumismaticXP.Logics
             return output;
         }
 
-        public static void SaveCoinsFilter(List<uint> filter)
+        public static int GetCoinsCount()
         {
-            string query = "UPDATE User SET Show_coins = @filter;";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "@filter", string.Join(";", filter) }
-            };
+            string query = "SELECT COUNT(*) FROM Coin;";
 
             try
             {
-                Main.Connector.ExecuteNonQuery(query, parameters);
+                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
-                AddError(ex.Message, "Database", "SaveCoinsFilter");
+                AddError(ex.Message, "Database", "GetCoinsCount");
                 throw ex;
             }
         }
@@ -166,7 +161,7 @@ namespace NumismaticXP.Logics
         #region "User methods"
         public static int GetUserUniqueCoins()
         {
-            string query = "SELECT COUNT(*) FROM Collection WHERE Amount > 0";
+            string query = "SELECT COUNT(*) FROM Collection WHERE Amount > 0;";
 
             try
             {
@@ -181,11 +176,12 @@ namespace NumismaticXP.Logics
 
         public static int GetUserTotalCoins()
         {
-            string query = "SELECT SUM(Amount) FROM Collection";
+            string query = "SELECT SUM(Amount) FROM Collection;";
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                object result = Main.Connector.ExecuteScalar(query);
+                return result == DBNull.Value ? 0 : Convert.ToInt32(result);
             }
             catch (Exception ex)
             {
@@ -196,11 +192,12 @@ namespace NumismaticXP.Logics
 
         public static decimal GetUserTotalWeight()
         {
-            string query = "SELECT SUM(Amount * Weight) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin";
+            string query = "SELECT SUM(Amount * Weight) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin;";
 
             try
             {
-                return Convert.ToDecimal(Main.Connector.ExecuteScalar(query));
+                object result = Main.Connector.ExecuteScalar(query);
+                return result == DBNull.Value ? 0 : Convert.ToDecimal(result);
             }
             catch (Exception ex)
             {
@@ -211,11 +208,12 @@ namespace NumismaticXP.Logics
 
         public static decimal GetUserTotalValue()
         {
-            string query = "SELECT SUM(Amount * Value) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin";
+            string query = "SELECT SUM(Amount * Value) FROM Collection LEFT JOIN Coin ON Coin.Id = Collection.Id_coin;";
 
             try
             {
-                return Convert.ToDecimal(Main.Connector.ExecuteScalar(query));
+                object result = Main.Connector.ExecuteScalar(query);
+                return result == DBNull.Value ? 0 : Convert.ToDecimal(result);
             }
             catch (Exception ex)
             {
@@ -279,36 +277,56 @@ namespace NumismaticXP.Logics
             return errors;
         }
 
-        public static void AddEvent(uint collectionId, bool incremented)
+        //private static void AddEvent(uint collectionId, bool incremented)
+        //{
+        //    string query = "INSERT INTO EventHistory(Id_collection, Incremented) VALUES(@id, @incr)";
+
+        //    Dictionary<string, object> parameters = new Dictionary<string, object>()
+        //    {
+        //        { "@id", collectionId },
+        //        { "@incr", incremented }
+        //    };
+
+        //    try
+        //    {
+        //        Main.Connector.ExecuteNonQuery(query, parameters);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        AddError(ex.Message, "Database", "AddEvent");
+        //    }
+        //}
+
+        public static void WipeUserCollection()
         {
-            string query = "INSERT INTO EventHistory(Id_collection, Incremented) VALUES(@id, @incr)";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "@id", collectionId },
-                { "@incr", incremented }
-            };
-
             try
             {
-                Main.Connector.ExecuteNonQuery(query, parameters);
+                Main.Connector.ExecuteNonQuery($"UPDATE Collection SET Amount = 0;");
+                MessageBox.Show("Pomyślnie usunięto kolekcję.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                AddError(ex.Message, "Database", "AddEvent");
+                AddError(ex.Message, "Database", "WipeUserCollection");
+                MessageBox.Show("Wystąpił błąd podczas usuwania kolekcji!\nOperacja została wycofana.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public static void FullClear()
+        public static void WipeDatabase()
         {
             try
             {
-                Main.Connector.ExecuteNonQuery("DELETE FROM Collection; DELETE FROM Coin;");
+                Main.Connector.BeginTransaction();
+                Main.Connector.ExecuteNonQuery("DELETE FROM EventHistory;");
+                Main.Connector.ExecuteNonQuery("DELETE FROM Collection;");
+                Main.Connector.ExecuteNonQuery("DELETE FROM Coin;");
+                Main.Connector.CommitTransaction();
+                MessageBox.Show("Pomyślnie usunięto wszystkie dane z bazy.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                AddError(ex.Message, "Database", "FullClear");
-
+                Main.Connector.RollbackTransaction();
+                AddError(ex.Message, "Database", "WipeDatabase");
+                MessageBox.Show("Wystąpił błąd podczas usuwania danych z bazy!\nOperacja została wycofana.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion

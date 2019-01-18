@@ -128,7 +128,7 @@ namespace NumismaticXP.Models
                 { "fineness", Fineness },
                 { "weight", Weight },
                 { "edition", Edition },
-                { "emission", Emission },
+                { "emission", Emission.ToString("yyyy-MM-dd") },
                 { "stamp", Stamp }
             };
         }

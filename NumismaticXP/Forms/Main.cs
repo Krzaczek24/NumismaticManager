@@ -1,5 +1,4 @@
 ﻿using NumismaticXP.Logics;
-using NumismaticXP.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading;
@@ -16,10 +14,8 @@ using System.Windows.Forms;
 //TODO: Dodać export do pliku *.PDF (pdfsharp)
 //TODO: Dodać moduł wyświetlania błędów
 //TODO: Dodać moduł wyświetlania zmian
-//TODO: Podzielić ustawienia na zakładki
+//TODO: Ogarnać ustawienia
 //TODO: Zaawansowana synchronizacja
-//TODO: W ustawieniach dodać opcję zmiany linku do strony NBP
-//TODO: W ustawieniach dodać opcję zmiany pliku bazy
 
 namespace NumismaticXP.Forms
 {
@@ -128,8 +124,9 @@ namespace NumismaticXP.Forms
 
         private void Main_Load(object sender, EventArgs e)
         {
-            //Prepare controls
             LabelStatus.Text = null;
+
+            CreateBackup();
         }
 
         private void Main_Shown(object sender, EventArgs e)
@@ -153,7 +150,14 @@ namespace NumismaticXP.Forms
         #endregion
 
         #region "MenuBar buttons"
-        #region "General category"
+        private void ButtonSummary_Click(object sender, EventArgs e)
+        {
+            using (SummaryForm summaryForm = new SummaryForm())
+            {
+                summaryForm.ShowDialog();
+            }
+        }
+
         private void ButtonNBP_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Properties.Settings.Default.NBPSite);
@@ -202,14 +206,7 @@ namespace NumismaticXP.Forms
                             {
                                 if (cell.Visible)
                                 {
-                                    if (cell.Value is DateTime)
-                                    {
-                                        line.Add(DateTime.Parse(cell.Value.ToString()).Year.ToString());
-                                    }
-                                    else
-                                    {
-                                        line.Add(cell.Value.ToString());
-                                    }
+                                    line.Add(cell.Value.ToString());
                                 }
                             }
 
@@ -243,18 +240,6 @@ namespace NumismaticXP.Forms
         {
             Application.Exit();
         }
-        #endregion
-
-        #region "Admin category"
-        private void ButtonClearDatabase_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Czy na pewno chcesz usunąć wszystkie kolekcje użytkowników wraz z bazą monet?", "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                Database.FullClear();
-                RefreshDataGridView();
-            }  
-        }
-        #endregion
         #endregion
 
         #region "ToolsBar buttons"
@@ -455,8 +440,6 @@ namespace NumismaticXP.Forms
             {
                 DataGridViewColumn column = DataGridViewCoins.Columns[Properties.Settings.Default.SortByColumn];
 
-                //Enum.TryParse(Properties.Settings.Default.SortDirection, out ListSortDirection sortDirection);
-
                 DataGridViewCoins.Sort(column, (ListSortDirection)Enum.Parse(typeof(ListSortDirection), Properties.Settings.Default.SortDirection));
             }
 
@@ -503,6 +486,7 @@ namespace NumismaticXP.Forms
 
             DataGridViewCoins.Columns["Value"].DefaultCellStyle.Format = "c0";
             DataGridViewCoins.Columns["Edition"].DefaultCellStyle.Format = "n0";
+            DataGridViewCoins.Columns["Emission"].DefaultCellStyle.Format = "dd-mm-yyyy";
 
             DataGridViewCoins.Columns["Value"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             DataGridViewCoins.Columns["Edition"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -526,21 +510,19 @@ namespace NumismaticXP.Forms
             ((DataTable)DataGridViewCoins.DataSource).DefaultView.RowFilter = $"Name LIKE '%{TextBoxSearch.Text}%' OR CONVERT(Emission, 'System.String') LIKE '%{TextBoxSearch.Text}%'";
         }
 
-        public static bool CheckForInternetConnection()
+        private void CreateBackup()
         {
-            try
+            if (File.Exists(DatabaseFile))
             {
-                using (var client = new WebClient())
+                int lastSlashPosition = DatabaseFile.LastIndexOf("\\");
+                string destinationPath = $"{DatabaseFile.Remove(lastSlashPosition)}\\backup\\{DateTime.Now.ToString().Replace(":", ".")}";
+
+                if (!Directory.Exists(destinationPath))
                 {
-                    using (client.OpenRead("http://216.58.207.238"))
-                    {
-                        return true;
-                    }
+                    Directory.CreateDirectory(destinationPath);
                 }
-            }
-            catch
-            {
-                return false;
+
+                File.Copy(DatabaseFile, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
             }
         }
         #endregion
