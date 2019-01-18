@@ -47,7 +47,6 @@
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.LabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.LabelCoins = new System.Windows.Forms.ToolStripStatusLabel();
-            this.LabelUser = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.ButtonShowCoins = new System.Windows.Forms.ToolStripDropDownButton();
             this.ButtonShowAllCoins = new System.Windows.Forms.ToolStripMenuItem();
@@ -167,7 +166,6 @@
             this.ButtonAdminTools.Name = "ButtonAdminTools";
             this.ButtonAdminTools.Size = new System.Drawing.Size(168, 21);
             this.ButtonAdminTools.Text = "&Narzędzia administratora";
-            this.ButtonAdminTools.Visible = false;
             // 
             // ButtonClearDatabase
             // 
@@ -198,8 +196,7 @@
             this.StatusStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LabelStatus,
-            this.LabelCoins,
-            this.LabelUser});
+            this.LabelCoins});
             this.StatusStrip.Location = new System.Drawing.Point(0, 455);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(609, 41);
@@ -209,7 +206,7 @@
             // LabelStatus
             // 
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(416, 36);
+            this.LabelStatus.Size = new System.Drawing.Size(502, 36);
             this.LabelStatus.Spring = true;
             this.LabelStatus.Text = "Status";
             // 
@@ -226,19 +223,6 @@
             this.LabelCoins.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LabelCoins.Size = new System.Drawing.Size(92, 36);
             this.LabelCoins.Text = "Monety";
-            // 
-            // LabelUser
-            // 
-            this.LabelUser.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.LabelUser.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
-            this.LabelUser.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-            this.LabelUser.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.LabelUser.Name = "LabelUser";
-            this.LabelUser.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.LabelUser.Size = new System.Drawing.Size(86, 36);
-            this.LabelUser.Text = "Użytkownik";
             // 
             // ToolStrip
             // 
@@ -417,6 +401,7 @@
             this.Text = "Numismatic v0.2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
+            this.Shown += new System.EventHandler(this.Main_Shown);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.StatusStrip.ResumeLayout(false);
@@ -441,7 +426,6 @@
         private System.Windows.Forms.ToolStripButton ButtonDecrement;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripStatusLabel LabelStatus;
-        private System.Windows.Forms.ToolStripStatusLabel LabelUser;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripDropDownButton ButtonShowCoins;
         private System.Windows.Forms.ToolStripMenuItem ButtonShowAllCoins;

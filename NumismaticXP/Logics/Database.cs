@@ -10,58 +10,45 @@ namespace NumismaticXP.Logics
 {
     static class Database
     {
-        public static class UserCollection
+        public enum CollectionType { All, Owned, Redundant, Missing }
+
+        public static DataTable DownloadCoins(CollectionType type, string valuesFilter)
         {
-            private enum CollectionType { All, Owned, Redundant, Missing }
+            bool contentsUser = type == CollectionType.Owned || type == CollectionType.Redundant;
 
-            public static DataTable AllCoins { get => DownloadCoins(CollectionType.All); }
+            string query =
+                $"SELECT Coin.Id AS CoinID, Name, Value, Edition, Emission, {(contentsUser ? null : "IFNULL(Amount, 0) AS")} Amount " +
+                $"FROM {(contentsUser ? "Collection LEFT JOIN Coin" : "Coin LEFT JOIN Collection")} ON Coin.Id = Collection.Id_coin ";
 
-            public static DataTable OwnedCoins { get => DownloadCoins(CollectionType.Owned); }
-
-            public static DataTable RedundantCoins { get => DownloadCoins(CollectionType.Redundant); }
-
-            public static DataTable MissingCoins { get => DownloadCoins(CollectionType.Missing); }
-
-            private static DataTable DownloadCoins(CollectionType type)
+            switch (type)
             {
-                bool contentsUser = type == CollectionType.Owned || type == CollectionType.Redundant;
+                case CollectionType.All:
+                    query += $"WHERE TRUE ";
+                    break;
+                case CollectionType.Owned:
+                    query += $"WHERE Amount > 0 ";
+                    break;
+                case CollectionType.Redundant:
+                    query += $"WHERE Amount > 1 ";
+                    break;
+                case CollectionType.Missing:
+                    query += "WHERE (Amount IS NULL OR Amount = 0) ";
+                    break;
+            }
 
-                List<int> filter = GetUserCoinFilter();
+            if (valuesFilter.Length > 0) query += $"AND Value IN ({valuesFilter});";
 
-                string query =
-                    $"SELECT Coin.Id AS CoinID, Name, Value, Edition, Emission, {(contentsUser ? null : "IFNULL(Amount, 0) AS")} Amount " +
-                    $"FROM Collection {(contentsUser ? "LEFT" : "RIGHT")} JOIN Coin ON Coin.Id = Collection.Id_coin ";
-
-                switch (type)
-                {
-                    case CollectionType.All:
-                        query += $"WHERE TRUE ";
-                        break;
-                    case CollectionType.Owned:
-                        query += $"WHERE Amount > 0 ";
-                        break;
-                    case CollectionType.Redundant:
-                        query += $"WHERE Amount > 1 ";
-                        break;
-                    case CollectionType.Missing:
-                        query += "WHERE (Amount IS NULL OR Amount = 0) ";
-                        break;
-                }
-
-                if (filter.Count > 0) query += $"AND Value IN ({string.Join(",", GetUserCoinFilter())});";
-
-                try
-                {
-                    DataSet dataSet = new DataSet();
-                    SQLiteDataAdapter myadapter = new SQLiteDataAdapter(query, Main.Connector.Connection);
-                    myadapter.Fill(dataSet);
-                    return dataSet.Tables[0];
-                }
-                catch (Exception ex)
-                {
-                    AddError(ex.Message, "UserCollection", "DownloadCoins");
-                    throw ex;
-                }
+            try
+            {
+                DataSet dataSet = new DataSet();
+                SQLiteDataAdapter myadapter = new SQLiteDataAdapter(query, Main.Connector.Connection);
+                myadapter.Fill(dataSet);
+                return dataSet.Tables[0];
+            }
+            catch (Exception ex)
+            {
+                AddError(ex.Message, "UserCollection", "DownloadCoins");
+                throw ex;
             }
         }
 
@@ -235,34 +222,6 @@ namespace NumismaticXP.Logics
                 AddError(ex.Message, "Database", "GetUserTotalValue");
                 throw ex;
             }
-        }
-
-        public static List<int> GetUserCoinFilter()
-        {
-            List<int> output = new List<int>();
-
-            string query = "SELECT Show_coins FROM User";
-
-            string[] values;
-            try
-            {
-                values = Main.Connector.ExecuteScalar(query).ToString().Split(';');
-            }
-            catch (Exception ex)
-            {
-                AddError(ex.Message, "Database", "GetUserCoinFilter");
-                throw ex;
-            }
-
-            if (values[0].Length > 0)
-            {
-                foreach (string value in values)
-                {
-                    output.Add(int.Parse(value));
-                }
-            }
-
-            return output;
         }
         #endregion
 

@@ -16,11 +16,10 @@ using System.Windows.Forms;
 //TODO: Dodać export do pliku *.PDF (pdfsharp)
 //TODO: Dodać moduł wyświetlania błędów
 //TODO: Dodać moduł wyświetlania zmian
-//TODO: Dodać moduł edycji użytkowników
-//TODO: Dodać moduł zmiany hasła
 //TODO: Podzielić ustawienia na zakładki
-//TODO: Przejść na EntityFramework
 //TODO: Zaawansowana synchronizacja
+//TODO: W ustawieniach dodać opcję zmiany linku do strony NBP
+//TODO: W ustawieniach dodać opcję zmiany pliku bazy
 
 namespace NumismaticXP.Forms
 {
@@ -29,7 +28,6 @@ namespace NumismaticXP.Forms
         #region "Class fields"
         private static SQLiteConnector _connector;
         private static Thread statusRefresher;
-        private static string _databaseFile = "database.db";
 
         private bool justLoggedIn = true;
         private bool columnsChanged = false;
@@ -40,10 +38,18 @@ namespace NumismaticXP.Forms
         {
             get
             {
-                //Check if Connector is not null and do not require connection string rebuilding.
+                //Check if Connector is not null.
                 if (_connector == null)
                 {
-                    _connector = new SQLiteConnector(ConnectionString);
+                    try
+                    {
+                        _connector = new SQLiteConnector(DatabaseFile);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        MessageBox.Show($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFile}", "Błąd krytyczny", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Environment.Exit(0);
+                    }
                 }
 
                 //Return ready Connector.
@@ -52,15 +58,9 @@ namespace NumismaticXP.Forms
         }
 
         //Construct and return connection string.
-        internal static string ConnectionString
+        internal static string DatabaseFile
         {
-            get
-            {
-                string execLocation = Assembly.GetExecutingAssembly().Location;
-                string databaseFilePath = $"{Path.GetDirectoryName(execLocation)}\\{_databaseFile}";
-
-                return $"Data Source={databaseFilePath}";
-            }
+            get => $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\{Properties.Settings.Default.DatabaseFile}";
         }
 
         //Hash entered string using SHA256
@@ -129,10 +129,12 @@ namespace NumismaticXP.Forms
         private void Main_Load(object sender, EventArgs e)
         {
             //Prepare controls
-            MenuStrip.Enabled = false;
-            ToolStrip.Enabled = false;
             LabelStatus.Text = null;
-            LabelUser.Text = "Nie zalogowano";
+        }
+
+        private void Main_Shown(object sender, EventArgs e)
+        {
+            ButtonShow_Click(ButtonShowCoins.DropDownItems[Properties.Settings.Default.LastSelectedMode] ?? ButtonShowAllCoins, null);
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -154,7 +156,7 @@ namespace NumismaticXP.Forms
         #region "General category"
         private void ButtonNBP_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.nbp.pl/home.aspx?f=/banknoty_i_monety/monety_okolicznosciowe/katalog.html");
+            System.Diagnostics.Process.Start(Properties.Settings.Default.NBPSite);
         }
 
         private void ButtonSync_Click(object sender, EventArgs e)
@@ -435,8 +437,6 @@ namespace NumismaticXP.Forms
 
         private void ApplyDataGridViewColumnsSettings()
         {
-            int lol = Properties.Settings.Default.ColumnsSettings.Length;
-
             if (Properties.Settings.Default.ColumnsSettings.Length > 0)
             {
                 foreach (string column in Properties.Settings.Default.ColumnsSettings.Split(';'))
@@ -477,7 +477,7 @@ namespace NumismaticXP.Forms
                     }
                 }
             }
-            else
+            else if (DataGridViewCoins.Rows.Count > 0)
             {
                 DataGridViewCoins.Rows[0].Cells["Name"].Selected = true;
             }
@@ -485,10 +485,10 @@ namespace NumismaticXP.Forms
 
         private void GetDataSourceForDataGridView(ToolStripMenuItem button = null)
         {
-                 if (button == ButtonShowAllCoins) DataGridViewCoins.DataSource = Database.UserCollection.AllCoins;
-            else if (button == ButtonShowOwnedCoins) DataGridViewCoins.DataSource = Database.UserCollection.OwnedCoins;
-            else if (button == ButtonShowRedundantCoins) DataGridViewCoins.DataSource = Database.UserCollection.RedundantCoins;
-            else if (button == ButtonShowMissingCoins) DataGridViewCoins.DataSource = Database.UserCollection.MissingCoins;
+                 if (button == ButtonShowAllCoins) DataGridViewCoins.DataSource = Database.DownloadCoins(Database.CollectionType.All, Properties.Settings.Default.CoinFilter);
+            else if (button == ButtonShowOwnedCoins) DataGridViewCoins.DataSource = Database.DownloadCoins(Database.CollectionType.Owned, Properties.Settings.Default.CoinFilter);
+            else if (button == ButtonShowRedundantCoins) DataGridViewCoins.DataSource = Database.DownloadCoins(Database.CollectionType.Redundant, Properties.Settings.Default.CoinFilter);
+            else if (button == ButtonShowMissingCoins) DataGridViewCoins.DataSource = Database.DownloadCoins(Database.CollectionType.Missing, Properties.Settings.Default.CoinFilter);
             else if (button == null) RefreshDataGridView((ToolStripMenuItem)ButtonShowCoins.DropDownItems[Properties.Settings.Default.LastSelectedMode]);
         }
 

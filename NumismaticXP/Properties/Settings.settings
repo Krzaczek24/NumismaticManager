@@ -23,5 +23,14 @@
     <Setting Name="ColumnsSettings" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="CoinFilter" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="NBPSite" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.nbp.pl/home.aspx?f=/banknoty_i_monety/monety_okolicznosciowe/katalog.html</Value>
+    </Setting>
+    <Setting Name="DatabaseFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">numismatic.db</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

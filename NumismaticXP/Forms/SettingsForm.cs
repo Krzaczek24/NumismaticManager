@@ -15,9 +15,12 @@ namespace NumismaticXP.Forms
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             List<int> coinValues = Database.GetCoinValues();
-            List<int> userFilter = Database.GetUserCoinFilter();
+            List<int> userFilter = new List<int>();
 
-            // TODO: Przenieść ustawienie filtra wyświetlanych monet do ustawień aplikacji
+            foreach (string value in Properties.Settings.Default.CoinFilter.Split(','))
+            {
+                userFilter.Add(int.Parse(value));
+            }
 
             foreach (int coinValue in coinValues)
             {
