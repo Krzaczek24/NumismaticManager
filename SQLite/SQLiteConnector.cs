@@ -15,14 +15,12 @@ namespace SQLite
         {
             get
             {
-                //Open connection if it is broken or closed.
                 if (_connection.State == ConnectionState.Broken
                 || _connection.State == ConnectionState.Closed)
                 {
                     _connection.Open();
                 }
 
-                //Return ready connection.
                 return _connection;
             }
         }
@@ -41,11 +39,7 @@ namespace SQLite
 
         public SQLiteConnector(string databaseFilePath)
         {
-            //Prepare connection.
             _connection = new SQLiteConnection($"Data Source={databaseFilePath}");
-
-            //Check if database file exists.
-            if (!File.Exists(databaseFilePath)) CreateDatabase();
         }
 
         private void BreakConnection()
@@ -164,31 +158,6 @@ namespace SQLite
             }
 
             return SQLiteCommand;
-        }
-
-        private void CreateDatabase()
-        {
-            BeginTransaction();
-
-            try
-            {
-                //Tables creation.
-                ExecuteNonQuery("CREATE TABLE Coin (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Value INTEGER NOT NULL, Diameter REAL, Fineness TEXT, Weight REAL, Edition INTEGER, Emission TEXT, Stamp TEXT, UNIQUE (Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp) ON CONFLICT IGNORE);");
-                ExecuteNonQuery("CREATE TABLE Collection (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Id_coin INTEGER NOT NULL REFERENCES Coin (Id), Amount INTEGER NOT NULL DEFAULT 0);");
-                ExecuteNonQuery("CREATE TABLE EventHistory (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Id_collection INTEGER NOT NULL REFERENCES Collection (Id), Date TEXT NOT NULL, ChangedFrom INTEGER NOT NULL, ChangedTo INTEGER NOT NULL, Difference INTEGER NOT NULL);");
-                ExecuteNonQuery("CREATE TABLE ErrorHistory (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Date TEXT NOT NULL, Class TEXT NOT NULL, Function TEXT NOT NULL, Message TEXT NOT NULL);");
-
-                //Triggers creation.
-                ExecuteNonQuery("CREATE TRIGGER AfterCollectionInsert AFTER INSERT ON Collection FOR EACH ROW BEGIN INSERT INTO EventHistory(Id_collection, ChangedFrom, ChangedTo, Difference) VALUES(NEW.Id, 0, NEW.Amount, NEW.Amount); END;");
-                ExecuteNonQuery("CREATE TRIGGER AfterCollectionUpdate AFTER UPDATE ON Collection FOR EACH ROW BEGIN INSERT INTO EventHistory(Id_collection, ChangedFrom, ChangedTo, Difference) VALUES(NEW.Id, OLD.Amount, NEW.Amount, CAST(NEW.Amount AS SIGNED) - CAST(OLD.Amount AS SIGNED)); END;");
-
-                CommitTransaction();
-            }
-            catch (Exception)
-            {
-                RollbackTransaction();
-                throw new InvalidOperationException();
-            }
         }
 
         #region "IDisposable"

@@ -33,17 +33,22 @@
             this.ProgressBar = new System.Windows.Forms.ProgressBar();
             this.ButtonClose = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.LabelRowLeft1 = new System.Windows.Forms.Label();
-            this.LabelRowLeft2 = new System.Windows.Forms.Label();
-            this.LabelRowLeft3 = new System.Windows.Forms.Label();
-            this.LabelRowLeft4 = new System.Windows.Forms.Label();
-            this.LabelRowLeft5 = new System.Windows.Forms.Label();
-            this.LabelRowRight1 = new System.Windows.Forms.Label();
-            this.LabelRowRight2 = new System.Windows.Forms.Label();
-            this.LabelRowRight3 = new System.Windows.Forms.Label();
-            this.LabelRowRight4 = new System.Windows.Forms.Label();
-            this.LabelRowRight5 = new System.Windows.Forms.Label();
+            this.LabelLeftCount = new System.Windows.Forms.Label();
+            this.LabelLeftValue = new System.Windows.Forms.Label();
+            this.LabelLeftWeight = new System.Windows.Forms.Label();
+            this.LabelLeftPercent = new System.Windows.Forms.Label();
+            this.LabelRightCount = new System.Windows.Forms.Label();
+            this.LabelRightValue = new System.Windows.Forms.Label();
+            this.LabelRightWeight = new System.Windows.Forms.Label();
+            this.LabelRightPercent = new System.Windows.Forms.Label();
+            this.GroupBox = new System.Windows.Forms.GroupBox();
+            this.TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.RadioButtonRedundant = new System.Windows.Forms.RadioButton();
+            this.RadioButtonOwned = new System.Windows.Forms.RadioButton();
+            this.RadioButtonUnique = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
+            this.GroupBox.SuspendLayout();
+            this.TableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelProgressBar
@@ -79,164 +84,219 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowLeft1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowLeft2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowLeft3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowLeft4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowLeft5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowRight1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowRight2, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowRight3, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowRight4, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.LabelRowRight5, 1, 4);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 65);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.95652F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.04348F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.LabelLeftCount, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LabelLeftValue, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.LabelLeftWeight, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.LabelLeftPercent, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.LabelRightCount, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LabelRightValue, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.LabelRightWeight, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.LabelRightPercent, 1, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 118);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(237, 158);
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(237, 105);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
-            // LabelRowLeft1
+            // LabelLeftCount
             // 
-            this.LabelRowLeft1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelLeftCount.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowLeft1.AutoSize = true;
-            this.LabelRowLeft1.Location = new System.Drawing.Point(3, 0);
-            this.LabelRowLeft1.Name = "LabelRowLeft1";
-            this.LabelRowLeft1.Size = new System.Drawing.Size(112, 31);
-            this.LabelRowLeft1.TabIndex = 0;
-            this.LabelRowLeft1.Text = "label1";
-            this.LabelRowLeft1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelLeftCount.AutoSize = true;
+            this.LabelLeftCount.Location = new System.Drawing.Point(3, 0);
+            this.LabelLeftCount.Name = "LabelLeftCount";
+            this.LabelLeftCount.Size = new System.Drawing.Size(81, 26);
+            this.LabelLeftCount.TabIndex = 0;
+            this.LabelLeftCount.Text = "Ilość:";
+            this.LabelLeftCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // LabelRowLeft2
+            // LabelLeftValue
             // 
-            this.LabelRowLeft2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelLeftValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowLeft2.AutoSize = true;
-            this.LabelRowLeft2.Location = new System.Drawing.Point(3, 31);
-            this.LabelRowLeft2.Name = "LabelRowLeft2";
-            this.LabelRowLeft2.Size = new System.Drawing.Size(112, 31);
-            this.LabelRowLeft2.TabIndex = 1;
-            this.LabelRowLeft2.Text = "label2";
-            this.LabelRowLeft2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelLeftValue.AutoSize = true;
+            this.LabelLeftValue.Location = new System.Drawing.Point(3, 26);
+            this.LabelLeftValue.Name = "LabelLeftValue";
+            this.LabelLeftValue.Size = new System.Drawing.Size(81, 26);
+            this.LabelLeftValue.TabIndex = 1;
+            this.LabelLeftValue.Text = "Wartość nom.:";
+            this.LabelLeftValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // LabelRowLeft3
+            // LabelLeftWeight
             // 
-            this.LabelRowLeft3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelLeftWeight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowLeft3.AutoSize = true;
-            this.LabelRowLeft3.Location = new System.Drawing.Point(3, 62);
-            this.LabelRowLeft3.Name = "LabelRowLeft3";
-            this.LabelRowLeft3.Size = new System.Drawing.Size(112, 31);
-            this.LabelRowLeft3.TabIndex = 2;
-            this.LabelRowLeft3.Text = "label3";
-            this.LabelRowLeft3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelLeftWeight.AutoSize = true;
+            this.LabelLeftWeight.Location = new System.Drawing.Point(3, 52);
+            this.LabelLeftWeight.Name = "LabelLeftWeight";
+            this.LabelLeftWeight.Size = new System.Drawing.Size(81, 26);
+            this.LabelLeftWeight.TabIndex = 2;
+            this.LabelLeftWeight.Text = "Waga:";
+            this.LabelLeftWeight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // LabelRowLeft4
+            // LabelLeftPercent
             // 
-            this.LabelRowLeft4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelLeftPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowLeft4.AutoSize = true;
-            this.LabelRowLeft4.Location = new System.Drawing.Point(3, 93);
-            this.LabelRowLeft4.Name = "LabelRowLeft4";
-            this.LabelRowLeft4.Size = new System.Drawing.Size(112, 31);
-            this.LabelRowLeft4.TabIndex = 3;
-            this.LabelRowLeft4.Text = "label4";
-            this.LabelRowLeft4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelLeftPercent.AutoSize = true;
+            this.LabelLeftPercent.Location = new System.Drawing.Point(3, 78);
+            this.LabelLeftPercent.Name = "LabelLeftPercent";
+            this.LabelLeftPercent.Size = new System.Drawing.Size(81, 27);
+            this.LabelLeftPercent.TabIndex = 3;
+            this.LabelLeftPercent.Text = "Procent:";
+            this.LabelLeftPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // LabelRowLeft5
+            // LabelRightCount
             // 
-            this.LabelRowLeft5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelRightCount.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowLeft5.AutoSize = true;
-            this.LabelRowLeft5.Location = new System.Drawing.Point(3, 124);
-            this.LabelRowLeft5.Name = "LabelRowLeft5";
-            this.LabelRowLeft5.Size = new System.Drawing.Size(112, 34);
-            this.LabelRowLeft5.TabIndex = 4;
-            this.LabelRowLeft5.Text = "label5";
-            this.LabelRowLeft5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelRightCount.AutoSize = true;
+            this.LabelRightCount.Location = new System.Drawing.Point(90, 0);
+            this.LabelRightCount.Name = "LabelRightCount";
+            this.LabelRightCount.Size = new System.Drawing.Size(144, 26);
+            this.LabelRightCount.TabIndex = 5;
+            this.LabelRightCount.Text = "count";
+            this.LabelRightCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelRowRight1
+            // LabelRightValue
             // 
-            this.LabelRowRight1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelRightValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowRight1.AutoSize = true;
-            this.LabelRowRight1.Location = new System.Drawing.Point(121, 0);
-            this.LabelRowRight1.Name = "LabelRowRight1";
-            this.LabelRowRight1.Size = new System.Drawing.Size(113, 31);
-            this.LabelRowRight1.TabIndex = 5;
-            this.LabelRowRight1.Text = "label6";
-            this.LabelRowRight1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelRightValue.AutoSize = true;
+            this.LabelRightValue.Location = new System.Drawing.Point(90, 26);
+            this.LabelRightValue.Name = "LabelRightValue";
+            this.LabelRightValue.Size = new System.Drawing.Size(144, 26);
+            this.LabelRightValue.TabIndex = 6;
+            this.LabelRightValue.Text = "value";
+            this.LabelRightValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelRowRight2
+            // LabelRightWeight
             // 
-            this.LabelRowRight2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelRightWeight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowRight2.AutoSize = true;
-            this.LabelRowRight2.Location = new System.Drawing.Point(121, 31);
-            this.LabelRowRight2.Name = "LabelRowRight2";
-            this.LabelRowRight2.Size = new System.Drawing.Size(113, 31);
-            this.LabelRowRight2.TabIndex = 6;
-            this.LabelRowRight2.Text = "label7";
-            this.LabelRowRight2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelRightWeight.AutoSize = true;
+            this.LabelRightWeight.Location = new System.Drawing.Point(90, 52);
+            this.LabelRightWeight.Name = "LabelRightWeight";
+            this.LabelRightWeight.Size = new System.Drawing.Size(144, 26);
+            this.LabelRightWeight.TabIndex = 7;
+            this.LabelRightWeight.Text = "weight";
+            this.LabelRightWeight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelRowRight3
+            // LabelRightPercent
             // 
-            this.LabelRowRight3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelRightPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowRight3.AutoSize = true;
-            this.LabelRowRight3.Location = new System.Drawing.Point(121, 62);
-            this.LabelRowRight3.Name = "LabelRowRight3";
-            this.LabelRowRight3.Size = new System.Drawing.Size(113, 31);
-            this.LabelRowRight3.TabIndex = 7;
-            this.LabelRowRight3.Text = "label8";
-            this.LabelRowRight3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelRightPercent.AutoSize = true;
+            this.LabelRightPercent.Location = new System.Drawing.Point(90, 78);
+            this.LabelRightPercent.Name = "LabelRightPercent";
+            this.LabelRightPercent.Size = new System.Drawing.Size(144, 27);
+            this.LabelRightPercent.TabIndex = 8;
+            this.LabelRightPercent.Text = "percent";
+            this.LabelRightPercent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelRowRight4
+            // GroupBox
             // 
-            this.LabelRowRight4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.GroupBox.Controls.Add(this.TableLayoutPanel);
+            this.GroupBox.Location = new System.Drawing.Point(12, 65);
+            this.GroupBox.Margin = new System.Windows.Forms.Padding(0);
+            this.GroupBox.Name = "GroupBox";
+            this.GroupBox.Padding = new System.Windows.Forms.Padding(0);
+            this.GroupBox.Size = new System.Drawing.Size(237, 50);
+            this.GroupBox.TabIndex = 7;
+            this.GroupBox.TabStop = false;
+            this.GroupBox.Text = "Grupa monet";
+            // 
+            // TableLayoutPanel
+            // 
+            this.TableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowRight4.AutoSize = true;
-            this.LabelRowRight4.Location = new System.Drawing.Point(121, 93);
-            this.LabelRowRight4.Name = "LabelRowRight4";
-            this.LabelRowRight4.Size = new System.Drawing.Size(113, 31);
-            this.LabelRowRight4.TabIndex = 8;
-            this.LabelRowRight4.Text = "label9";
-            this.LabelRowRight4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TableLayoutPanel.ColumnCount = 3;
+            this.TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
+            this.TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.TableLayoutPanel.Controls.Add(this.RadioButtonRedundant, 2, 0);
+            this.TableLayoutPanel.Controls.Add(this.RadioButtonOwned, 0, 0);
+            this.TableLayoutPanel.Controls.Add(this.RadioButtonUnique, 1, 0);
+            this.TableLayoutPanel.Location = new System.Drawing.Point(0, 13);
+            this.TableLayoutPanel.Name = "TableLayoutPanel";
+            this.TableLayoutPanel.RowCount = 1;
+            this.TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TableLayoutPanel.Size = new System.Drawing.Size(237, 34);
+            this.TableLayoutPanel.TabIndex = 0;
             // 
-            // LabelRowRight5
+            // RadioButtonRedundant
             // 
-            this.LabelRowRight5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.RadioButtonRedundant.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelRowRight5.AutoSize = true;
-            this.LabelRowRight5.Location = new System.Drawing.Point(121, 124);
-            this.LabelRowRight5.Name = "LabelRowRight5";
-            this.LabelRowRight5.Size = new System.Drawing.Size(113, 34);
-            this.LabelRowRight5.TabIndex = 9;
-            this.LabelRowRight5.Text = "label10";
-            this.LabelRowRight5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RadioButtonRedundant.Appearance = System.Windows.Forms.Appearance.Button;
+            this.RadioButtonRedundant.AutoSize = true;
+            this.RadioButtonRedundant.Location = new System.Drawing.Point(160, 3);
+            this.RadioButtonRedundant.Name = "RadioButtonRedundant";
+            this.RadioButtonRedundant.Size = new System.Drawing.Size(74, 28);
+            this.RadioButtonRedundant.TabIndex = 2;
+            this.RadioButtonRedundant.Text = "Nadmiarowe";
+            this.RadioButtonRedundant.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RadioButtonRedundant.UseVisualStyleBackColor = true;
+            this.RadioButtonRedundant.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // RadioButtonOwned
+            // 
+            this.RadioButtonOwned.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RadioButtonOwned.Appearance = System.Windows.Forms.Appearance.Button;
+            this.RadioButtonOwned.AutoSize = true;
+            this.RadioButtonOwned.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.RadioButtonOwned.Checked = true;
+            this.RadioButtonOwned.Location = new System.Drawing.Point(3, 3);
+            this.RadioButtonOwned.Name = "RadioButtonOwned";
+            this.RadioButtonOwned.Size = new System.Drawing.Size(72, 28);
+            this.RadioButtonOwned.TabIndex = 0;
+            this.RadioButtonOwned.TabStop = true;
+            this.RadioButtonOwned.Text = "Posiadane";
+            this.RadioButtonOwned.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RadioButtonOwned.UseVisualStyleBackColor = true;
+            this.RadioButtonOwned.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // RadioButtonUnique
+            // 
+            this.RadioButtonUnique.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RadioButtonUnique.Appearance = System.Windows.Forms.Appearance.Button;
+            this.RadioButtonUnique.AutoSize = true;
+            this.RadioButtonUnique.Location = new System.Drawing.Point(81, 3);
+            this.RadioButtonUnique.Name = "RadioButtonUnique";
+            this.RadioButtonUnique.Size = new System.Drawing.Size(73, 28);
+            this.RadioButtonUnique.TabIndex = 1;
+            this.RadioButtonUnique.Text = "Unikatowe";
+            this.RadioButtonUnique.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RadioButtonUnique.UseVisualStyleBackColor = true;
+            this.RadioButtonUnique.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
             // 
             // SummaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(261, 271);
+            this.Controls.Add(this.GroupBox);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.ButtonClose);
             this.Controls.Add(this.ProgressBar);
@@ -252,6 +312,9 @@
             this.Load += new System.EventHandler(this.SummaryForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.GroupBox.ResumeLayout(false);
+            this.TableLayoutPanel.ResumeLayout(false);
+            this.TableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -262,15 +325,18 @@
         private System.Windows.Forms.ProgressBar ProgressBar;
         private System.Windows.Forms.Button ButtonClose;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label LabelRowLeft1;
-        private System.Windows.Forms.Label LabelRowLeft2;
-        private System.Windows.Forms.Label LabelRowLeft3;
-        private System.Windows.Forms.Label LabelRowLeft4;
-        private System.Windows.Forms.Label LabelRowLeft5;
-        private System.Windows.Forms.Label LabelRowRight1;
-        private System.Windows.Forms.Label LabelRowRight2;
-        private System.Windows.Forms.Label LabelRowRight3;
-        private System.Windows.Forms.Label LabelRowRight4;
-        private System.Windows.Forms.Label LabelRowRight5;
+        private System.Windows.Forms.Label LabelLeftCount;
+        private System.Windows.Forms.Label LabelLeftValue;
+        private System.Windows.Forms.Label LabelLeftWeight;
+        private System.Windows.Forms.Label LabelLeftPercent;
+        private System.Windows.Forms.Label LabelRightCount;
+        private System.Windows.Forms.Label LabelRightValue;
+        private System.Windows.Forms.Label LabelRightWeight;
+        private System.Windows.Forms.Label LabelRightPercent;
+        private System.Windows.Forms.GroupBox GroupBox;
+        private System.Windows.Forms.RadioButton RadioButtonRedundant;
+        private System.Windows.Forms.RadioButton RadioButtonUnique;
+        private System.Windows.Forms.RadioButton RadioButtonOwned;
+        private System.Windows.Forms.TableLayoutPanel TableLayoutPanel;
     }
 }

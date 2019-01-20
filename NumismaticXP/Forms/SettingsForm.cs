@@ -28,19 +28,13 @@ namespace NumismaticXP.Forms
             foreach (int coinValue in coinValues)
             {
                 CheckBoxesCoins.Items.Add(coinValue, userFilter.Contains(coinValue));
-
-                if (userFilter.Contains(coinValue))
-                {
-                    ListBoxShown.Items.Add(coinValue);
-                }
-                else
-                {
-                    ListBoxHidden.Items.Add(coinValue);
-                }
             }
+
+            CheckBoxBackup.Checked = Properties.Settings.Default.Backup;
 
             TextBoxWebsitePath.Text = Properties.Settings.Default.NBPSite;
         }
+
 
         private void ButtonSaveSettings_Click(object sender, EventArgs e)
         {
@@ -52,14 +46,7 @@ namespace NumismaticXP.Forms
             }
 
             Properties.Settings.Default.CoinFilter = string.Join(",", coinValues);
-
-            //foreach (int coinValue in ListBoxShown.Items)
-            //{
-            //    coinValues.Add(coinValue);
-            //}
-
-            //Properties.Settings.Default.CoinFilter = string.Join(",", coinValues);
-
+            Properties.Settings.Default.Backup = CheckBoxBackup.Checked;
             Properties.Settings.Default.NBPSite = TextBoxWebsitePath.Text;
 
             DialogResult = DialogResult.OK;

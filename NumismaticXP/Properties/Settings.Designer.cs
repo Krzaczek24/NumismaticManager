@@ -50,9 +50,9 @@ namespace NumismaticXP.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public uint LastSelectedCoin {
+        public int LastSelectedCoin {
             get {
-                return ((uint)(this["LastSelectedCoin"]));
+                return ((int)(this["LastSelectedCoin"]));
             }
             set {
                 this["LastSelectedCoin"] = value;
@@ -141,6 +141,18 @@ namespace NumismaticXP.Properties {
             }
             set {
                 this["DatabaseFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Backup {
+            get {
+                return ((bool)(this["Backup"]));
+            }
+            set {
+                this["Backup"] = value;
             }
         }
     }

@@ -201,8 +201,6 @@ namespace NumismaticXP.Forms
             if (MessageBox.Show($"Czy na pewno chcesz usunąć całą swoją kolekcję?\n(pozycji: {Database.GetUserUniqueCoins()} | monet: {Database.GetUserTotalCoins()} | wartość: {Database.GetUserTotalValue()} zł)", "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 Database.WipeUserCollection();
-
-                DialogResult = DialogResult.OK;
             }
         }
 
@@ -211,8 +209,6 @@ namespace NumismaticXP.Forms
             if (MessageBox.Show("Czy na pewno chcesz usunąć wszystkie dane z bazy?", "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 Database.WipeDatabase();
-
-                DialogResult = DialogResult.OK;
             }
         }
     }

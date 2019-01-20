@@ -78,7 +78,6 @@ namespace NumismaticXP.Models
 
         public static double[] Similarity(Coin x, Coin y)
         {
-            //double[] fieldsSimilarity = new double[typeof(Coin).GetFields().Length];
             double[] fieldsSimilarity = new double[8];
 
             fieldsSimilarity[0] = LevenshteinDistance.CalculateSimilarity(x.Name, y.Name);
@@ -128,7 +127,7 @@ namespace NumismaticXP.Models
                 { "fineness", Fineness },
                 { "weight", Weight },
                 { "edition", Edition },
-                { "emission", Emission.ToString("yyyy-MM-dd") },
+                { "emission", Emission },
                 { "stamp", Stamp }
             };
         }

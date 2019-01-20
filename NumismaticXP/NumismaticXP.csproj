@@ -86,6 +86,12 @@
     <Compile Include="Forms\CoinDetailsForm.designer.cs">
       <DependentUpon>CoinDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ErrorsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ErrorsForm.Designer.cs">
+      <DependentUpon>ErrorsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CoinDetailsForm.resx">
       <DependentUpon>CoinDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ErrorsForm.resx">
+      <DependentUpon>ErrorsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

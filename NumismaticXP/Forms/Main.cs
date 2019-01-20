@@ -12,9 +12,6 @@ using System.Threading;
 using System.Windows.Forms;
 
 //TODO: Dodać export do pliku *.PDF (pdfsharp)
-//TODO: Dodać moduł wyświetlania błędów
-//TODO: Dodać moduł wyświetlania zmian
-//TODO: Ogarnać ustawienia
 //TODO: Zaawansowana synchronizacja
 
 namespace NumismaticXP.Forms
@@ -34,12 +31,13 @@ namespace NumismaticXP.Forms
         {
             get
             {
-                //Check if Connector is not null.
                 if (_connector == null)
                 {
                     try
                     {
                         _connector = new SQLiteConnector(DatabaseFile);
+
+                        if (!File.Exists(DatabaseFile)) Database.Create();
                     }
                     catch (InvalidOperationException)
                     {
@@ -48,18 +46,15 @@ namespace NumismaticXP.Forms
                     }
                 }
 
-                //Return ready Connector.
                 return _connector;
             }
         }
 
-        //Construct and return connection string.
         internal static string DatabaseFile
         {
             get => $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\{Properties.Settings.Default.DatabaseFile}";
         }
 
-        //Hash entered string using SHA256
         internal static string HashSHA256(string input)
         {
             byte[] bytes = System.Text.Encoding.Unicode.GetBytes(input);
@@ -107,6 +102,11 @@ namespace NumismaticXP.Forms
         {
             ((Main)Application.OpenForms["Main"]).Cursor = cursor;
         }
+
+        internal static void ShowError(string message)
+        {
+            MessageBox.Show(message, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
         #endregion
 
         #region "Form events"
@@ -126,7 +126,7 @@ namespace NumismaticXP.Forms
         {
             LabelStatus.Text = null;
 
-            CreateBackup();
+            if (Properties.Settings.Default.Backup) Database.Backup();
         }
 
         private void Main_Shown(object sender, EventArgs e)
@@ -147,17 +147,29 @@ namespace NumismaticXP.Forms
                 statusRefresher.Abort();
             }
         }
-        #endregion
 
-        #region "MenuBar buttons"
-        private void ButtonSummary_Click(object sender, EventArgs e)
+        private void Main_KeyDown(object sender, KeyEventArgs e)
         {
-            using (SummaryForm summaryForm = new SummaryForm())
+            if (e.Control && e.KeyCode == Keys.E)
             {
-                summaryForm.ShowDialog();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
+        private void Main_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.E)
+            {
+                using (ErrorsForm errorsForm = new ErrorsForm())
+                {
+                    errorsForm.ShowDialog();
+                }
+            }
+        }
+        #endregion
+
+        #region "MenuBar buttons"
         private void ButtonNBP_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Properties.Settings.Default.NBPSite);
@@ -217,6 +229,14 @@ namespace NumismaticXP.Forms
             }
         }
 
+        private void ButtonSummary_Click(object sender, EventArgs e)
+        {
+            using (SummaryForm summaryForm = new SummaryForm())
+            {
+                summaryForm.ShowDialog();
+            }
+        }
+
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
             using (SettingsForm settingsForm = new SettingsForm())
@@ -258,52 +278,16 @@ namespace NumismaticXP.Forms
 
         private void ButtonIncrement_Click(object sender, EventArgs e)
         {
-            string query;
-            Dictionary<string, object> parameters;
+            Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), true);
 
-            if (Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) == 0)
-            {
-                query = "INSERT INTO Collection (Id_coin, Amount) VALUES (@coin, @amount);";
-                parameters = new Dictionary<string, object>()
-                {
-                    { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) },
-                    { "amount", 1 }
-                };
-
-                try
-                {
-                    Connector.ExecuteNonQuery(query, parameters);
-                }
-                catch (Exception ex) when (ex.Message.Contains("UNIQUE"))
-                {
-                    query = "UPDATE Collection SET Amount = @amount WHERE Id_coin = @coin AND Id_user = @user;";
-                    Connector.ExecuteNonQuery(query, parameters);
-                }
-            }
-            else
-            {
-                query = "UPDATE Collection SET Amount = Amount + 1 WHERE Id_coin = @coin;";
-                parameters = new Dictionary<string, object>()
-                {
-                    { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) }
-                };
-                Connector.ExecuteNonQuery(query, parameters);
-            }
-
-            DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
+            DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
         }
 
         private void ButtonDecrement_Click(object sender, EventArgs e)
         {
             if (Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
             {
-                string query = "UPDATE Collection SET Amount = Amount - 1 WHERE Id_coin = @coin;";
-                Dictionary<string, object> parameters = new Dictionary<string, object>()
-                {
-                    { "coin", Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["CoinID"].Value) }
-                };
-
-                Connector.ExecuteNonQuery(query, parameters);
+                Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), false);
 
                 DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
             }
@@ -325,7 +309,7 @@ namespace NumismaticXP.Forms
         {
             if (e.RowIndex >= 0)
             {
-                Properties.Settings.Default.LastSelectedCoin = Convert.ToUInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["CoinID"].Value);
+                Properties.Settings.Default.LastSelectedCoin = Convert.ToInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Id"].Value);
                 Properties.Settings.Default.Save();
             }
         }
@@ -334,7 +318,7 @@ namespace NumismaticXP.Forms
         {
             if (e.RowIndex >= 0)
             {
-                uint coinId = Convert.ToUInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["CoinID"].Value);
+                uint coinId = Convert.ToUInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Id"].Value);
 
                 using (CoinDetailsForm coinDetailsForm = new CoinDetailsForm(coinId))
                 {
@@ -453,7 +437,7 @@ namespace NumismaticXP.Forms
             {
                 foreach (DataGridViewRow row in DataGridViewCoins.Rows)
                 {
-                    if (Convert.ToUInt32(row.Cells["CoinID"].Value) == Properties.Settings.Default.LastSelectedCoin)
+                    if (Convert.ToUInt32(row.Cells["Id"].Value) == Properties.Settings.Default.LastSelectedCoin)
                     {
                         row.Cells["Name"].Selected = true;
                         break;
@@ -477,7 +461,7 @@ namespace NumismaticXP.Forms
 
         private void FormatColumnsInDataGridView()
         {
-            DataGridViewCoins.Columns["CoinID"].Visible = false;
+            DataGridViewCoins.Columns["Id"].Visible = false;
             DataGridViewCoins.Columns["Name"].HeaderText = "Nazwa";
             DataGridViewCoins.Columns["Value"].HeaderText = "Nominał";
             DataGridViewCoins.Columns["Edition"].HeaderText = "Nakład";
@@ -486,7 +470,6 @@ namespace NumismaticXP.Forms
 
             DataGridViewCoins.Columns["Value"].DefaultCellStyle.Format = "c0";
             DataGridViewCoins.Columns["Edition"].DefaultCellStyle.Format = "n0";
-            DataGridViewCoins.Columns["Emission"].DefaultCellStyle.Format = "dd-mm-yyyy";
 
             DataGridViewCoins.Columns["Value"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             DataGridViewCoins.Columns["Edition"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -508,22 +491,6 @@ namespace NumismaticXP.Forms
         private void ApplyDataGridViewFilter()
         {
             ((DataTable)DataGridViewCoins.DataSource).DefaultView.RowFilter = $"Name LIKE '%{TextBoxSearch.Text}%' OR CONVERT(Emission, 'System.String') LIKE '%{TextBoxSearch.Text}%'";
-        }
-
-        private void CreateBackup()
-        {
-            if (File.Exists(DatabaseFile))
-            {
-                int lastSlashPosition = DatabaseFile.LastIndexOf("\\");
-                string destinationPath = $"{DatabaseFile.Remove(lastSlashPosition)}\\backup\\{DateTime.Now.ToString().Replace(":", ".")}";
-
-                if (!Directory.Exists(destinationPath))
-                {
-                    Directory.CreateDirectory(destinationPath);
-                }
-
-                File.Copy(DatabaseFile, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
-            }
         }
         #endregion
     }
