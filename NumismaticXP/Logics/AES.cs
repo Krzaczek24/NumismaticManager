@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NumismaticXP.Logics
+namespace NumismaticManager.Logics
 {
     public class AES
     {

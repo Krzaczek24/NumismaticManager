@@ -1,8 +1,8 @@
-﻿using NumismaticXP.Logics;
+﻿using NumismaticManager.Logics;
 using System;
 using System.Windows.Forms;
 
-namespace NumismaticXP.Forms
+namespace NumismaticManager.Forms
 {
     public partial class SummaryForm : Form
     {
@@ -29,16 +29,19 @@ namespace NumismaticXP.Forms
             allCoins = Database.GetCoinsCount(Properties.Settings.Default.CoinFilter);
 
             ownedCoins = Database.GetUserTotalCoins(Properties.Settings.Default.CoinFilter);
+
+            string test = Properties.Settings.Default.CoinFilter;
+
             ownedCoinsValue = Database.GetUserTotalValue(Properties.Settings.Default.CoinFilter);
             ownedCoinsWeight = Database.GetUserTotalWeight(Properties.Settings.Default.CoinFilter);
-            ownedCoinsPercentage = ownedCoins * 100.0 / allCoins;
+            ownedCoinsPercentage = ownedCoins * 100.0 / (allCoins == 0 ? 1 : allCoins);
 
             uniqueCoins = Database.GetUserUniqueCoins(Properties.Settings.Default.CoinFilter);
             uniqueCoinsValue = Database.GetUserUniqueValue(Properties.Settings.Default.CoinFilter);
             uniqueCoinsWeight = Database.GetUserUniqueWeight(Properties.Settings.Default.CoinFilter);
-            uniqueCoinsPercentage = uniqueCoins * 100.0 / ownedCoins;
+            uniqueCoinsPercentage = uniqueCoins * 100.0 / (ownedCoins == 0 ? 1 : ownedCoins);
 
-            allCoinsPercentage = uniqueCoins * 100.0 / allCoins;
+            allCoinsPercentage = uniqueCoins * 100.0 / (allCoins == 0 ? 1 : allCoins);
 
             LabelProgressBar.Text = $"Posiadasz {uniqueCoins} egzemplarzy z {allCoins} ({allCoinsPercentage:0.00}%)";
 
@@ -71,7 +74,7 @@ namespace NumismaticXP.Forms
             LabelRightCount.Text = $"{ownedCoins} sztuk";
             LabelRightValue.Text = $"{ownedCoinsValue:c0}";
             LabelRightWeight.Text = $"{ownedCoinsWeight:n2} g";
-            LabelRightPercent.Text = $"100.00 %";
+            LabelRightPercent.Text = $"{100:f2} %";
         }
 
         private void ShowDetailsUnique()

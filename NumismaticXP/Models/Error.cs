@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NumismaticXP.Models
+namespace NumismaticManager.Models
 {
     class Error
     {

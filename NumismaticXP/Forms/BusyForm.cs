@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace NumismaticXP.Forms
+namespace NumismaticManager.Forms
 {
     public partial class BusyForm : Form
     {

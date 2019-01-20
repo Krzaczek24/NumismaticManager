@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 
-namespace NumismaticXP.Models
+namespace NumismaticManager.Models
 {
     class NBPCoin
     {

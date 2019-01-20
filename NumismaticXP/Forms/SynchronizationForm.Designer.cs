@@ -1,4 +1,4 @@
-﻿namespace NumismaticXP.Forms
+﻿namespace NumismaticManager.Forms
 {
     partial class SynchronizationForm
     {
@@ -87,7 +87,7 @@
             this.ButtonWipeDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonWipeDatabase.Image = global::NumismaticXP.Properties.Resources.Mr_Bomb;
+            this.ButtonWipeDatabase.Image = global::NumismaticManager.Properties.Resources.Mr_Bomb;
             this.ButtonWipeDatabase.Location = new System.Drawing.Point(3, 243);
             this.ButtonWipeDatabase.Name = "ButtonWipeDatabase";
             this.ButtonWipeDatabase.Size = new System.Drawing.Size(94, 75);
@@ -119,7 +119,7 @@
             this.ButtonFastSynchronize.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFastSynchronize.Image = global::NumismaticXP.Properties.Resources.Play_All;
+            this.ButtonFastSynchronize.Image = global::NumismaticManager.Properties.Resources.Play_All;
             this.ButtonFastSynchronize.Location = new System.Drawing.Point(3, 3);
             this.ButtonFastSynchronize.Name = "ButtonFastSynchronize";
             this.ButtonFastSynchronize.Size = new System.Drawing.Size(94, 74);
@@ -137,7 +137,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonAdvancedSynchronize.Enabled = false;
-            this.ButtonAdvancedSynchronize.Image = global::NumismaticXP.Properties.Resources.Play;
+            this.ButtonAdvancedSynchronize.Image = global::NumismaticManager.Properties.Resources.Play;
             this.ButtonAdvancedSynchronize.Location = new System.Drawing.Point(3, 83);
             this.ButtonAdvancedSynchronize.Name = "ButtonAdvancedSynchronize";
             this.ButtonAdvancedSynchronize.Size = new System.Drawing.Size(94, 74);
@@ -154,7 +154,7 @@
             this.ButtonWipeUserCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonWipeUserCollection.Image = global::NumismaticXP.Properties.Resources.Mr_Bomb;
+            this.ButtonWipeUserCollection.Image = global::NumismaticManager.Properties.Resources.Mr_Bomb;
             this.ButtonWipeUserCollection.Location = new System.Drawing.Point(3, 163);
             this.ButtonWipeUserCollection.Name = "ButtonWipeUserCollection";
             this.ButtonWipeUserCollection.Size = new System.Drawing.Size(94, 74);

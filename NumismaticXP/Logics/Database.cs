@@ -1,13 +1,12 @@
-﻿using NumismaticXP.Forms;
-using NumismaticXP.Models;
+﻿using NumismaticManager.Forms;
+using NumismaticManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
-using System.Windows.Forms;
 
-namespace NumismaticXP.Logics
+namespace NumismaticManager.Logics
 {
     static class Database
     {
@@ -47,7 +46,7 @@ namespace NumismaticXP.Logics
             }
             catch (Exception ex)
             {
-                AddError(ex.Message, "Database.cs", "DownloadCoins(CollectionType type, string valuesFilter)");
+                AddError($"{ex.Message}\n{query}", "Database.cs", "DownloadCoins(CollectionType type, string valuesFilter)");
                 Main.ShowError("Wystąpił błąd podczas pobierania monet z bazy danych.");
                 return null;
             }
@@ -81,7 +80,7 @@ namespace NumismaticXP.Logics
             }
             catch (Exception ex)
             {
-                AddError(ex.Message, "Database.cs", "DownloadAllCoins()");
+                AddError($"{ex.Message}\n{query}", "Database.cs", "DownloadAllCoins()");
                 Main.ShowError("Wystąpił błąd podczas pobierania monet z bazy danych.");
             }
 
@@ -155,7 +154,14 @@ namespace NumismaticXP.Logics
 
         public static int GetCoinsCount(string filter)
         {
-            string query = $"SELECT COUNT(*) FROM Coin WHERE Value IN ({filter});";
+            string query = "SELECT COUNT(*) FROM Coin";
+
+            if (filter.Length > 0)
+            {
+                query += $" WHERE Value IN ({filter})";
+            }
+
+            query += ";";
 
             try
             {
@@ -188,7 +194,14 @@ namespace NumismaticXP.Logics
 
         public static int GetUserUniqueCoins(string filter)
         {
-            string query = $"SELECT COUNT(*) FROM Coin WHERE Amount > 0 AND Value IN ({filter});";
+            string query = "SELECT COUNT(*) FROM Coin WHERE Amount > 0";
+
+            if (filter.Length > 0)
+            {
+                query += $" AND Value IN ({filter})";
+            }
+
+            query += ";";
 
             try
             {
@@ -204,7 +217,14 @@ namespace NumismaticXP.Logics
 
         public static int GetUserUniqueValue(string filter)
         {
-            string query = $"SELECT SUM(Value) FROM Coin WHERE Amount > 0 AND Value IN ({filter});";
+            string query = "SELECT IFNULL(SUM(Value), 0) FROM Coin WHERE Amount > 0";
+
+            if (filter.Length > 0)
+            {
+                query += $" AND Value IN ({filter})";
+            }
+
+            query += ";";
 
             try
             {
@@ -220,7 +240,14 @@ namespace NumismaticXP.Logics
 
         public static decimal GetUserUniqueWeight(string filter)
         {
-            string query = $"SELECT SUM(Weight) FROM Coin WHERE Amount > 0 AND Value IN ({filter});";
+            string query = "SELECT IFNULL(SUM(Weight), 0) FROM Coin WHERE Amount > 0";
+
+            if (filter.Length > 0)
+            {
+                query += $" AND Value IN ({filter})";
+            }
+
+            query += ";";
 
             try
             {
@@ -236,7 +263,7 @@ namespace NumismaticXP.Logics
 
         public static int GetUserTotalCoins()
         {
-            string query = "SELECT SUM(Amount) FROM Coin;";
+            string query = "SELECT IFNULL(SUM(Amount), 0) FROM Coin;";
 
             try
             {
@@ -252,7 +279,14 @@ namespace NumismaticXP.Logics
 
         public static int GetUserTotalCoins(string filter)
         {
-            string query = $"SELECT SUM(Amount) FROM Coin WHERE Value IN ({filter});";
+            string query = "SELECT IFNULL(SUM(Amount), 0) FROM Coin";
+
+            if (filter.Length > 0)
+            {
+                query += $" WHERE Value IN ({filter})";
+            }
+
+            query += ";";
 
             try
             {
@@ -268,7 +302,7 @@ namespace NumismaticXP.Logics
 
         public static int GetUserTotalValue()
         {
-            string query = "SELECT SUM(Amount * Value) FROM Coin;";
+            string query = "SELECT IFNULL(SUM(Amount * Value), 0) FROM Coin;";
 
             try
             {
@@ -284,7 +318,14 @@ namespace NumismaticXP.Logics
 
         public static int GetUserTotalValue(string filter)
         {
-            string query = $"SELECT SUM(Amount * Value) FROM Coin WHERE Value IN ({filter});";
+            string query = "SELECT IFNULL(SUM(Amount * Value), 0) FROM Coin";
+
+            if (filter.Length > 0)
+            {
+                query += $" WHERE Value IN ({filter})";
+            }
+
+            query += ";";
 
             try
             {
@@ -300,7 +341,14 @@ namespace NumismaticXP.Logics
 
         public static decimal GetUserTotalWeight(string filter)
         {
-            string query = $"SELECT SUM(Amount * Weight) FROM Coin WHERE Value IN ({filter});";
+            string query = "SELECT IFNULL(SUM(Amount * Weight), 0) FROM Coin";
+
+            if (filter.Length > 0)
+            {
+                query += $" WHERE Value IN ({filter})";
+            }
+
+            query += ";";
 
             try
             {
@@ -393,7 +441,7 @@ namespace NumismaticXP.Logics
             try
             {
                 Main.Connector.ExecuteNonQuery($"UPDATE Coin SET Amount = 0;");
-                MessageBox.Show("Pomyślnie usunięto kolekcję.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Main.ShowInformation("Pomyślnie usunięto kolekcję.");
             }
             catch (Exception ex)
             {
@@ -409,7 +457,7 @@ namespace NumismaticXP.Logics
                 Main.Connector.BeginTransaction();
                 Main.Connector.ExecuteNonQuery("DELETE FROM Coin;");
                 Main.Connector.CommitTransaction();
-                MessageBox.Show("Pomyślnie usunięto wszystkie dane z bazy.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Main.ShowInformation("Pomyślnie usunięto wszystkie dane z bazy.");
             }
             catch (Exception ex)
             {

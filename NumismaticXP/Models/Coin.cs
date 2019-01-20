@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Levenshtein;
 
-namespace NumismaticXP.Models
+namespace NumismaticManager.Models
 {
     class Coin
     {

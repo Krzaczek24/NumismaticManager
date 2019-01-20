@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BBBCEEF0-70ED-4F20-88F9-CD6497136A27}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>NumismaticXP</RootNamespace>
-    <AssemblyName>NumismaticXP</AssemblyName>
+    <RootNamespace>NumismaticManager</RootNamespace>
+    <AssemblyName>NumismaticManager</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

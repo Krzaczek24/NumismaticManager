@@ -1,9 +1,9 @@
-﻿using NumismaticXP.Logics;
+﻿using NumismaticManager.Logics;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace NumismaticXP.Forms
+namespace NumismaticManager.Forms
 {
     public partial class SettingsForm : Form
     {

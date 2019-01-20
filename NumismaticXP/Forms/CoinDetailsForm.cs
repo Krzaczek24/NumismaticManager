@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 using System.Windows.Forms;
 
-namespace NumismaticXP.Forms
+namespace NumismaticManager.Forms
 {
     public partial class CoinDetailsForm : Form
     {

@@ -1,8 +1,8 @@
-﻿using NumismaticXP.Forms;
+﻿using NumismaticManager.Forms;
 using System;
 using System.Windows.Forms;
 
-namespace NumismaticXP
+namespace NumismaticManager
 {
     static class Program
     {

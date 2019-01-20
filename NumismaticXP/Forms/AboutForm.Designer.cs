@@ -1,4 +1,4 @@
-﻿namespace NumismaticXP.Forms
+﻿namespace NumismaticManager.Forms
 {
     partial class AboutForm
     {
@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
-            this.label1 = new System.Windows.Forms.Label();
+            this.LabelApplicationName = new System.Windows.Forms.Label();
             this.ButtonClose = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LabelCreationDate = new System.Windows.Forms.Label();
+            this.LabelAuthor = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // LabelApplicationName
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelApplicationName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(230, 41);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Numismatic";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelApplicationName.AutoSize = true;
+            this.LabelApplicationName.Location = new System.Drawing.Point(3, 0);
+            this.LabelApplicationName.Name = "LabelApplicationName";
+            this.LabelApplicationName.Size = new System.Drawing.Size(230, 41);
+            this.LabelApplicationName.TabIndex = 0;
+            this.LabelApplicationName.Text = "Numismatic Manager";
+            this.LabelApplicationName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ButtonClose
             // 
@@ -71,9 +71,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LabelCreationDate, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.LabelAuthor, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.LabelApplicationName, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 5);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(13, 13);
@@ -89,31 +89,31 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(236, 205);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // label3
+            // LabelCreationDate
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelCreationDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 82);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(230, 41);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Data powstania: 18.08.2018";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelCreationDate.AutoSize = true;
+            this.LabelCreationDate.Location = new System.Drawing.Point(3, 82);
+            this.LabelCreationDate.Name = "LabelCreationDate";
+            this.LabelCreationDate.Size = new System.Drawing.Size(230, 41);
+            this.LabelCreationDate.TabIndex = 2;
+            this.LabelCreationDate.Text = "Data powstania: 20.01.2019";
+            this.LabelCreationDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // LabelAuthor
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(230, 41);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Autor: Tomasz \'Krzaczek\' Drewek";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelAuthor.AutoSize = true;
+            this.LabelAuthor.Location = new System.Drawing.Point(3, 41);
+            this.LabelAuthor.Name = "LabelAuthor";
+            this.LabelAuthor.Size = new System.Drawing.Size(230, 41);
+            this.LabelAuthor.TabIndex = 1;
+            this.LabelAuthor.Text = "Autor: Tomasz \'Krzaczek\' Drewek";
+            this.LabelAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
@@ -164,11 +164,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LabelApplicationName;
         private System.Windows.Forms.Button ButtonClose;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LabelCreationDate;
+        private System.Windows.Forms.Label LabelAuthor;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
     }

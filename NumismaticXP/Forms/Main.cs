@@ -1,4 +1,4 @@
-﻿using NumismaticXP.Logics;
+﻿using NumismaticManager.Logics;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Windows.Forms;
 //TODO: Dodać export do pliku *.PDF (pdfsharp)
 //TODO: Zaawansowana synchronizacja
 
-namespace NumismaticXP.Forms
+namespace NumismaticManager.Forms
 {
     public partial class Main : Form
     {
@@ -41,7 +41,7 @@ namespace NumismaticXP.Forms
                     }
                     catch (InvalidOperationException)
                     {
-                        MessageBox.Show($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFile}", "Błąd krytyczny", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ShowError($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFile}");
                         Environment.Exit(0);
                     }
                 }
@@ -106,6 +106,16 @@ namespace NumismaticXP.Forms
         internal static void ShowError(string message)
         {
             MessageBox.Show(message, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        internal static DialogResult ShowWarning(string message)
+        {
+            return MessageBox.Show(message, "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+        }
+
+        internal static void ShowInformation(string message)
+        {
+            MessageBox.Show(message, "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
 
@@ -179,10 +189,15 @@ namespace NumismaticXP.Forms
         {
             using (SynchronizationForm synchronizationForm = new SynchronizationForm())
             {
-                if (synchronizationForm.ShowDialog() == DialogResult.OK)
+                DialogResult dialogResult;
+
+                do
                 {
+                    dialogResult = synchronizationForm.ShowDialog();
+
                     RefreshDataGridView();
                 }
+                while (dialogResult == DialogResult.Retry);
             }
         }
 
@@ -372,6 +387,7 @@ namespace NumismaticXP.Forms
         private void RefreshDataGridView(ToolStripMenuItem button = null)
         {
             if (!justLoggedIn) SaveDataGridViewColumnSettings();
+            else justLoggedIn = false;
 
             DataGridViewCoins.ColumnDisplayIndexChanged -= DataGridViewCoins_ColumnDisplayIndexChanged;
             DataGridViewCoins.ColumnWidthChanged -= DataGridViewCoins_ColumnWidthChanged;
