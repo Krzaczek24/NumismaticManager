@@ -1,4 +1,5 @@
 ﻿using NumismaticManager.Logics;
+using NumismaticManager.Models;
 using PDF;
 using SQLite;
 using System;
@@ -248,7 +249,32 @@ namespace NumismaticManager.Forms
                     }
                     else if (extension == ".pdf")
                     {
-                        PDFCreator.GenerateDoc(saveFileDialog.FileName);
+                        //TODO: HERE
+                        List<string> headers = new List<string>();
+
+                        List<Coin> coins = new List<Coin>();
+                        
+                        foreach (DataGridViewColumn column in DataGridViewCoins.Columns)
+                        {
+                            if (column.Visible)
+                            {
+                                headers.Add(column.HeaderText);
+                            }
+                        }
+
+                        foreach (DataGridViewRow record in DataGridViewCoins.Rows)
+                        {
+                            coins.Add(new Coin
+                            {
+                                Name = Convert.ToString(record.Cells["Name"].Value),
+                                Value = Convert.ToInt32(record.Cells["Value"].Value),
+                                Edition = Convert.ToInt32(record.Cells["Edition"].Value),
+                                Emission = Convert.ToDateTime(record.Cells["Emission"].Value),
+                                Weight = Convert.ToDecimal(record.Cells["Weight"].Value)
+                            });
+                        }
+
+                        PDFCreator.GenerateDoc(saveFileDialog.FileName, headers, coins);
                     }
                     else throw new ArgumentOutOfRangeException(Path.GetExtension(saveFileDialog.FileName));
                 }

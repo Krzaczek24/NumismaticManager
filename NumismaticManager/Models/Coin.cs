@@ -6,7 +6,7 @@ using Levenshtein;
 
 namespace NumismaticManager.Models
 {
-    class Coin
+    public class Coin
     {
         [DisplayName("Nazwa monety")]
         public string Name { get; set; }

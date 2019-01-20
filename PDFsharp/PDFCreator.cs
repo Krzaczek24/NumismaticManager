@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
+using NumismaticManager.Models;
 
 namespace PDF
 {
@@ -21,8 +23,10 @@ namespace PDF
         const int REAL_WIDTH = RIGHT_MARGIN - LEFT_MARGIN;
         const int REAL_HEIGHT = DOC_HEIGHT - LEFT_MARGIN * 2;
 
-        public static void GenerateDoc(string filePath)
+        public static void GenerateDoc(string filePath, List<string> headers, List<NumismaticManager.Coin> coins)
         {
+            Coin lol = new Coin();
+
             try
             {
                 using (PdfDocument document = new PdfDocument())
