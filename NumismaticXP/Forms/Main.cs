@@ -448,7 +448,6 @@ namespace NumismaticManager.Forms
 
         private void SelectLastSelectedCoinInDataGridView()
         {
-            //TODO: remake
             if (Properties.Settings.Default.LastSelectedCoin > 0)
             {
                 foreach (DataGridViewRow row in DataGridViewCoins.Rows)
