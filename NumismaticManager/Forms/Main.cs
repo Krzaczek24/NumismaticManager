@@ -1,5 +1,4 @@
 ﻿using NumismaticManager.Logics;
-using NumismaticManager.Models;
 using PDF;
 using SQLite;
 using System;
@@ -13,14 +12,13 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 
-//TODO: Dodać export do pliku *.PDF (pdfsharp)
 //TODO: Zaawansowana synchronizacja
 
 namespace NumismaticManager.Forms
 {
     public partial class Main : Form
     {
-        #region "Class fields"
+        #region "Class variables"
         private static SQLiteConnector _connector;
         private static Thread statusRefresher;
 
@@ -215,44 +213,53 @@ namespace NumismaticManager.Forms
                 {
                     string extension = Path.GetExtension(saveFileDialog.FileName);
 
-                    if (extension == ".cvs" || extension == ".txt")
+                    if (extension == ".csv" || extension == ".txt")
                     {
-                        using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.OpenFile()))
+                        try
                         {
-                            List<string> line = new List<string>();
-
-                            foreach (DataGridViewColumn column in DataGridViewCoins.Columns)
+                            using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.OpenFile()))
                             {
-                                if (column.Visible)
+                                List<string> line = new List<string>();
+
+                                foreach (DataGridViewColumn column in DataGridViewCoins.Columns)
                                 {
-                                    line.Add(column.HeaderText);
-                                }
-                            }
-
-                            streamWriter.WriteLine(string.Join("\t", line.ToArray()));
-
-                            foreach (DataGridViewRow record in DataGridViewCoins.Rows)
-                            {
-                                line = new List<string>();
-
-                                foreach (DataGridViewCell cell in record.Cells)
-                                {
-                                    if (cell.Visible)
+                                    if (column.Visible)
                                     {
-                                        line.Add(cell.Value.ToString());
+                                        line.Add(column.HeaderText);
                                     }
                                 }
 
                                 streamWriter.WriteLine(string.Join("\t", line.ToArray()));
+
+                                foreach (DataGridViewRow record in DataGridViewCoins.Rows)
+                                {
+                                    line = new List<string>();
+
+                                    foreach (DataGridViewCell cell in record.Cells)
+                                    {
+                                        if (cell.Visible)
+                                        {
+                                            line.Add(cell.Value.ToString());
+                                        }
+                                    }
+
+                                    streamWriter.WriteLine(string.Join("\t", line.ToArray()));
+                                }
                             }
+
+                            System.Diagnostics.Process.Start(saveFileDialog.FileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            Database.AddError(ex.Message, "Main.cs", "ButtonExport_Click(object sender, EventArgs e)");
+                            ShowError("Wystąpił błąd podczas próby wygenerowania pliku CSV/TXT.");
                         }
                     }
                     else if (extension == ".pdf")
                     {
-                        //TODO: HERE
                         List<string> headers = new List<string>();
 
-                        List<Coin> coins = new List<Coin>();
+                        List<Dictionary<string, object>> coins = new List<Dictionary<string, object>>();
                         
                         foreach (DataGridViewColumn column in DataGridViewCoins.Columns)
                         {
@@ -264,17 +271,26 @@ namespace NumismaticManager.Forms
 
                         foreach (DataGridViewRow record in DataGridViewCoins.Rows)
                         {
-                            coins.Add(new Coin
+                            coins.Add(new Dictionary<string, object>
                             {
-                                Name = Convert.ToString(record.Cells["Name"].Value),
-                                Value = Convert.ToInt32(record.Cells["Value"].Value),
-                                Edition = Convert.ToInt32(record.Cells["Edition"].Value),
-                                Emission = Convert.ToDateTime(record.Cells["Emission"].Value),
-                                Weight = Convert.ToDecimal(record.Cells["Weight"].Value)
+                                { "Name", record.Cells["Name"].Value },
+                                { "Value", record.Cells["Value"].Value },
+                                { "Edition", record.Cells["Edition"].Value },
+                                { "Emission", record.Cells["Emission"].Value },
+                                { "Amount", record.Cells["Amount"].Value }
                             });
                         }
 
-                        PDFCreator.GenerateDoc(saveFileDialog.FileName, headers, coins);
+                        try
+                        {
+                            PDFCreator.GenerateDoc(saveFileDialog.FileName, headers, coins);
+                            System.Diagnostics.Process.Start(saveFileDialog.FileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            Database.AddError(ex.Message, "Main.cs", "ButtonExport_Click(object sender, EventArgs e)");
+                            ShowError("Wystąpił błąd podczas próby wygenerowania pliku PDF.");
+                        }
                     }
                     else throw new ArgumentOutOfRangeException(Path.GetExtension(saveFileDialog.FileName));
                 }
@@ -330,19 +346,25 @@ namespace NumismaticManager.Forms
 
         private void ButtonIncrement_Click(object sender, EventArgs e)
         {
-            Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), true);
+            if (DataGridViewCoins.SelectedRows.Count > 0)
+            {
+                Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), true);
 
-            DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
+                DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
+            }
         }
 
         private void ButtonDecrement_Click(object sender, EventArgs e)
         {
-            if (Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
+            if (DataGridViewCoins.SelectedRows.Count > 0)
             {
-                Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), false);
+                if (Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
+                {
+                    Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), false);
 
-                DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
-            }
+                    DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
+                }
+            }  
         }
 
         private void TextBoxSearch_TextChanged(object sender, EventArgs e)
