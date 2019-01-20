@@ -1,4 +1,5 @@
 ﻿using NumismaticManager.Logics;
+using PDFsharp;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -206,40 +207,50 @@ namespace NumismaticManager.Forms
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.OverwritePrompt = true;
-                saveFileDialog.Filter = "Excel Files (*.csv)|*.csv|Text Files (*.txt)|*.txt";
+                saveFileDialog.Filter = "Excel Files (*.csv)|*.csv|Text Files (*.txt)|*.txt|PDF Files (*.pdf)|*.pdf";
                 saveFileDialog.AddExtension = true;
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.OpenFile()))
+                    string extension = Path.GetExtension(saveFileDialog.FileName);
+
+                    if (extension == ".cvs" || extension == ".txt")
                     {
-                        List<string> line = new List<string>();
-
-                        foreach (DataGridViewColumn column in DataGridViewCoins.Columns)
+                        using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.OpenFile()))
                         {
-                            if (column.Visible)
+                            List<string> line = new List<string>();
+
+                            foreach (DataGridViewColumn column in DataGridViewCoins.Columns)
                             {
-                                line.Add(column.HeaderText);
-                            }
-                        }
-
-                        streamWriter.WriteLine(string.Join("\t", line.ToArray()));
-
-                        foreach (DataGridViewRow record in DataGridViewCoins.Rows)
-                        {
-                            line = new List<string>();
-
-                            foreach (DataGridViewCell cell in record.Cells)
-                            {
-                                if (cell.Visible)
+                                if (column.Visible)
                                 {
-                                    line.Add(cell.Value.ToString());
+                                    line.Add(column.HeaderText);
                                 }
                             }
 
                             streamWriter.WriteLine(string.Join("\t", line.ToArray()));
+
+                            foreach (DataGridViewRow record in DataGridViewCoins.Rows)
+                            {
+                                line = new List<string>();
+
+                                foreach (DataGridViewCell cell in record.Cells)
+                                {
+                                    if (cell.Visible)
+                                    {
+                                        line.Add(cell.Value.ToString());
+                                    }
+                                }
+
+                                streamWriter.WriteLine(string.Join("\t", line.ToArray()));
+                            }
                         }
                     }
+                    else if (extension == ".pdf")
+                    {
+                        PDFCreator.GenerateDoc(saveFileDialog.FileName);
+                    }
+                    else throw new ArgumentOutOfRangeException(Path.GetExtension(saveFileDialog.FileName));
                 }
             }
         }
