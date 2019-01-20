@@ -1,5 +1,5 @@
 ﻿using NumismaticManager.Logics;
-using PDFsharp;
+using PDF;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -248,7 +248,6 @@ namespace NumismaticManager.Forms
                     }
                     else if (extension == ".pdf")
                     {
-                        //Library problem
                         PDFCreator.GenerateDoc(saveFileDialog.FileName);
                     }
                     else throw new ArgumentOutOfRangeException(Path.GetExtension(saveFileDialog.FileName));

@@ -4,7 +4,7 @@ using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
 
-namespace PDFsharp
+namespace PDF
 {
     public class PDFCreator
     {

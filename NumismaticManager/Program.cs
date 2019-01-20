@@ -14,7 +14,9 @@ namespace NumismaticManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            //Application.Run(new Main());
+
+            PDF.PDFCreator.GenerateDoc(@"C:\Users\dremi\OneDrive\Pulpit\x\" + DateTime.Now.ToString("hh-mm-ss_dd-MM-yyyy") + ".pdf");
         }
     }
 }
