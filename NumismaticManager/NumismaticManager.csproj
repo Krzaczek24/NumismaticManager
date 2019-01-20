@@ -206,9 +206,9 @@
       <Project>{016dcf1b-3c08-486a-9e1c-bbba550bcd2e}</Project>
       <Name>Levenshtein</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PDFsharp\PDFsharp.csproj">
+    <ProjectReference Include="..\PDFsharp\PDF.csproj">
       <Project>{7b57b5e3-f9d3-4e2e-8fff-8ca39ded92f2}</Project>
-      <Name>PDFsharp</Name>
+      <Name>PDF</Name>
     </ProjectReference>
     <ProjectReference Include="..\SQLite\SQLite.csproj">
       <Project>{9ff26af9-b250-4e1b-93a1-fa5061dff940}</Project>
