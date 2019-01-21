@@ -57,11 +57,6 @@ namespace NumismaticManager.Forms
             if (radioButton.Checked) ShowDetails(radioButton);
         }
 
-        private void ButtonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
         private void ShowDetails(RadioButton radioButton)
         {
                  if (radioButton == RadioButtonOwned) ShowDetailsOwned();

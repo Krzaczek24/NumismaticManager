@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.LabelApplicationName = new System.Windows.Forms.Label();
-            this.ButtonClose = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.LabelCreationDate = new System.Windows.Forms.Label();
             this.LabelAuthor = new System.Windows.Forms.Label();
@@ -47,22 +46,10 @@
             this.LabelApplicationName.AutoSize = true;
             this.LabelApplicationName.Location = new System.Drawing.Point(3, 0);
             this.LabelApplicationName.Name = "LabelApplicationName";
-            this.LabelApplicationName.Size = new System.Drawing.Size(230, 41);
+            this.LabelApplicationName.Size = new System.Drawing.Size(230, 40);
             this.LabelApplicationName.TabIndex = 0;
             this.LabelApplicationName.Text = "Numismatic Manager";
             this.LabelApplicationName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ButtonClose
-            // 
-            this.ButtonClose.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonClose.Location = new System.Drawing.Point(13, 224);
-            this.ButtonClose.Name = "ButtonClose";
-            this.ButtonClose.Size = new System.Drawing.Size(236, 30);
-            this.ButtonClose.TabIndex = 1;
-            this.ButtonClose.Text = "Zamknij";
-            this.ButtonClose.UseVisualStyleBackColor = true;
-            this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -86,7 +73,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(236, 205);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(236, 202);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // LabelCreationDate
@@ -95,9 +82,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelCreationDate.AutoSize = true;
-            this.LabelCreationDate.Location = new System.Drawing.Point(3, 82);
+            this.LabelCreationDate.Location = new System.Drawing.Point(3, 80);
             this.LabelCreationDate.Name = "LabelCreationDate";
-            this.LabelCreationDate.Size = new System.Drawing.Size(230, 41);
+            this.LabelCreationDate.Size = new System.Drawing.Size(230, 40);
             this.LabelCreationDate.TabIndex = 2;
             this.LabelCreationDate.Text = "Data powstania: 20.01.2019";
             this.LabelCreationDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -108,9 +95,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelAuthor.AutoSize = true;
-            this.LabelAuthor.Location = new System.Drawing.Point(3, 41);
+            this.LabelAuthor.Location = new System.Drawing.Point(3, 40);
             this.LabelAuthor.Name = "LabelAuthor";
-            this.LabelAuthor.Size = new System.Drawing.Size(230, 41);
+            this.LabelAuthor.Size = new System.Drawing.Size(230, 40);
             this.LabelAuthor.TabIndex = 1;
             this.LabelAuthor.Text = "Autor: Tomasz \'Krzaczek\' Drewek";
             this.LabelAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -121,7 +108,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 133);
+            this.label4.Location = new System.Drawing.Point(3, 130);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(230, 30);
             this.label4.TabIndex = 3;
@@ -134,7 +121,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 163);
+            this.label5.Location = new System.Drawing.Point(3, 160);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(230, 30);
             this.label5.TabIndex = 4;
@@ -145,9 +132,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 266);
+            this.ClientSize = new System.Drawing.Size(261, 227);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.ButtonClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -165,7 +151,6 @@
         #endregion
 
         private System.Windows.Forms.Label LabelApplicationName;
-        private System.Windows.Forms.Button ButtonClose;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label LabelCreationDate;
         private System.Windows.Forms.Label LabelAuthor;

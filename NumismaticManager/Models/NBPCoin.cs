@@ -18,7 +18,7 @@ namespace NumismaticManager.Models
         [DisplayName("Nazwa monety")]
         public string Name
         {
-            set => _name = value.Trim(' ').Replace("&nbsp;", "").Replace("&nbsp", "").Replace("–", "-").Replace("‘", "'").Replace("’", "'").Replace("„", "\"").Replace("”", "\"");
+            set => _name = value.Replace("Moneta okolicznościowa z okolicznościowym napisem", "").Trim(' ').Replace("&nbsp;", "").Replace("&nbsp", "").Replace("–", "-").Replace("‘", "'").Replace("’", "'").Replace("„", "\"").Replace("”", "\"");
             get => _name;
         }
 

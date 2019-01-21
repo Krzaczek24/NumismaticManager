@@ -160,7 +160,7 @@ namespace NumismaticManager.Forms
 
         private void Main_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.E)
+            if (e.Control && e.KeyCode == Keys.E && !TextBoxSearch.Focused)
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -169,7 +169,7 @@ namespace NumismaticManager.Forms
 
         private void Main_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.E)
+            if (e.Control && e.KeyCode == Keys.E && !TextBoxSearch.Focused)
             {
                 using (ErrorsForm errorsForm = new ErrorsForm())
                 {
@@ -183,6 +183,11 @@ namespace NumismaticManager.Forms
         private void ButtonNBP_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Properties.Settings.Default.NBPSite);
+        }
+
+        private void ButtonSupermonety_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://supermonety.pl/");
         }
 
         private void ButtonSync_Click(object sender, EventArgs e)
@@ -297,6 +302,17 @@ namespace NumismaticManager.Forms
             }
         }
 
+        private void ButtonAddCoin_Click(object sender, EventArgs e)
+        {
+            using (NewCoinForm newCoinForm = new NewCoinForm())
+            {
+                if (newCoinForm.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshDataGridView();
+                }
+            }
+        }
+
         private void ButtonSummary_Click(object sender, EventArgs e)
         {
             using (SummaryForm summaryForm = new SummaryForm())
@@ -370,6 +386,23 @@ namespace NumismaticManager.Forms
         private void TextBoxSearch_TextChanged(object sender, EventArgs e)
         {
             ApplyDataGridViewFilter();
+        }
+
+        private void TextBoxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void TextBoxSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DataGridViewCoins.Focus();
+            }
         }
 
         private void ButtonClearSearch_Click(object sender, EventArgs e)

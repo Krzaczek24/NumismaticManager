@@ -13,10 +13,5 @@ namespace NumismaticManager.Forms
         {
             MinimumSize = Size;
         }
-
-        private void ButtonClose_Click(object sender, System.EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
     }
 }

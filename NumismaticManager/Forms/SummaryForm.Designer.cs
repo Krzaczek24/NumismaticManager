@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SummaryForm));
             this.LabelProgressBar = new System.Windows.Forms.Label();
             this.ProgressBar = new System.Windows.Forms.ProgressBar();
-            this.ButtonClose = new System.Windows.Forms.Button();
             this.TableLayoutPanelInformation = new System.Windows.Forms.TableLayoutPanel();
             this.LabelLeftCount = new System.Windows.Forms.Label();
             this.LabelLeftValue = new System.Windows.Forms.Label();
@@ -71,18 +70,6 @@
             this.ProgressBar.Size = new System.Drawing.Size(237, 23);
             this.ProgressBar.TabIndex = 4;
             // 
-            // ButtonClose
-            // 
-            this.ButtonClose.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonClose.Location = new System.Drawing.Point(12, 229);
-            this.ButtonClose.Name = "ButtonClose";
-            this.ButtonClose.Size = new System.Drawing.Size(237, 30);
-            this.ButtonClose.TabIndex = 5;
-            this.ButtonClose.Text = "Zamknij";
-            this.ButtonClose.UseVisualStyleBackColor = true;
-            this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
-            // 
             // TableLayoutPanelInformation
             // 
             this.TableLayoutPanelInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -107,7 +94,7 @@
             this.TableLayoutPanelInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TableLayoutPanelInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.TableLayoutPanelInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.TableLayoutPanelInformation.Size = new System.Drawing.Size(237, 105);
+            this.TableLayoutPanelInformation.Size = new System.Drawing.Size(237, 84);
             this.TableLayoutPanelInformation.TabIndex = 6;
             // 
             // LabelLeftCount
@@ -118,7 +105,7 @@
             this.LabelLeftCount.AutoSize = true;
             this.LabelLeftCount.Location = new System.Drawing.Point(3, 0);
             this.LabelLeftCount.Name = "LabelLeftCount";
-            this.LabelLeftCount.Size = new System.Drawing.Size(81, 26);
+            this.LabelLeftCount.Size = new System.Drawing.Size(81, 21);
             this.LabelLeftCount.TabIndex = 0;
             this.LabelLeftCount.Text = "Ilość:";
             this.LabelLeftCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -129,9 +116,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelLeftValue.AutoSize = true;
-            this.LabelLeftValue.Location = new System.Drawing.Point(3, 26);
+            this.LabelLeftValue.Location = new System.Drawing.Point(3, 21);
             this.LabelLeftValue.Name = "LabelLeftValue";
-            this.LabelLeftValue.Size = new System.Drawing.Size(81, 26);
+            this.LabelLeftValue.Size = new System.Drawing.Size(81, 21);
             this.LabelLeftValue.TabIndex = 1;
             this.LabelLeftValue.Text = "Wartość nom.:";
             this.LabelLeftValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -142,9 +129,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelLeftWeight.AutoSize = true;
-            this.LabelLeftWeight.Location = new System.Drawing.Point(3, 52);
+            this.LabelLeftWeight.Location = new System.Drawing.Point(3, 42);
             this.LabelLeftWeight.Name = "LabelLeftWeight";
-            this.LabelLeftWeight.Size = new System.Drawing.Size(81, 26);
+            this.LabelLeftWeight.Size = new System.Drawing.Size(81, 21);
             this.LabelLeftWeight.TabIndex = 2;
             this.LabelLeftWeight.Text = "Waga:";
             this.LabelLeftWeight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -155,9 +142,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelLeftPercent.AutoSize = true;
-            this.LabelLeftPercent.Location = new System.Drawing.Point(3, 78);
+            this.LabelLeftPercent.Location = new System.Drawing.Point(3, 63);
             this.LabelLeftPercent.Name = "LabelLeftPercent";
-            this.LabelLeftPercent.Size = new System.Drawing.Size(81, 27);
+            this.LabelLeftPercent.Size = new System.Drawing.Size(81, 21);
             this.LabelLeftPercent.TabIndex = 3;
             this.LabelLeftPercent.Text = "Procent:";
             this.LabelLeftPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -170,7 +157,7 @@
             this.LabelRightCount.AutoSize = true;
             this.LabelRightCount.Location = new System.Drawing.Point(90, 0);
             this.LabelRightCount.Name = "LabelRightCount";
-            this.LabelRightCount.Size = new System.Drawing.Size(144, 26);
+            this.LabelRightCount.Size = new System.Drawing.Size(144, 21);
             this.LabelRightCount.TabIndex = 5;
             this.LabelRightCount.Text = "count";
             this.LabelRightCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -181,9 +168,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelRightValue.AutoSize = true;
-            this.LabelRightValue.Location = new System.Drawing.Point(90, 26);
+            this.LabelRightValue.Location = new System.Drawing.Point(90, 21);
             this.LabelRightValue.Name = "LabelRightValue";
-            this.LabelRightValue.Size = new System.Drawing.Size(144, 26);
+            this.LabelRightValue.Size = new System.Drawing.Size(144, 21);
             this.LabelRightValue.TabIndex = 6;
             this.LabelRightValue.Text = "value";
             this.LabelRightValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -194,9 +181,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelRightWeight.AutoSize = true;
-            this.LabelRightWeight.Location = new System.Drawing.Point(90, 52);
+            this.LabelRightWeight.Location = new System.Drawing.Point(90, 42);
             this.LabelRightWeight.Name = "LabelRightWeight";
-            this.LabelRightWeight.Size = new System.Drawing.Size(144, 26);
+            this.LabelRightWeight.Size = new System.Drawing.Size(144, 21);
             this.LabelRightWeight.TabIndex = 7;
             this.LabelRightWeight.Text = "weight";
             this.LabelRightWeight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -207,9 +194,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelRightPercent.AutoSize = true;
-            this.LabelRightPercent.Location = new System.Drawing.Point(90, 78);
+            this.LabelRightPercent.Location = new System.Drawing.Point(90, 63);
             this.LabelRightPercent.Name = "LabelRightPercent";
-            this.LabelRightPercent.Size = new System.Drawing.Size(144, 27);
+            this.LabelRightPercent.Size = new System.Drawing.Size(144, 21);
             this.LabelRightPercent.TabIndex = 8;
             this.LabelRightPercent.Text = "percent";
             this.LabelRightPercent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -305,10 +292,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 271);
+            this.ClientSize = new System.Drawing.Size(261, 214);
             this.Controls.Add(this.GroupBox);
             this.Controls.Add(this.TableLayoutPanelInformation);
-            this.Controls.Add(this.ButtonClose);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.LabelProgressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -333,7 +319,6 @@
 
         private System.Windows.Forms.Label LabelProgressBar;
         private System.Windows.Forms.ProgressBar ProgressBar;
-        private System.Windows.Forms.Button ButtonClose;
         private System.Windows.Forms.TableLayoutPanel TableLayoutPanelInformation;
         private System.Windows.Forms.Label LabelLeftCount;
         private System.Windows.Forms.Label LabelLeftValue;

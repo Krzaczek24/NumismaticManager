@@ -175,6 +175,31 @@ namespace NumismaticManager.Logics
             }
         }
 
+        public static List<string> GetStamps()
+        {
+            List<string> output = new List<string>();
+
+            string query = "SELECT DISTINCT Stamp FROM Coin ORDER BY Stamp ASC;";
+
+            try
+            {
+                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
+                {
+                    while (reader.Read())
+                    {
+                        output.Add(reader.GetString(0));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AddError($"{ex.Message}\n{query}", "Database.cs", "GetStamps()");
+                Main.ShowError("Wystąpił błąd podczas próby pobrania listy stempli.");
+            }
+
+            return output;
+        }
+
         #region "User methods"
         public static int GetUserUniqueCoins()
         {
