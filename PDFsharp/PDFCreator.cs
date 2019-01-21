@@ -66,11 +66,11 @@ namespace PDF
 
             //Text
             XTextFormatter tx = new XTextFormatter(gfx) { Alignment = XParagraphAlignment.Center };
-            tx.DrawString($"{headers[0]}", headerFont, brush, new XRect(new XPoint(LEFT_MARGIN + TEXT_PADDING, LEFT_MARGIN), new XPoint(FIRST_TAB - TEXT_PADDING, TOP_MARGIN)));
-            tx.DrawString($"{headers[1]}", headerFont, brush, new XRect(new XPoint(FIRST_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(SECOND_TAB - TEXT_PADDING, TOP_MARGIN)));
-            tx.DrawString($"{headers[2]}", headerFont, brush, new XRect(new XPoint(SECOND_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(THIRD_TAB - TEXT_PADDING, TOP_MARGIN)));
-            tx.DrawString($"{headers[3]}", headerFont, brush, new XRect(new XPoint(THIRD_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(FOURTH_TAB - TEXT_PADDING, TOP_MARGIN)));
-            tx.DrawString($"{headers[4]}", headerFont, brush, new XRect(new XPoint(FOURTH_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(RIGHT_MARGIN - TEXT_PADDING, TOP_MARGIN)));
+            tx.DrawString("Okoliczność wybicia monety", headerFont, brush, new XRect(new XPoint(LEFT_MARGIN + TEXT_PADDING, LEFT_MARGIN), new XPoint(FIRST_TAB - TEXT_PADDING, TOP_MARGIN)));
+            tx.DrawString("Nominał", headerFont, brush, new XRect(new XPoint(FIRST_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(SECOND_TAB - TEXT_PADDING, TOP_MARGIN)));
+            tx.DrawString("Nakład", headerFont, brush, new XRect(new XPoint(SECOND_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(THIRD_TAB - TEXT_PADDING, TOP_MARGIN)));
+            tx.DrawString("Rok", headerFont, brush, new XRect(new XPoint(THIRD_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(FOURTH_TAB - TEXT_PADDING, TOP_MARGIN)));
+            tx.DrawString("Ilość", headerFont, brush, new XRect(new XPoint(FOURTH_TAB + TEXT_PADDING, LEFT_MARGIN), new XPoint(RIGHT_MARGIN - TEXT_PADDING, TOP_MARGIN)));
 
             int previousPosition = TOP_MARGIN;
             int currentPosition = TOP_MARGIN + ROW_HEIGHT;

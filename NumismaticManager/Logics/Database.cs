@@ -99,7 +99,7 @@ namespace NumismaticManager.Logics
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "Insert(Coin coin)");
-                throw ex;
+                throw;
             }
         }
 

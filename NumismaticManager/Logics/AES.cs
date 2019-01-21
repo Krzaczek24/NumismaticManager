@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NumismaticManager.Logics
 {
-    public class AES
+    public class AES : IDisposable
     {
         private readonly Random random;
         private readonly byte[] key;
@@ -65,5 +65,33 @@ namespace NumismaticManager.Logics
 
             return stream.ToArray();
         }
+
+        #region "IDisposable"
+        private bool isDisposed = false;
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.isDisposed)
+            {
+                if (disposing)
+                {
+                    //Release resources
+                    rm.Dispose();
+                }
+            }
+
+            this.isDisposed = true;
+        }
+        ~AES()
+        {
+            this.Dispose(false);
+        }
+        #endregion
     }
 }

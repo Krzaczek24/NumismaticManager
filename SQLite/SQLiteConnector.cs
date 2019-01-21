@@ -169,7 +169,7 @@ namespace SQLite
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!this.isDisposed)
             {

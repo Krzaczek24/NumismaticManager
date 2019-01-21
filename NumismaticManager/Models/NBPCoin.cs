@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 
 namespace NumismaticManager.Models
@@ -11,7 +12,7 @@ namespace NumismaticManager.Models
         private string _fineness;
         private string _weight;
         private string _edition;
-        //private string _emission;
+        private string _emission;
         private string _stamp;
 
         [DisplayName("Nazwa monety")]
@@ -57,7 +58,11 @@ namespace NumismaticManager.Models
         }
 
         [DisplayName("Data wydania")]
-        public string Emission { get; set; }
+        public string Emission
+        {
+            set => _emission = value.Replace("20 stycznia", "20-01-2005");
+            get => _emission;
+        }
 
         [DisplayName("Stempel")]
         public string Stamp
@@ -76,7 +81,7 @@ namespace NumismaticManager.Models
                 Fineness = _fineness,
                 Weight = decimal.Parse(_weight),
                 Edition = int.Parse(_edition),
-                Emission = System.DateTime.Parse(Emission),
+                Emission = DateTime.ParseExact(_emission, "d-MM-yyyy", null),
                 Stamp = _stamp
             };
         }

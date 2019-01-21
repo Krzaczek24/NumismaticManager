@@ -74,7 +74,7 @@
             this.ButtonGeneral});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(609, 25);
+            this.MenuStrip.Size = new System.Drawing.Size(606, 25);
             this.MenuStrip.TabIndex = 0;
             this.MenuStrip.Text = "menuStrip";
             // 
@@ -190,14 +190,14 @@
             this.LabelCoins});
             this.StatusStrip.Location = new System.Drawing.Point(0, 455);
             this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(609, 41);
+            this.StatusStrip.Size = new System.Drawing.Size(606, 41);
             this.StatusStrip.TabIndex = 1;
             this.StatusStrip.Text = "statusStrip";
             // 
             // LabelStatus
             // 
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(502, 36);
+            this.LabelStatus.Size = new System.Drawing.Size(499, 36);
             this.LabelStatus.Spring = true;
             this.LabelStatus.Text = "Status";
             // 
@@ -231,10 +231,9 @@
             this.ButtonClearSearch});
             this.ToolStrip.Location = new System.Drawing.Point(0, 25);
             this.ToolStrip.Name = "ToolStrip";
-            this.ToolStrip.Padding = new System.Windows.Forms.Padding(16, 0, 16, 0);
-            this.ToolStrip.Size = new System.Drawing.Size(609, 39);
+            this.ToolStrip.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
+            this.ToolStrip.Size = new System.Drawing.Size(606, 39);
             this.ToolStrip.TabIndex = 2;
-            this.ToolStrip.Text = "toolStrip1";
             // 
             // ButtonShowCoins
             // 
@@ -364,7 +363,7 @@
             this.DataGridViewCoins.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.DataGridViewCoins.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DataGridViewCoins.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridViewCoins.Size = new System.Drawing.Size(584, 385);
+            this.DataGridViewCoins.Size = new System.Drawing.Size(581, 385);
             this.DataGridViewCoins.TabIndex = 3;
             this.DataGridViewCoins.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewCoins_CellClick);
             this.DataGridViewCoins.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewCoins_CellDoubleClick);
@@ -378,7 +377,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(609, 496);
+            this.ClientSize = new System.Drawing.Size(606, 496);
             this.Controls.Add(this.DataGridViewCoins);
             this.Controls.Add(this.ToolStrip);
             this.Controls.Add(this.StatusStrip);
