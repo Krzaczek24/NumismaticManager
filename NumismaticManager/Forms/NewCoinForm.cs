@@ -22,7 +22,14 @@ namespace NumismaticManager.Forms
 
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
-            Program.OpenBrowser($"https://supermonety.pl/pl/searchquery/{TextBoxName.Text}");
+            if (TextBoxName.Text.Trim().Length == 0)
+            {
+                Program.ShowInformation("Wprowadź przynajmniej część nazwy poszukiwanego numizmatu.");
+            }
+            else
+            {
+                Program.OpenBrowser($"https://supermonety.pl/pl/searchquery/{TextBoxName.Text}");
+            }
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e)
