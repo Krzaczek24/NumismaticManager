@@ -175,6 +175,31 @@ namespace NumismaticManager.Logics
             }
         }
 
+        public static List<string> GetFinenesses()
+        {
+            List<string> output = new List<string>();
+
+            string query = "SELECT DISTINCT Fineness FROM Coin ORDER BY Fineness ASC;";
+
+            try
+            {
+                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
+                {
+                    while (reader.Read())
+                    {
+                        output.Add(reader.GetString(0));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AddError($"{ex.Message}\n{query}", "Database.cs", "GetFinenesses()");
+                Main.ShowError("Wystąpił błąd podczas próby pobrania listy prób.");
+            }
+
+            return output;
+        }
+
         public static List<string> GetStamps()
         {
             List<string> output = new List<string>();

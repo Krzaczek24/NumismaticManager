@@ -18,6 +18,9 @@ namespace NumismaticManager.Forms
             ComboBoxValue.DataSource = Database.GetCoinValues();
             ComboBoxValue.SelectedItem = 2;
 
+            ComboBoxFineness.DataSource = Database.GetFinenesses();
+            ComboBoxFineness.SelectedItem = "CuAl5Zn5Sn1";
+
             ComboBoxStamp.DataSource = Database.GetStamps();
             ComboBoxStamp.SelectedItem = "zwykły";
         }
@@ -36,7 +39,7 @@ namespace NumismaticManager.Forms
                     Name = TextBoxName.Text,
                     Value = int.Parse(ComboBoxValue.SelectedItem.ToString()),
                     Diameter = decimal.Parse(TextBoxDiameter.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US")),
-                    Fineness = TextBoxFineness.Text,
+                    Fineness = ComboBoxFineness.SelectedItem.ToString(),
                     Weight = decimal.Parse(TextBoxWeight.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US")),
                     Edition = int.Parse(TextBoxEdition.Text),
                     Emission = DateTimePickerEmission.Value,
@@ -80,7 +83,7 @@ namespace NumismaticManager.Forms
                 output += "Nominał musi być liczbą naturalną.";
             }
 
-            if(!decimal.TryParse(TextBoxDiameter.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US"), out decimal diameter))
+            if(TextBoxDiameter.Text.Length > 0 && !decimal.TryParse(TextBoxDiameter.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US"), out decimal diameter))
             {
                 if (output.Length > 0) GoToNewLine(ref output);
                 output += "Średnica musi być liczbą rzeczywistą.";

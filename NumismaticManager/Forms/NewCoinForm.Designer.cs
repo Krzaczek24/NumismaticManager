@@ -39,7 +39,6 @@
             this.TextBoxName = new System.Windows.Forms.TextBox();
             this.ComboBoxValue = new System.Windows.Forms.ComboBox();
             this.TextBoxDiameter = new System.Windows.Forms.TextBox();
-            this.TextBoxFineness = new System.Windows.Forms.TextBox();
             this.TextBoxWeight = new System.Windows.Forms.TextBox();
             this.TextBoxEdition = new System.Windows.Forms.TextBox();
             this.DateTimePickerEmission = new System.Windows.Forms.DateTimePicker();
@@ -49,6 +48,7 @@
             this.LabelG = new System.Windows.Forms.Label();
             this.ComboBoxStamp = new System.Windows.Forms.ComboBox();
             this.LabelPCS = new System.Windows.Forms.Label();
+            this.ComboBoxFineness = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // LabelName
@@ -109,7 +109,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelWeight.AutoSize = true;
-            this.LabelWeight.Location = new System.Drawing.Point(23, 162);
+            this.LabelWeight.Location = new System.Drawing.Point(23, 163);
             this.LabelWeight.Name = "LabelWeight";
             this.LabelWeight.Size = new System.Drawing.Size(39, 13);
             this.LabelWeight.TabIndex = 4;
@@ -122,7 +122,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelEdition.AutoSize = true;
-            this.LabelEdition.Location = new System.Drawing.Point(16, 188);
+            this.LabelEdition.Location = new System.Drawing.Point(16, 189);
             this.LabelEdition.Name = "LabelEdition";
             this.LabelEdition.Size = new System.Drawing.Size(46, 13);
             this.LabelEdition.TabIndex = 5;
@@ -135,7 +135,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelEmission.AutoSize = true;
-            this.LabelEmission.Location = new System.Drawing.Point(29, 214);
+            this.LabelEmission.Location = new System.Drawing.Point(29, 218);
             this.LabelEmission.Name = "LabelEmission";
             this.LabelEmission.Size = new System.Drawing.Size(33, 13);
             this.LabelEmission.TabIndex = 6;
@@ -148,7 +148,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelStamp.AutoSize = true;
-            this.LabelStamp.Location = new System.Drawing.Point(12, 240);
+            this.LabelStamp.Location = new System.Drawing.Point(14, 241);
             this.LabelStamp.Name = "LabelStamp";
             this.LabelStamp.Size = new System.Drawing.Size(48, 13);
             this.LabelStamp.TabIndex = 7;
@@ -162,7 +162,6 @@
             this.TextBoxName.Name = "TextBoxName";
             this.TextBoxName.Size = new System.Drawing.Size(276, 62);
             this.TextBoxName.TabIndex = 8;
-            this.TextBoxName.Text = "Miasta w Polsce - ";
             // 
             // ComboBoxValue
             // 
@@ -171,7 +170,6 @@
             this.ComboBoxValue.Name = "ComboBoxValue";
             this.ComboBoxValue.Size = new System.Drawing.Size(81, 21);
             this.ComboBoxValue.TabIndex = 9;
-            this.ComboBoxValue.Text = "2";
             // 
             // TextBoxDiameter
             // 
@@ -179,46 +177,36 @@
             this.TextBoxDiameter.Name = "TextBoxDiameter";
             this.TextBoxDiameter.Size = new System.Drawing.Size(81, 20);
             this.TextBoxDiameter.TabIndex = 10;
-            this.TextBoxDiameter.Text = "27";
-            // 
-            // TextBoxFineness
-            // 
-            this.TextBoxFineness.Location = new System.Drawing.Point(68, 133);
-            this.TextBoxFineness.Name = "TextBoxFineness";
-            this.TextBoxFineness.Size = new System.Drawing.Size(151, 20);
-            this.TextBoxFineness.TabIndex = 11;
-            this.TextBoxFineness.Text = "CuAl5Zn5Sn1";
             // 
             // TextBoxWeight
             // 
-            this.TextBoxWeight.Location = new System.Drawing.Point(68, 159);
+            this.TextBoxWeight.Location = new System.Drawing.Point(68, 160);
             this.TextBoxWeight.Name = "TextBoxWeight";
             this.TextBoxWeight.Size = new System.Drawing.Size(81, 20);
             this.TextBoxWeight.TabIndex = 12;
-            this.TextBoxWeight.Text = "8,15";
             // 
             // TextBoxEdition
             // 
-            this.TextBoxEdition.Location = new System.Drawing.Point(68, 185);
+            this.TextBoxEdition.Location = new System.Drawing.Point(68, 186);
             this.TextBoxEdition.Name = "TextBoxEdition";
             this.TextBoxEdition.Size = new System.Drawing.Size(81, 20);
             this.TextBoxEdition.TabIndex = 13;
-            this.TextBoxEdition.Text = "1100000";
             // 
             // DateTimePickerEmission
             // 
             this.DateTimePickerEmission.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DateTimePickerEmission.Location = new System.Drawing.Point(68, 211);
+            this.DateTimePickerEmission.Location = new System.Drawing.Point(68, 212);
             this.DateTimePickerEmission.MinDate = new System.DateTime(1990, 1, 1, 0, 0, 0, 0);
             this.DateTimePickerEmission.Name = "DateTimePickerEmission";
             this.DateTimePickerEmission.Size = new System.Drawing.Size(100, 20);
             this.DateTimePickerEmission.TabIndex = 14;
+            this.DateTimePickerEmission.Value = new System.DateTime(2019, 1, 22, 11, 35, 2, 0);
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(225, 211);
+            this.ButtonAdd.Location = new System.Drawing.Point(225, 218);
             this.ButtonAdd.Name = "ButtonAdd";
-            this.ButtonAdd.Size = new System.Drawing.Size(119, 47);
+            this.ButtonAdd.Size = new System.Drawing.Size(119, 41);
             this.ButtonAdd.TabIndex = 16;
             this.ButtonAdd.Text = "Dodaj";
             this.ButtonAdd.UseVisualStyleBackColor = true;
@@ -245,7 +233,7 @@
             // LabelG
             // 
             this.LabelG.AutoSize = true;
-            this.LabelG.Location = new System.Drawing.Point(155, 162);
+            this.LabelG.Location = new System.Drawing.Point(155, 163);
             this.LabelG.Name = "LabelG";
             this.LabelG.Size = new System.Drawing.Size(13, 13);
             this.LabelG.TabIndex = 18;
@@ -254,26 +242,34 @@
             // ComboBoxStamp
             // 
             this.ComboBoxStamp.FormattingEnabled = true;
-            this.ComboBoxStamp.Location = new System.Drawing.Point(68, 237);
+            this.ComboBoxStamp.Location = new System.Drawing.Point(68, 238);
             this.ComboBoxStamp.Name = "ComboBoxStamp";
             this.ComboBoxStamp.Size = new System.Drawing.Size(151, 21);
             this.ComboBoxStamp.TabIndex = 15;
-            this.ComboBoxStamp.Text = "zwykły";
             // 
             // LabelPCS
             // 
             this.LabelPCS.AutoSize = true;
-            this.LabelPCS.Location = new System.Drawing.Point(155, 188);
+            this.LabelPCS.Location = new System.Drawing.Point(155, 189);
             this.LabelPCS.Name = "LabelPCS";
             this.LabelPCS.Size = new System.Drawing.Size(32, 13);
             this.LabelPCS.TabIndex = 19;
             this.LabelPCS.Text = "sztuk";
             // 
+            // ComboBoxFineness
+            // 
+            this.ComboBoxFineness.FormattingEnabled = true;
+            this.ComboBoxFineness.Location = new System.Drawing.Point(68, 133);
+            this.ComboBoxFineness.Name = "ComboBoxFineness";
+            this.ComboBoxFineness.Size = new System.Drawing.Size(151, 21);
+            this.ComboBoxFineness.TabIndex = 11;
+            // 
             // NewCoinForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 269);
+            this.ClientSize = new System.Drawing.Size(355, 270);
+            this.Controls.Add(this.ComboBoxFineness);
             this.Controls.Add(this.LabelPCS);
             this.Controls.Add(this.ComboBoxStamp);
             this.Controls.Add(this.LabelG);
@@ -291,7 +287,6 @@
             this.Controls.Add(this.TextBoxName);
             this.Controls.Add(this.ComboBoxValue);
             this.Controls.Add(this.TextBoxDiameter);
-            this.Controls.Add(this.TextBoxFineness);
             this.Controls.Add(this.TextBoxWeight);
             this.Controls.Add(this.TextBoxEdition);
             this.Controls.Add(this.DateTimePickerEmission);
@@ -319,7 +314,6 @@
         private System.Windows.Forms.TextBox TextBoxName;
         private System.Windows.Forms.ComboBox ComboBoxValue;
         private System.Windows.Forms.TextBox TextBoxDiameter;
-        private System.Windows.Forms.TextBox TextBoxFineness;
         private System.Windows.Forms.TextBox TextBoxWeight;
         private System.Windows.Forms.TextBox TextBoxEdition;
         private System.Windows.Forms.DateTimePicker DateTimePickerEmission;
@@ -329,5 +323,6 @@
         private System.Windows.Forms.Label LabelG;
         private System.Windows.Forms.ComboBox ComboBoxStamp;
         private System.Windows.Forms.Label LabelPCS;
+        private System.Windows.Forms.ComboBox ComboBoxFineness;
     }
 }
