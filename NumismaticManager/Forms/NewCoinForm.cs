@@ -15,14 +15,14 @@ namespace NumismaticManager.Forms
 
         private void NewCoinForm_Load(object sender, EventArgs e)
         {
-            ComboBoxValue.DataSource = Database.GetCoinValues();
-            ComboBoxValue.SelectedItem = 2;
+            TextBoxValue.AutoCompleteCustomSource.AddRange(Database.GetCoinValues().ConvertAll(coin => coin.ToString()).ToArray());
+            TextBoxFineness.AutoCompleteCustomSource.AddRange(Database.GetFinenesses().ToArray());
+            TextBoxStamp.AutoCompleteCustomSource.AddRange(Database.GetStamps().ToArray());
+        }
 
-            ComboBoxFineness.DataSource = Database.GetFinenesses();
-            ComboBoxFineness.SelectedItem = "CuAl5Zn5Sn1";
-
-            ComboBoxStamp.DataSource = Database.GetStamps();
-            ComboBoxStamp.SelectedItem = "zwykły";
+        private void ButtonSearch_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start($"https://supermonety.pl/pl/searchquery/{TextBoxName.Text}");
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e)
@@ -37,13 +37,13 @@ namespace NumismaticManager.Forms
                 Coin coin = new Coin
                 {
                     Name = TextBoxName.Text,
-                    Value = int.Parse(ComboBoxValue.SelectedItem.ToString()),
+                    Value = int.Parse(TextBoxValue.Text),
                     Diameter = decimal.Parse(TextBoxDiameter.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US")),
-                    Fineness = ComboBoxFineness.SelectedItem.ToString(),
+                    Fineness = TextBoxFineness.Text,
                     Weight = decimal.Parse(TextBoxWeight.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US")),
                     Edition = int.Parse(TextBoxEdition.Text),
                     Emission = DateTimePickerEmission.Value,
-                    Stamp = ComboBoxStamp.SelectedItem.ToString()
+                    Stamp = TextBoxStamp.Text
                 };
 
                 try
@@ -72,21 +72,32 @@ namespace NumismaticManager.Forms
                 output += "Podaj nazwę numizmatu.";
             }
 
-            if (ComboBoxValue.SelectedItem == null || ComboBoxValue.SelectedItem.ToString().Length == 0)
+            if (TextBoxValue.Text.Length == 0)
             {
                 if (output.Length > 0) GoToNewLine(ref output);
                 output += "Podaj nominał.";
             }
-            else if (!int.TryParse(ComboBoxValue.SelectedItem.ToString(), out int value))
+            else if (!int.TryParse(TextBoxValue.Text, out int value))
             {
                 if (output.Length > 0) GoToNewLine(ref output);
                 output += "Nominał musi być liczbą naturalną.";
             }
 
-            if(TextBoxDiameter.Text.Length > 0 && !decimal.TryParse(TextBoxDiameter.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US"), out decimal diameter))
+            if(TextBoxDiameter.Text.Length == 0)
+            {
+                if (output.Length > 0) GoToNewLine(ref output);
+                output += "Podaj średnicę.";
+            }
+            else if (!decimal.TryParse(TextBoxDiameter.Text, NumberStyles.AllowDecimalPoint, new CultureInfo("en-US"), out decimal diameter))
             {
                 if (output.Length > 0) GoToNewLine(ref output);
                 output += "Średnica musi być liczbą rzeczywistą.";
+            }
+
+            if (TextBoxFineness.Text.Length == 0)
+            {
+                if (output.Length > 0) GoToNewLine(ref output);
+                output += "Podaj próbę metalu.";
             }
 
             if (TextBoxWeight.Text.Length == 0)
@@ -109,6 +120,18 @@ namespace NumismaticManager.Forms
             {
                 if (output.Length > 0) GoToNewLine(ref output);
                 output += "Nakład musi być liczbą naturalną.";
+            }
+
+            if (DateTimePickerEmission.Value > DateTime.Now)
+            {
+                if (output.Length > 0) GoToNewLine(ref output);
+                output += "Podano datę z przyszłości.";
+            }
+
+            if (TextBoxStamp.Text.Length == 0)
+            {
+                if (output.Length > 0) GoToNewLine(ref output);
+                output += "Podaj rodzaj stempla.";
             }
 
             if (output.Length == 0) output = "OK";

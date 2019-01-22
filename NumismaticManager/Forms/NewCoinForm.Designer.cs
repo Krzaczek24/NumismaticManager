@@ -37,7 +37,6 @@
             this.LabelEmission = new System.Windows.Forms.Label();
             this.LabelStamp = new System.Windows.Forms.Label();
             this.TextBoxName = new System.Windows.Forms.TextBox();
-            this.ComboBoxValue = new System.Windows.Forms.ComboBox();
             this.TextBoxDiameter = new System.Windows.Forms.TextBox();
             this.TextBoxWeight = new System.Windows.Forms.TextBox();
             this.TextBoxEdition = new System.Windows.Forms.TextBox();
@@ -46,9 +45,11 @@
             this.LabelZL = new System.Windows.Forms.Label();
             this.LabelMM = new System.Windows.Forms.Label();
             this.LabelG = new System.Windows.Forms.Label();
-            this.ComboBoxStamp = new System.Windows.Forms.ComboBox();
             this.LabelPCS = new System.Windows.Forms.Label();
-            this.ComboBoxFineness = new System.Windows.Forms.ComboBox();
+            this.ButtonSearch = new System.Windows.Forms.Button();
+            this.TextBoxFineness = new System.Windows.Forms.TextBox();
+            this.TextBoxStamp = new System.Windows.Forms.TextBox();
+            this.TextBoxValue = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // LabelName
@@ -96,7 +97,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelFineness.AutoSize = true;
-            this.LabelFineness.Location = new System.Drawing.Point(24, 136);
+            this.LabelFineness.Location = new System.Drawing.Point(24, 135);
             this.LabelFineness.Name = "LabelFineness";
             this.LabelFineness.Size = new System.Drawing.Size(38, 13);
             this.LabelFineness.TabIndex = 3;
@@ -109,7 +110,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelWeight.AutoSize = true;
-            this.LabelWeight.Location = new System.Drawing.Point(23, 163);
+            this.LabelWeight.Location = new System.Drawing.Point(23, 161);
             this.LabelWeight.Name = "LabelWeight";
             this.LabelWeight.Size = new System.Drawing.Size(39, 13);
             this.LabelWeight.TabIndex = 4;
@@ -122,7 +123,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelEdition.AutoSize = true;
-            this.LabelEdition.Location = new System.Drawing.Point(16, 189);
+            this.LabelEdition.Location = new System.Drawing.Point(16, 187);
             this.LabelEdition.Name = "LabelEdition";
             this.LabelEdition.Size = new System.Drawing.Size(46, 13);
             this.LabelEdition.TabIndex = 5;
@@ -135,7 +136,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelEmission.AutoSize = true;
-            this.LabelEmission.Location = new System.Drawing.Point(29, 218);
+            this.LabelEmission.Location = new System.Drawing.Point(29, 216);
             this.LabelEmission.Name = "LabelEmission";
             this.LabelEmission.Size = new System.Drawing.Size(33, 13);
             this.LabelEmission.TabIndex = 6;
@@ -148,7 +149,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelStamp.AutoSize = true;
-            this.LabelStamp.Location = new System.Drawing.Point(14, 241);
+            this.LabelStamp.Location = new System.Drawing.Point(14, 239);
             this.LabelStamp.Name = "LabelStamp";
             this.LabelStamp.Size = new System.Drawing.Size(48, 13);
             this.LabelStamp.TabIndex = 7;
@@ -163,31 +164,23 @@
             this.TextBoxName.Size = new System.Drawing.Size(276, 62);
             this.TextBoxName.TabIndex = 8;
             // 
-            // ComboBoxValue
-            // 
-            this.ComboBoxValue.FormattingEnabled = true;
-            this.ComboBoxValue.Location = new System.Drawing.Point(68, 80);
-            this.ComboBoxValue.Name = "ComboBoxValue";
-            this.ComboBoxValue.Size = new System.Drawing.Size(81, 21);
-            this.ComboBoxValue.TabIndex = 9;
-            // 
             // TextBoxDiameter
             // 
-            this.TextBoxDiameter.Location = new System.Drawing.Point(68, 107);
+            this.TextBoxDiameter.Location = new System.Drawing.Point(68, 106);
             this.TextBoxDiameter.Name = "TextBoxDiameter";
             this.TextBoxDiameter.Size = new System.Drawing.Size(81, 20);
             this.TextBoxDiameter.TabIndex = 10;
             // 
             // TextBoxWeight
             // 
-            this.TextBoxWeight.Location = new System.Drawing.Point(68, 160);
+            this.TextBoxWeight.Location = new System.Drawing.Point(68, 158);
             this.TextBoxWeight.Name = "TextBoxWeight";
             this.TextBoxWeight.Size = new System.Drawing.Size(81, 20);
             this.TextBoxWeight.TabIndex = 12;
             // 
             // TextBoxEdition
             // 
-            this.TextBoxEdition.Location = new System.Drawing.Point(68, 186);
+            this.TextBoxEdition.Location = new System.Drawing.Point(68, 184);
             this.TextBoxEdition.Name = "TextBoxEdition";
             this.TextBoxEdition.Size = new System.Drawing.Size(81, 20);
             this.TextBoxEdition.TabIndex = 13;
@@ -195,7 +188,7 @@
             // DateTimePickerEmission
             // 
             this.DateTimePickerEmission.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DateTimePickerEmission.Location = new System.Drawing.Point(68, 212);
+            this.DateTimePickerEmission.Location = new System.Drawing.Point(68, 210);
             this.DateTimePickerEmission.MinDate = new System.DateTime(1990, 1, 1, 0, 0, 0, 0);
             this.DateTimePickerEmission.Name = "DateTimePickerEmission";
             this.DateTimePickerEmission.Size = new System.Drawing.Size(100, 20);
@@ -204,7 +197,7 @@
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(225, 218);
+            this.ButtonAdd.Location = new System.Drawing.Point(224, 215);
             this.ButtonAdd.Name = "ButtonAdd";
             this.ButtonAdd.Size = new System.Drawing.Size(119, 41);
             this.ButtonAdd.TabIndex = 16;
@@ -233,45 +226,68 @@
             // LabelG
             // 
             this.LabelG.AutoSize = true;
-            this.LabelG.Location = new System.Drawing.Point(155, 163);
+            this.LabelG.Location = new System.Drawing.Point(155, 162);
             this.LabelG.Name = "LabelG";
             this.LabelG.Size = new System.Drawing.Size(13, 13);
             this.LabelG.TabIndex = 18;
             this.LabelG.Text = "g";
             // 
-            // ComboBoxStamp
-            // 
-            this.ComboBoxStamp.FormattingEnabled = true;
-            this.ComboBoxStamp.Location = new System.Drawing.Point(68, 238);
-            this.ComboBoxStamp.Name = "ComboBoxStamp";
-            this.ComboBoxStamp.Size = new System.Drawing.Size(151, 21);
-            this.ComboBoxStamp.TabIndex = 15;
-            // 
             // LabelPCS
             // 
             this.LabelPCS.AutoSize = true;
-            this.LabelPCS.Location = new System.Drawing.Point(155, 189);
+            this.LabelPCS.Location = new System.Drawing.Point(155, 188);
             this.LabelPCS.Name = "LabelPCS";
             this.LabelPCS.Size = new System.Drawing.Size(32, 13);
             this.LabelPCS.TabIndex = 19;
             this.LabelPCS.Text = "sztuk";
             // 
-            // ComboBoxFineness
+            // ButtonSearch
             // 
-            this.ComboBoxFineness.FormattingEnabled = true;
-            this.ComboBoxFineness.Location = new System.Drawing.Point(68, 133);
-            this.ComboBoxFineness.Name = "ComboBoxFineness";
-            this.ComboBoxFineness.Size = new System.Drawing.Size(151, 21);
-            this.ComboBoxFineness.TabIndex = 11;
+            this.ButtonSearch.Location = new System.Drawing.Point(225, 80);
+            this.ButtonSearch.Name = "ButtonSearch";
+            this.ButtonSearch.Size = new System.Drawing.Size(119, 41);
+            this.ButtonSearch.TabIndex = 20;
+            this.ButtonSearch.Text = "Szukaj danych";
+            this.ButtonSearch.UseVisualStyleBackColor = true;
+            this.ButtonSearch.Click += new System.EventHandler(this.ButtonSearch_Click);
+            // 
+            // TextBoxFineness
+            // 
+            this.TextBoxFineness.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.TextBoxFineness.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.TextBoxFineness.Location = new System.Drawing.Point(68, 132);
+            this.TextBoxFineness.Name = "TextBoxFineness";
+            this.TextBoxFineness.Size = new System.Drawing.Size(151, 20);
+            this.TextBoxFineness.TabIndex = 21;
+            // 
+            // TextBoxStamp
+            // 
+            this.TextBoxStamp.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.TextBoxStamp.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.TextBoxStamp.Location = new System.Drawing.Point(68, 236);
+            this.TextBoxStamp.Name = "TextBoxStamp";
+            this.TextBoxStamp.Size = new System.Drawing.Size(151, 20);
+            this.TextBoxStamp.TabIndex = 22;
+            // 
+            // TextBoxValue
+            // 
+            this.TextBoxValue.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.TextBoxValue.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.TextBoxValue.Location = new System.Drawing.Point(68, 80);
+            this.TextBoxValue.Name = "TextBoxValue";
+            this.TextBoxValue.Size = new System.Drawing.Size(81, 20);
+            this.TextBoxValue.TabIndex = 23;
             // 
             // NewCoinForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 270);
-            this.Controls.Add(this.ComboBoxFineness);
+            this.ClientSize = new System.Drawing.Size(355, 268);
+            this.Controls.Add(this.TextBoxValue);
+            this.Controls.Add(this.TextBoxStamp);
+            this.Controls.Add(this.TextBoxFineness);
+            this.Controls.Add(this.ButtonSearch);
             this.Controls.Add(this.LabelPCS);
-            this.Controls.Add(this.ComboBoxStamp);
             this.Controls.Add(this.LabelG);
             this.Controls.Add(this.LabelMM);
             this.Controls.Add(this.LabelZL);
@@ -285,7 +301,6 @@
             this.Controls.Add(this.LabelName);
             this.Controls.Add(this.ButtonAdd);
             this.Controls.Add(this.TextBoxName);
-            this.Controls.Add(this.ComboBoxValue);
             this.Controls.Add(this.TextBoxDiameter);
             this.Controls.Add(this.TextBoxWeight);
             this.Controls.Add(this.TextBoxEdition);
@@ -312,7 +327,6 @@
         private System.Windows.Forms.Label LabelEmission;
         private System.Windows.Forms.Label LabelStamp;
         private System.Windows.Forms.TextBox TextBoxName;
-        private System.Windows.Forms.ComboBox ComboBoxValue;
         private System.Windows.Forms.TextBox TextBoxDiameter;
         private System.Windows.Forms.TextBox TextBoxWeight;
         private System.Windows.Forms.TextBox TextBoxEdition;
@@ -321,8 +335,10 @@
         private System.Windows.Forms.Label LabelZL;
         private System.Windows.Forms.Label LabelMM;
         private System.Windows.Forms.Label LabelG;
-        private System.Windows.Forms.ComboBox ComboBoxStamp;
         private System.Windows.Forms.Label LabelPCS;
-        private System.Windows.Forms.ComboBox ComboBoxFineness;
+        private System.Windows.Forms.Button ButtonSearch;
+        private System.Windows.Forms.TextBox TextBoxFineness;
+        private System.Windows.Forms.TextBox TextBoxStamp;
+        private System.Windows.Forms.TextBox TextBoxValue;
     }
 }
