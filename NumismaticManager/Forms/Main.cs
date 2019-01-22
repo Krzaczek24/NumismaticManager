@@ -1,15 +1,11 @@
 ﻿using NumismaticManager.Logics;
 using PDF;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Threading;
 using System.Windows.Forms;
 
 //TODO: Zaawansowana synchronizacja
@@ -19,104 +15,8 @@ namespace NumismaticManager.Forms
     public partial class Main : Form
     {
         #region "Class variables"
-        private static SQLiteConnector _connector;
-        private static Thread statusRefresher;
-
         private bool justLoggedIn = true;
         private bool columnsChanged = false;
-        #endregion
-
-        #region "Static methods"
-        internal static SQLiteConnector Connector
-        {
-            get
-            {
-                if (_connector == null)
-                {
-                    try
-                    {
-                        _connector = new SQLiteConnector(DatabaseFile);
-
-                        if (!File.Exists(DatabaseFile)) Database.Create();
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        ShowError($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFile}");
-                        Environment.Exit(0);
-                    }
-                }
-
-                return _connector;
-            }
-        }
-
-        internal static string DatabaseFile
-        {
-            get => $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\{Properties.Settings.Default.DatabaseFile}";
-        }
-
-        internal static string HashSHA256(string input)
-        {
-            byte[] bytes = System.Text.Encoding.Unicode.GetBytes(input);
-            SHA256Managed hashstring = new SHA256Managed();
-            byte[] hash = hashstring.ComputeHash(bytes);
-            string output = string.Empty;
-            foreach (byte x in hash) output += string.Format("{0:x2}", x);
-            return output;
-        }
-
-        internal static void SetStatus(string info)
-        {
-            Main main = (Main)Application.OpenForms["Main"];
-            StatusStrip statusStrip = (StatusStrip)main.Controls["StatusStrip"];
-            ToolStripStatusLabel statusLabel = (ToolStripStatusLabel)statusStrip.Items["LabelStatus"];
-            statusLabel.Text = info;
-            statusStrip.Refresh();
-
-            if (statusRefresher != null) if (statusRefresher.IsAlive) statusRefresher.Abort();
-            statusRefresher = new Thread(() => 
-            {
-                Thread.Sleep(5000);
-                ClearStatus();
-            });
-            statusRefresher.Start();
-        }
-
-        internal static void ClearStatus()
-        {
-            Main main = (Main)Application.OpenForms["Main"];
-            StatusStrip statusStrip = (StatusStrip)main.Controls["StatusStrip"];
-            ToolStripStatusLabel statusLabel = (ToolStripStatusLabel)statusStrip.Items["LabelStatus"];
-            statusLabel.Text = null;
-        }
-
-        internal static void SetSummary(string info)
-        {
-            Main main = (Main)Application.OpenForms["Main"];
-            StatusStrip statusStrip = (StatusStrip)main.Controls["StatusStrip"];
-            ToolStripStatusLabel summaryLabel = (ToolStripStatusLabel)statusStrip.Items["LabelSummary"];
-            summaryLabel.Text = info;
-        }
-
-        internal static void SetCursor(Cursor cursor)
-        {
-            ((Main)Application.OpenForms["Main"]).Cursor = cursor;
-        }
-
-        internal static void ShowError(string message)
-        {
-            MessageBox.Show(message, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        internal static DialogResult ShowWarning(string message)
-        {
-            return MessageBox.Show(message, "Ostrzeżenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-        }
-
-        internal static void ShowInformation(string message)
-        {
-            MessageBox.Show(message, "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
         #endregion
 
         #region "Form events"
@@ -152,9 +52,9 @@ namespace NumismaticManager.Forms
             Properties.Settings.Default.MainHeight = Size.Height;
             Properties.Settings.Default.Save();
 
-            if (statusRefresher != null)
+            if (Program.statusRefresher != null)
             {
-                statusRefresher.Abort();
+                Program.statusRefresher.Abort();
             }
         }
 
@@ -182,12 +82,12 @@ namespace NumismaticManager.Forms
         #region "MenuBar buttons"
         private void ButtonNBP_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Properties.Settings.Default.NBPSite);
+            Program.OpenBrowser(Properties.Settings.Default.NBPSite);
         }
 
         private void ButtonSupermonety_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://supermonety.pl/");
+            Program.OpenBrowser("https://supermonety.pl/");
         }
 
         private void ButtonSync_Click(object sender, EventArgs e)
@@ -257,7 +157,7 @@ namespace NumismaticManager.Forms
                         catch (Exception ex)
                         {
                             Database.AddError(ex.Message, "Main.cs", "ButtonExport_Click(object sender, EventArgs e)");
-                            ShowError("Wystąpił błąd podczas próby wygenerowania pliku CSV/TXT.");
+                            Program.ShowError("Wystąpił błąd podczas próby wygenerowania pliku CSV/TXT.");
                         }
                     }
                     else if (extension == ".pdf")
@@ -294,7 +194,7 @@ namespace NumismaticManager.Forms
                         catch (Exception ex)
                         {
                             Database.AddError(ex.Message, "Main.cs", "ButtonExport_Click(object sender, EventArgs e)");
-                            ShowError("Wystąpił błąd podczas próby wygenerowania pliku PDF.");
+                            Program.ShowError("Wystąpił błąd podczas próby wygenerowania pliku PDF.");
                         }
                     }
                     else throw new ArgumentOutOfRangeException(Path.GetExtension(saveFileDialog.FileName));

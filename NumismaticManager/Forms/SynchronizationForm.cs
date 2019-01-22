@@ -16,7 +16,7 @@ namespace NumismaticManager.Forms
 
         private void ButtonFastSynchronization_Click(object sender, EventArgs e)
         {
-            Main.SetCursor(Cursors.WaitCursor);
+            Program.SetCursor(Cursors.WaitCursor);
 
             List<Coin> nbpCoins = null;
             List<Coin> databaseCoins = null;
@@ -32,14 +32,14 @@ namespace NumismaticManager.Forms
                 }
                 catch (System.Net.WebException)
                 {
-                    Main.ShowError($"Wystąpił błąd podczas nawiązywania połączenia ze stroną:\n{Properties.Settings.Default.NBPSite}.");
-                    Main.SetCursor(Cursors.Default);
+                    Program.ShowError($"Wystąpił błąd podczas nawiązywania połączenia ze stroną:\n{Properties.Settings.Default.NBPSite}.");
+                    Program.SetCursor(Cursors.Default);
                     return;
                 }
                 catch (HtmlAgilityPack.NodeNotFoundException)
                 {
-                    Main.ShowError("Pomimo pomyślnego nawiązania połączenia, nie odnaleziono katalogu z rocznikami monet.");
-                    Main.SetCursor(Cursors.Default);
+                    Program.ShowError("Pomimo pomyślnego nawiązania połączenia, nie odnaleziono katalogu z rocznikami monet.");
+                    Program.SetCursor(Cursors.Default);
                     return;
                 }
 
@@ -53,24 +53,24 @@ namespace NumismaticManager.Forms
 
                 try
                 {
-                    Main.Connector.BeginTransaction();
+                    Program.Connector.BeginTransaction();
 
                     nbpCoins.ForEach(coin => Database.Insert(coin));
 
-                    Main.Connector.CommitTransaction();
+                    Program.Connector.CommitTransaction();
                 }
                 catch
                 {
-                    Main.Connector.RollbackTransaction();
-                    Main.ShowError($"Wystąpił błąd podczas zapisywania monet do bazy.\n\nWszelkie zmiany zostały wycofane. Jeżeli nadal chcesz przeprowadzić synchronizację, skorzystaj z ręcznej synchronizacji.");
-                    Main.SetCursor(Cursors.Default);
+                    Program.Connector.RollbackTransaction();
+                    Program.ShowError($"Wystąpił błąd podczas zapisywania monet do bazy.\n\nWszelkie zmiany zostały wycofane. Jeżeli nadal chcesz przeprowadzić synchronizację, skorzystaj z ręcznej synchronizacji.");
+                    Program.SetCursor(Cursors.Default);
                     return;
                 }                
             }
 
-            Main.SetStatus($"Pomyślnie zsynchronizowano.");
-            Main.SetCursor(Cursors.Default);
-            Main.ShowInformation($"Pomyślnie zsynchronizowano bazę monet.\nZnaleziono {websiteCoinsCount} monet\nDodano {newCoinsCount} nowych monet");
+            Program.SetStatus($"Pomyślnie zsynchronizowano.");
+            Program.SetCursor(Cursors.Default);
+            Program.ShowInformation($"Pomyślnie zsynchronizowano bazę monet.\nZnaleziono {websiteCoinsCount} monet\nDodano {newCoinsCount} nowych monet");
 
             DialogResult = DialogResult.OK;
         }
@@ -82,7 +82,7 @@ namespace NumismaticManager.Forms
 
         private void ButtonWipeUserCollection_Click(object sender, EventArgs e)
         {
-            if (Main.ShowWarning($"Czy na pewno chcesz usunąć całą swoją kolekcję?\n(pozycji: {Database.GetUserUniqueCoins()} | monet: {Database.GetUserTotalCoins()} | wartość: {Database.GetUserTotalValue()} zł)") == DialogResult.Yes)
+            if (Program.ShowWarning($"Czy na pewno chcesz usunąć całą swoją kolekcję?\n(pozycji: {Database.GetUserUniqueCoins()} | monet: {Database.GetUserTotalCoins()} | wartość: {Database.GetUserTotalValue()} zł)") == DialogResult.Yes)
             {
                 Database.WipeUserCollection();
 
@@ -92,7 +92,7 @@ namespace NumismaticManager.Forms
 
         private void ButtonWipeDatabase_Click(object sender, EventArgs e)
         {
-            if (Main.ShowWarning("Czy na pewno chcesz usunąć wszystkie dane z bazy?") == DialogResult.Yes)
+            if (Program.ShowWarning("Czy na pewno chcesz usunąć wszystkie dane z bazy?") == DialogResult.Yes)
             {
                 Database.WipeDatabase();
 

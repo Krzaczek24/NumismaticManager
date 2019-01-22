@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NumismaticManager.Logics;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows.Forms;
 
@@ -24,7 +25,8 @@ namespace NumismaticManager.Forms
                 { "id", coinId }
             };
 
-            using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query, parameters))
+            //using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query, parameters))
+            using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query, parameters))
             {
                 reader.Read();
 

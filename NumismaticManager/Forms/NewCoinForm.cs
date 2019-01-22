@@ -22,7 +22,7 @@ namespace NumismaticManager.Forms
 
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start($"https://supermonety.pl/pl/searchquery/{TextBoxName.Text}");
+            Program.OpenBrowser($"https://supermonety.pl/pl/searchquery/{TextBoxName.Text}");
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e)
@@ -54,12 +54,12 @@ namespace NumismaticManager.Forms
                 }
                 catch (Exception)
                 {
-                    Main.ShowError("Wystąpił błąd podczas próby dodania nowego numizmatu.");
+                    Program.ShowError("Wystąpił błąd podczas próby dodania nowego numizmatu.");
                 }
             }
             else
             {
-                Main.ShowInformation(validation);
+                Program.ShowInformation(validation);
             }
         }
 

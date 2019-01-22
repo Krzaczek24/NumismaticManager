@@ -40,14 +40,14 @@ namespace NumismaticManager.Logics
             try
             {
                 DataSet dataSet = new DataSet();
-                SQLiteDataAdapter myadapter = new SQLiteDataAdapter(query, Main.Connector.Connection);
+                SQLiteDataAdapter myadapter = new SQLiteDataAdapter(query, Program.Connector.Connection);
                 myadapter.Fill(dataSet);
                 return dataSet.Tables[0];
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "DownloadCoins(CollectionType type, string valuesFilter)");
-                Main.ShowError("Wystąpił błąd podczas pobierania monet z bazy danych.");
+                Program.ShowError("Wystąpił błąd podczas pobierania monet z bazy danych.");
                 return null;
             }
         }
@@ -60,7 +60,7 @@ namespace NumismaticManager.Logics
 
             try
             {
-                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
+                using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query))
                 {
                     while (reader.Read())
                     {
@@ -81,7 +81,7 @@ namespace NumismaticManager.Logics
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "DownloadAllCoins()");
-                Main.ShowError("Wystąpił błąd podczas pobierania monet z bazy danych.");
+                Program.ShowError("Wystąpił błąd podczas pobierania monet z bazy danych.");
             }
 
             return coins;
@@ -94,7 +94,7 @@ namespace NumismaticManager.Logics
 
             try
             {
-                Main.Connector.ExecuteNonQuery(query, coin.ToDictionary());
+                Program.Connector.ExecuteNonQuery(query, coin.ToDictionary());
             }
             catch (Exception ex)
             {
@@ -116,12 +116,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                Main.Connector.ExecuteNonQuery(query, parameters);
+                Program.Connector.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "ChangeAmount(int coinId, bool increment)");
-                Main.ShowError("Wystąpił błąd podczas próby zmiany ilości posiadanych monet.");
+                Program.ShowError("Wystąpił błąd podczas próby zmiany ilości posiadanych monet.");
             } 
 
 
@@ -135,7 +135,7 @@ namespace NumismaticManager.Logics
 
             try
             {
-                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
+                using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query))
                 {
                     while (reader.Read())
                     {
@@ -146,7 +146,7 @@ namespace NumismaticManager.Logics
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetCoinValues()");
-                Main.ShowError("Wystąpił błąd podczas próby pobrania listy nominałów.");
+                Program.ShowError("Wystąpił błąd podczas próby pobrania listy nominałów.");
             }
 
             return output;
@@ -165,12 +165,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetCoinsCount(string filter)");
-                Main.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
                 return 0;
             }
         }
@@ -183,7 +183,7 @@ namespace NumismaticManager.Logics
 
             try
             {
-                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
+                using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query))
                 {
                     while (reader.Read())
                     {
@@ -194,7 +194,7 @@ namespace NumismaticManager.Logics
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetFinenesses()");
-                Main.ShowError("Wystąpił błąd podczas próby pobrania listy prób.");
+                Program.ShowError("Wystąpił błąd podczas próby pobrania listy prób.");
             }
 
             return output;
@@ -208,7 +208,7 @@ namespace NumismaticManager.Logics
 
             try
             {
-                using (SQLiteDataReader reader = Main.Connector.ExecuteReader(query))
+                using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query))
                 {
                     while (reader.Read())
                     {
@@ -219,7 +219,7 @@ namespace NumismaticManager.Logics
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetStamps()");
-                Main.ShowError("Wystąpił błąd podczas próby pobrania listy stempli.");
+                Program.ShowError("Wystąpił błąd podczas próby pobrania listy stempli.");
             }
 
             return output;
@@ -232,12 +232,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserUniqueCoins()");
-                Main.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
                 return 0;
             }
         }
@@ -255,12 +255,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserUniqueCoins(string filter)");
-                Main.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
                 return 0;
             }
         }
@@ -278,12 +278,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserUniqueValue(string filter)");
-                Main.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
                 return 0;
             }
         }
@@ -301,12 +301,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToDecimal(Main.Connector.ExecuteScalar(query));
+                return Convert.ToDecimal(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserUniqueWeight(string filter)");
-                Main.ShowError("Wystapił błąd podczas próby pobrania wagi monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania wagi monet.");
                 return 0;
             }
         }
@@ -317,12 +317,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalCoins()");
-                Main.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
                 return 0;
             }
         }
@@ -340,12 +340,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalCoins(string filter)");
-                Main.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
                 return 0;
             }
         }
@@ -356,12 +356,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalValue()");
-                Main.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
                 return 0;
             }
         }
@@ -379,12 +379,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToInt32(Main.Connector.ExecuteScalar(query));
+                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalValue(string filter)");
-                Main.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
                 return 0;
             }
         }
@@ -402,12 +402,12 @@ namespace NumismaticManager.Logics
 
             try
             {
-                return Convert.ToDecimal(Main.Connector.ExecuteScalar(query));
+                return Convert.ToDecimal(Program.Connector.ExecuteScalar(query));
             }
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalWeight(string filter)");
-                Main.ShowError("Wystapił błąd podczas próby pobrania wagi monet.");
+                Program.ShowError("Wystapił błąd podczas próby pobrania wagi monet.");
                 return 0;
             }
         }
@@ -427,11 +427,11 @@ namespace NumismaticManager.Logics
 
             try
             {
-                Main.Connector.ExecuteNonQuery(query, parameters);
+                Program.Connector.ExecuteNonQuery(query, parameters);
             }
             catch
             {
-                Main.ShowError("Wystąpił błąd podczas zapisu błedu do bazy!");
+                Program.ShowError("Wystąpił błąd podczas zapisu błedu do bazy!");
             }
         }
 
@@ -442,13 +442,13 @@ namespace NumismaticManager.Logics
             try
             {
                 DataSet dataSet = new DataSet();
-                SQLiteDataAdapter myadapter = new SQLiteDataAdapter(query, Main.Connector.Connection);
+                SQLiteDataAdapter myadapter = new SQLiteDataAdapter(query, Program.Connector.Connection);
                 myadapter.Fill(dataSet);
                 return dataSet.Tables[0];
             }
             catch (Exception)
             {
-                Main.ShowError("Wystąpił błąd podczas pobierania błędów z bazy danych.");
+                Program.ShowError("Wystąpił błąd podczas pobierania błędów z bazy danych.");
                 return null;
             }
         }
@@ -457,32 +457,32 @@ namespace NumismaticManager.Logics
         #region "Database global operations"
         public static void Create()
         {
-            Main.Connector.BeginTransaction();
+            Program.Connector.BeginTransaction();
 
             try
             {
-                Main.Connector.ExecuteNonQuery("CREATE TABLE Coin (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Value INTEGER NOT NULL, Diameter REAL, Fineness TEXT, Weight REAL, Edition INTEGER, Emission DATE, Stamp TEXT, Amount INTEGER NOT NULL DEFAULT 0, UNIQUE (Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp) ON CONFLICT IGNORE);");
-                Main.Connector.ExecuteNonQuery("CREATE TABLE ErrorHistory (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, Class TEXT NOT NULL, Function TEXT NOT NULL, Message TEXT NOT NULL);");
+                Program.Connector.ExecuteNonQuery("CREATE TABLE Coin (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Value INTEGER NOT NULL, Diameter REAL, Fineness TEXT, Weight REAL, Edition INTEGER, Emission DATE, Stamp TEXT, Amount INTEGER NOT NULL DEFAULT 0, UNIQUE (Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp) ON CONFLICT IGNORE);");
+                Program.Connector.ExecuteNonQuery("CREATE TABLE ErrorHistory (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, Class TEXT NOT NULL, Function TEXT NOT NULL, Message TEXT NOT NULL);");
 
-                Main.Connector.CommitTransaction();
+                Program.Connector.CommitTransaction();
             }
             catch (Exception)
             {
-                Main.Connector.RollbackTransaction();
+                Program.Connector.RollbackTransaction();
                 throw new InvalidOperationException();
             }
         }
 
         public static void Backup()
         {
-            if (File.Exists(Main.DatabaseFile))
+            if (File.Exists(Program.DatabaseFile))
             {
-                int lastSlashPosition = Main.DatabaseFile.LastIndexOf("\\");
-                string destinationPath = $"{Main.DatabaseFile.Remove(lastSlashPosition)}\\backup\\{DateTime.Now.ToString().Replace(":", ".")}";
+                int lastSlashPosition = Program.DatabaseFile.LastIndexOf("\\");
+                string destinationPath = $"{Program.DatabaseFile.Remove(lastSlashPosition)}\\backup\\{DateTime.Now.ToString().Replace(":", ".")}";
 
                 if (!Directory.Exists(destinationPath)) Directory.CreateDirectory(destinationPath);
 
-                File.Copy(Main.DatabaseFile, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
+                File.Copy(Program.DatabaseFile, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
             }
         }
 
@@ -490,13 +490,13 @@ namespace NumismaticManager.Logics
         {
             try
             {
-                Main.Connector.ExecuteNonQuery($"UPDATE Coin SET Amount = 0;");
-                Main.ShowInformation("Pomyślnie usunięto kolekcję.");
+                Program.Connector.ExecuteNonQuery($"UPDATE Coin SET Amount = 0;");
+                Program.ShowInformation("Pomyślnie usunięto kolekcję.");
             }
             catch (Exception ex)
             {
                 AddError(ex.Message, "Database.cs", "WipeUserCollection()");
-                Main.ShowError("Wystąpił błąd podczas usuwania kolekcji.\nOperacja została wycofana.");
+                Program.ShowError("Wystąpił błąd podczas usuwania kolekcji.\nOperacja została wycofana.");
             }
         }
 
@@ -504,16 +504,16 @@ namespace NumismaticManager.Logics
         {
             try
             {
-                Main.Connector.BeginTransaction();
-                Main.Connector.ExecuteNonQuery("DELETE FROM Coin;");
-                Main.Connector.CommitTransaction();
-                Main.ShowInformation("Pomyślnie usunięto wszystkie dane z bazy.");
+                Program.Connector.BeginTransaction();
+                Program.Connector.ExecuteNonQuery("DELETE FROM Coin;");
+                Program.Connector.CommitTransaction();
+                Program.ShowInformation("Pomyślnie usunięto wszystkie dane z bazy.");
             }
             catch (Exception ex)
             {
-                Main.Connector.RollbackTransaction();
+                Program.Connector.RollbackTransaction();
                 AddError(ex.Message, "Database.cs", "WipeDatabase()");
-                Main.ShowError("Wystąpił błąd podczas usuwania danych z bazy!\nOperacja została wycofana.");
+                Program.ShowError("Wystąpił błąd podczas usuwania danych z bazy!\nOperacja została wycofana.");
             }
         }
         #endregion

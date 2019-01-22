@@ -36,13 +36,13 @@ namespace NumismaticManager.Logics
             threads.ForEach(thread => thread.Start());
 
             //Oczekiwanie na zakończenie pracy wszystkich wątków
-            Main.SetStatus($"Pobrano 0 z {yearsTable.Count} roczników (0%)");
+            Program.SetStatus($"Pobrano 0 z {yearsTable.Count} roczników (0%)");
 
             while (threads.Exists(thread => thread.IsAlive))
             {
                 int extinctThreads = threads.FindAll(thread => !thread.IsAlive).Count;
 
-                Main.SetStatus($"Pobrano {extinctThreads} z {threads.Count} roczników ({extinctThreads * 100 / threads.Count}%)");
+                Program.SetStatus($"Pobrano {extinctThreads} z {threads.Count} roczników ({extinctThreads * 100 / threads.Count}%)");
             }
 
             //Zwrócenie listy pobranych monet
