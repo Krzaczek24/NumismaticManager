@@ -299,7 +299,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CoinDetailsForm";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Szczegóły";
             this.Load += new System.EventHandler(this.CoinDetailsForm_Load);

@@ -7,9 +7,9 @@ namespace NumismaticManager.Forms
 {
     public partial class CoinDetailsForm : Form
     {
-        private uint coinId;
+        private int coinId;
 
-        public CoinDetailsForm(uint coinId)
+        public CoinDetailsForm(int coinId)
         {
             InitializeComponent();
 
@@ -18,6 +18,8 @@ namespace NumismaticManager.Forms
 
         private void CoinDetailsForm_Load(object sender, System.EventArgs e)
         {
+            //TODO: Przenieść do DATABASE i zwrócić COIN
+
             string query = "SELECT Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp FROM Coin Where Id = @id;";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -25,7 +27,6 @@ namespace NumismaticManager.Forms
                 { "id", coinId }
             };
 
-            //using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query, parameters))
             using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query, parameters))
             {
                 reader.Read();

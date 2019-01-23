@@ -260,27 +260,17 @@ namespace NumismaticManager.Forms
             Properties.Settings.Default.Save();
         }
 
-        private void ButtonIncrement_Click(object sender, EventArgs e)
+        private void ButtonShowDetails_Click(object sender, EventArgs e)
         {
             if (DataGridViewCoins.SelectedRows.Count > 0)
             {
-                Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), true);
+                int coinId = Convert.ToInt32(DataGridViewCoins.SelectedRows[0].Cells["Id"].Value);
 
-                DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
-            }
-        }
-
-        private void ButtonDecrement_Click(object sender, EventArgs e)
-        {
-            if (DataGridViewCoins.SelectedRows.Count > 0)
-            {
-                if (Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
+                using (CoinDetailsForm coinDetailsForm = new CoinDetailsForm(coinId))
                 {
-                    Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), false);
-
-                    DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToUInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
+                    coinDetailsForm.ShowDialog();
                 }
-            }  
+            }
         }
 
         private void TextBoxSearch_TextChanged(object sender, EventArgs e)
@@ -325,11 +315,16 @@ namespace NumismaticManager.Forms
         {
             if (e.RowIndex >= 0)
             {
-                uint coinId = Convert.ToUInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Id"].Value);
+                int coinId = Convert.ToInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Id"].Value);
+                string name = DataGridViewCoins.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+                int amount = Convert.ToInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Amount"].Value);
 
-                using (CoinDetailsForm coinDetailsForm = new CoinDetailsForm(coinId))
+                using (CoinAmountForm coinAmountForm = new CoinAmountForm(coinId, name, amount))
                 {
-                    coinDetailsForm.ShowDialog();
+                    if (coinAmountForm.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshDataGridView();
+                    }
                 }
             }
         }
@@ -355,7 +350,7 @@ namespace NumismaticManager.Forms
 
         private void DataGridViewCoins_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Add || e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Add)
+            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Add || e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Oemplus)
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -364,13 +359,20 @@ namespace NumismaticManager.Forms
 
         private void DataGridViewCoins_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Subtract)
+            if (DataGridViewCoins.SelectedRows.Count > 0)
             {
-                ButtonDecrement_Click(null, null);
-            }
-            else if (e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.Add)
-            {
-                ButtonIncrement_Click(null, null);
+                if ((e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Subtract) && Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
+                {
+                    Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), false);
+
+                    DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
+                }
+                else if (e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.Add)
+                {
+                    Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), true);
+
+                    DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
+                }
             }
         }
         #endregion

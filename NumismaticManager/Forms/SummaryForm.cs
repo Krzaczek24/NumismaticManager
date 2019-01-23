@@ -1,23 +1,13 @@
 ﻿using NumismaticManager.Logics;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace NumismaticManager.Forms
 {
     public partial class SummaryForm : Form
     {
-        int allCoins;
-        double allCoinsPercentage;
-
-        int ownedCoins;
-        int ownedCoinsValue;
-        decimal ownedCoinsWeight;
-        double ownedCoinsPercentage;
-
-        int uniqueCoins;
-        int uniqueCoinsValue;
-        decimal uniqueCoinsWeight;
-        double uniqueCoinsPercentage;
+        Dictionary<string, object> summary;
 
         public SummaryForm()
         {
@@ -26,22 +16,11 @@ namespace NumismaticManager.Forms
 
         private void SummaryForm_Load(object sender, EventArgs e)
         {
-            allCoins = Database.GetCoinsCount(Properties.Settings.Default.CoinFilter);
+            summary = Database.GetUserCoinsSummary();
 
-            ownedCoins = Database.GetUserTotalCoins(Properties.Settings.Default.CoinFilter);
-
-            string test = Properties.Settings.Default.CoinFilter;
-
-            ownedCoinsValue = Database.GetUserTotalValue(Properties.Settings.Default.CoinFilter);
-            ownedCoinsWeight = Database.GetUserTotalWeight(Properties.Settings.Default.CoinFilter);
-            ownedCoinsPercentage = ownedCoins * 100.0 / (allCoins == 0 ? 1 : allCoins);
-
-            uniqueCoins = Database.GetUserUniqueCoins(Properties.Settings.Default.CoinFilter);
-            uniqueCoinsValue = Database.GetUserUniqueValue(Properties.Settings.Default.CoinFilter);
-            uniqueCoinsWeight = Database.GetUserUniqueWeight(Properties.Settings.Default.CoinFilter);
-            uniqueCoinsPercentage = uniqueCoins * 100.0 / (ownedCoins == 0 ? 1 : ownedCoins);
-
-            allCoinsPercentage = uniqueCoins * 100.0 / (allCoins == 0 ? 1 : allCoins);
+            double uniqueCoins = Convert.ToDouble(summary["uniqueCoins"]);
+            int allCoins = Convert.ToInt32(summary["allCoins"]);
+            double allCoinsPercentage = uniqueCoins * 100.0 / (allCoins == 0 ? 1 : allCoins);
 
             LabelProgressBar.Text = $"Posiadasz {uniqueCoins} egzemplarzy z {allCoins} ({allCoinsPercentage:0.00}%)";
 
@@ -66,6 +45,10 @@ namespace NumismaticManager.Forms
 
         private void ShowDetailsOwned()
         {
+            int ownedCoins = Convert.ToInt32(summary["ownedCoins"]);
+            int ownedCoinsValue = Convert.ToInt32(summary["ownedCoinsValue"]);
+            decimal ownedCoinsWeight = Convert.ToDecimal(summary["ownedCoinsWeight"]);
+
             LabelRightCount.Text = $"{ownedCoins} sztuk";
             LabelRightValue.Text = $"{ownedCoinsValue:c0}";
             LabelRightWeight.Text = $"{ownedCoinsWeight:n2} g";
@@ -74,6 +57,12 @@ namespace NumismaticManager.Forms
 
         private void ShowDetailsUnique()
         {
+            int ownedCoins = Convert.ToInt32(summary["ownedCoins"]);
+            int uniqueCoins = Convert.ToInt32(summary["uniqueCoins"]);
+            int uniqueCoinsValue = Convert.ToInt32(summary["uniqueCoinsValue"]);
+            decimal uniqueCoinsWeight = Convert.ToDecimal(summary["uniqueCoinsWeight"]);
+            double uniqueCoinsPercentage = uniqueCoins * 100.0 / (ownedCoins == 0 ? 1 : ownedCoins);
+
             LabelRightCount.Text = $"{uniqueCoins} sztuk";
             LabelRightValue.Text = $"{uniqueCoinsValue:c0}";
             LabelRightWeight.Text = $"{uniqueCoinsWeight:n2} g";
@@ -82,10 +71,16 @@ namespace NumismaticManager.Forms
 
         private void ShowDetailsRedundant()
         {
-            LabelRightCount.Text = $"{ownedCoins - uniqueCoins} sztuk";
-            LabelRightValue.Text = $"{ownedCoinsValue - uniqueCoinsValue:c0}";
-            LabelRightWeight.Text = $"{ownedCoinsWeight - uniqueCoinsWeight:n2} g";
-            LabelRightPercent.Text = $"{100 - uniqueCoinsPercentage:f2} %";
+            int ownedCoins = Convert.ToInt32(summary["ownedCoins"]);
+            int redundantCoins = Convert.ToInt32(summary["redundantCoins"]);
+            int redundantCoinsValue = Convert.ToInt32(summary["redundantCoinsValue"]);
+            decimal redundantCoinsWeight = Convert.ToDecimal(summary["redundantCoinsWeight"]);
+            double redundantCoinsPercentage = redundantCoins * 100.0 / (ownedCoins == 0 ? 1 : ownedCoins);
+
+            LabelRightCount.Text = $"{redundantCoins} sztuk";
+            LabelRightValue.Text = $"{redundantCoinsValue:c0}";
+            LabelRightWeight.Text = $"{redundantCoinsWeight:n2} g";
+            LabelRightPercent.Text = $"{redundantCoinsPercentage:f2} %";
         }
     }
 }

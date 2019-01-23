@@ -155,5 +155,17 @@ namespace NumismaticManager.Properties {
                 this["Backup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int Redundant {
+            get {
+                return ((int)(this["Redundant"]));
+            }
+            set {
+                this["Redundant"] = value;
+            }
+        }
     }
 }

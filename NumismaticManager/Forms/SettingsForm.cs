@@ -30,6 +30,8 @@ namespace NumismaticManager.Forms
                 CheckBoxesCoins.Items.Add(coinValue, userFilter.Contains(coinValue));
             }
 
+            NumericUpDownRedundant.Value = Properties.Settings.Default.Redundant;
+
             CheckBoxBackup.Checked = Properties.Settings.Default.Backup;
 
             TextBoxWebsitePath.Text = Properties.Settings.Default.NBPSite;
@@ -46,8 +48,10 @@ namespace NumismaticManager.Forms
             }
 
             Properties.Settings.Default.CoinFilter = string.Join(",", coinValues);
+            Properties.Settings.Default.Redundant = (int)NumericUpDownRedundant.Value;
             Properties.Settings.Default.Backup = CheckBoxBackup.Checked;
             Properties.Settings.Default.NBPSite = TextBoxWebsitePath.Text;
+            Properties.Settings.Default.Save();
 
             DialogResult = DialogResult.OK;
         }

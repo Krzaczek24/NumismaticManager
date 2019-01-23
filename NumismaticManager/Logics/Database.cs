@@ -1,5 +1,4 @@
-﻿using NumismaticManager.Forms;
-using NumismaticManager.Models;
+﻿using NumismaticManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,7 +27,7 @@ namespace NumismaticManager.Logics
                     query += $"WHERE Amount > 0 ";
                     break;
                 case CollectionType.Redundant:
-                    query += $"WHERE Amount > 1 ";
+                    query += $"WHERE Amount > {Properties.Settings.Default.Redundant} ";
                     break;
                 case CollectionType.Missing:
                     query += "WHERE Amount = 0 ";
@@ -123,8 +122,28 @@ namespace NumismaticManager.Logics
                 AddError($"{ex.Message}\n{query}", "Database.cs", "ChangeAmount(int coinId, bool increment)");
                 Program.ShowError("Wystąpił błąd podczas próby zmiany ilości posiadanych monet.");
             } 
+        }
 
+        public static void ChangeAmount(int coinId, int amount)
+        {
+            string query = $"UPDATE Coin SET Amount = @amount WHERE Id = @coin;";
 
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                { "coin", coinId },
+                { "amount", amount }
+            };
+
+            try
+            {
+                if (amount < 0) throw new ArgumentOutOfRangeException();
+                Program.Connector.ExecuteNonQuery(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                AddError($"{ex.Message}\n{query}", "Database.cs", "ChangeAmount(int coinId, bool increment)");
+                Program.ShowError("Wystąpił błąd podczas próby zmiany ilości posiadanych monet.");
+            }
         }
 
         public static List<int> GetCoinValues()
@@ -150,29 +169,6 @@ namespace NumismaticManager.Logics
             }
 
             return output;
-        }
-
-        public static int GetCoinsCount(string filter)
-        {
-            string query = "SELECT COUNT(*) FROM Coin";
-
-            if (filter.Length > 0)
-            {
-                query += $" WHERE Value IN ({filter})";
-            }
-
-            query += ";";
-
-            try
-            {
-                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
-            }
-            catch (Exception ex)
-            {
-                AddError($"{ex.Message}\n{query}", "Database.cs", "GetCoinsCount(string filter)");
-                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
-                return 0;
-            }
         }
 
         public static List<string> GetFinenesses()
@@ -242,75 +238,6 @@ namespace NumismaticManager.Logics
             }
         }
 
-        public static int GetUserUniqueCoins(string filter)
-        {
-            string query = "SELECT COUNT(*) FROM Coin WHERE Amount > 0";
-
-            if (filter.Length > 0)
-            {
-                query += $" AND Value IN ({filter})";
-            }
-
-            query += ";";
-
-            try
-            {
-                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
-            }
-            catch (Exception ex)
-            {
-                AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserUniqueCoins(string filter)");
-                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
-                return 0;
-            }
-        }
-
-        public static int GetUserUniqueValue(string filter)
-        {
-            string query = "SELECT IFNULL(SUM(Value), 0) FROM Coin WHERE Amount > 0";
-
-            if (filter.Length > 0)
-            {
-                query += $" AND Value IN ({filter})";
-            }
-
-            query += ";";
-
-            try
-            {
-                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
-            }
-            catch (Exception ex)
-            {
-                AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserUniqueValue(string filter)");
-                Program.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
-                return 0;
-            }
-        }
-
-        public static decimal GetUserUniqueWeight(string filter)
-        {
-            string query = "SELECT IFNULL(SUM(Weight), 0) FROM Coin WHERE Amount > 0";
-
-            if (filter.Length > 0)
-            {
-                query += $" AND Value IN ({filter})";
-            }
-
-            query += ";";
-
-            try
-            {
-                return Convert.ToDecimal(Program.Connector.ExecuteScalar(query));
-            }
-            catch (Exception ex)
-            {
-                AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserUniqueWeight(string filter)");
-                Program.ShowError("Wystapił błąd podczas próby pobrania wagi monet.");
-                return 0;
-            }
-        }
-
         public static int GetUserTotalCoins()
         {
             string query = "SELECT IFNULL(SUM(Amount), 0) FROM Coin;";
@@ -322,29 +249,6 @@ namespace NumismaticManager.Logics
             catch (Exception ex)
             {
                 AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalCoins()");
-                Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
-                return 0;
-            }
-        }
-
-        public static int GetUserTotalCoins(string filter)
-        {
-            string query = "SELECT IFNULL(SUM(Amount), 0) FROM Coin";
-
-            if (filter.Length > 0)
-            {
-                query += $" WHERE Value IN ({filter})";
-            }
-
-            query += ";";
-
-            try
-            {
-                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
-            }
-            catch (Exception ex)
-            {
-                AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalCoins(string filter)");
                 Program.ShowError("Wystapił błąd podczas próby pobrania liczby monet.");
                 return 0;
             }
@@ -366,50 +270,54 @@ namespace NumismaticManager.Logics
             }
         }
 
-        public static int GetUserTotalValue(string filter)
+        public static Dictionary<string, object> GetUserCoinsSummary()
         {
-            string query = "SELECT IFNULL(SUM(Amount * Value), 0) FROM Coin";
+            Dictionary<string, object> output = null;
 
-            if (filter.Length > 0)
+            int redundant = Properties.Settings.Default.Redundant;
+            string firstPart = "SELECT COUNT(*), IFNULL(SUM(Amount), 0), IFNULL(SUM(Amount * Value), 0), IFNULL(SUM(Amount * Weight), 0) FROM Coin WHERE 1";
+            string secondPart = "SELECT COUNT(*), IFNULL(SUM(Value), 0), IFNULL(SUM(Weight), 0) FROM Coin WHERE Amount > 0";
+            string thirdPart = $"SELECT IFNULL(SUM(Amount - {redundant}), 0), IFNULL(SUM((Amount - {redundant}) * Value), 0), IFNULL(SUM((Amount - {redundant}) * Weight), 0) FROM Coin WHERE Amount > {redundant}";
+
+            string filter = $" AND Value IN ({Properties.Settings.Default.CoinFilter})";
+
+            if (Properties.Settings.Default.CoinFilter.Length > 0)
             {
-                query += $" WHERE Value IN ({filter})";
+                firstPart += filter;
+                secondPart += filter;
+                thirdPart += filter;
             }
 
-            query += ";";
+            string query = $"SELECT * FROM ({firstPart}) JOIN ({secondPart}) JOIN ({thirdPart});";
 
             try
             {
-                return Convert.ToInt32(Program.Connector.ExecuteScalar(query));
+                using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query))
+                {
+                    reader.Read();
+
+                    output = new Dictionary<string, object>
+                    {
+                        { "allCoins", reader.GetValue(0) },
+                        { "ownedCoins", reader.GetValue(1) },
+                        { "ownedCoinsValue", reader.GetValue(2) },
+                        { "ownedCoinsWeight", reader.GetValue(3) },
+                        { "uniqueCoins", reader.GetValue(4) },
+                        { "uniqueCoinsValue", reader.GetValue(5) },
+                        { "uniqueCoinsWeight", reader.GetValue(6) },
+                        { "redundantCoins", reader.GetValue(7) },
+                        { "redundantCoinsValue", reader.GetValue(8) },
+                        { "redundantCoinsWeight", reader.GetValue(9) }
+                    };
+                }
             }
             catch (Exception ex)
             {
-                AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalValue(string filter)");
-                Program.ShowError("Wystapił błąd podczas próby pobrania wartości monet.");
-                return 0;
-            }
-        }
-
-        public static decimal GetUserTotalWeight(string filter)
-        {
-            string query = "SELECT IFNULL(SUM(Amount * Weight), 0) FROM Coin";
-
-            if (filter.Length > 0)
-            {
-                query += $" WHERE Value IN ({filter})";
+                AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserCoinsSummary()");
+                Program.ShowError("Wystapił błąd podczas próby pobrania danych do podsumowania.");
             }
 
-            query += ";";
-
-            try
-            {
-                return Convert.ToDecimal(Program.Connector.ExecuteScalar(query));
-            }
-            catch (Exception ex)
-            {
-                AddError($"{ex.Message}\n{query}", "Database.cs", "GetUserTotalWeight(string filter)");
-                Program.ShowError("Wystapił błąd podczas próby pobrania wagi monet.");
-                return 0;
-            }
+            return output;
         }
         #endregion
 

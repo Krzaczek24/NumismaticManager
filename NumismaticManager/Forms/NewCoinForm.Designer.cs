@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewCoinForm));
             this.LabelName = new System.Windows.Forms.Label();
             this.LabelValue = new System.Windows.Forms.Label();
             this.LabelDiameter = new System.Windows.Forms.Label();
@@ -306,6 +307,7 @@
             this.Controls.Add(this.TextBoxEdition);
             this.Controls.Add(this.DateTimePickerEmission);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NewCoinForm";
