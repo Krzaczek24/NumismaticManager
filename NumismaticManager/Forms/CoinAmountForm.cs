@@ -29,7 +29,14 @@ namespace NumismaticManager.Forms
 
         private void CoinAmountForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Add || e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Oemplus)
+            if (e.KeyCode == Keys.Subtract
+            || e.KeyCode == Keys.OemMinus
+            || e.KeyCode == Keys.Down
+            || e.KeyCode == Keys.Left
+            || e.KeyCode == Keys.Add
+            || e.KeyCode == Keys.Oemplus
+            || e.KeyCode == Keys.Up
+            || e.KeyCode == Keys.Right)
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -38,22 +45,13 @@ namespace NumismaticManager.Forms
 
         private void CoinAmountForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Subtract)
+            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Down || e.KeyCode == Keys.Left)
             {
                 ButtonDecrement_Click(sender, null);
             }
-            else if (e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.Add)
+            else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.Up || e.KeyCode == Keys.Right)
             {
                 ButtonIncrement_Click(sender, null);
-            }
-        }
-
-        private void DataGridViewCoins_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Add || e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Add)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
             }
         }
 
