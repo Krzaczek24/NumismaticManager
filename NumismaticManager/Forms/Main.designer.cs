@@ -395,6 +395,7 @@
             this.DataGridViewCoins.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewCoins_CellClick);
             this.DataGridViewCoins.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewCoins_CellDoubleClick);
             this.DataGridViewCoins.ColumnDisplayIndexChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DataGridViewCoins_ColumnDisplayIndexChanged);
+            this.DataGridViewCoins.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridViewCoins_ColumnHeaderMouseClick);
             this.DataGridViewCoins.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DataGridViewCoins_ColumnWidthChanged);
             this.DataGridViewCoins.SelectionChanged += new System.EventHandler(this.DataGridViewCoins_SelectionChanged);
             this.DataGridViewCoins.Sorted += new System.EventHandler(this.DataGridViewCoins_Sorted);

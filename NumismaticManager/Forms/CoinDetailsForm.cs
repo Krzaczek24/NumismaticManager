@@ -1,6 +1,6 @@
 ﻿using NumismaticManager.Logics;
-using System.Collections.Generic;
-using System.Data.SQLite;
+using NumismaticManager.Models;
+using System;
 using System.Windows.Forms;
 
 namespace NumismaticManager.Forms
@@ -16,29 +16,26 @@ namespace NumismaticManager.Forms
             this.coinId = coinId;
         }
 
-        private void CoinDetailsForm_Load(object sender, System.EventArgs e)
+        private void CoinDetailsForm_Load(object sender, EventArgs e)
         {
-            //TODO: Przenieść do DATABASE i zwrócić COIN
-
-            string query = "SELECT Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp FROM Coin Where Id = @id;";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            try
             {
-                { "id", coinId }
-            };
+                Coin coin = Database.GetCoin(coinId);
 
-            using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query, parameters))
+                TextBoxCoinName.Text = coin.Name;
+                TextBoxCoinValue.Text = $"{coin.Value:c0}";
+                TextBoxCoinDiameter.Text = $"{coin.Diameter} mm";
+                TextBoxCoinFineness.Text = coin.Fineness;
+                TextBoxCoinWeight.Text = $"{coin.Weight} g";
+                TextBoxCoinEdition.Text = $"{coin.Edition:n0}";
+                TextBoxCoinEmission.Text = $"{coin.Emission:d}";
+                TextBoxCoinStamp.Text = coin.Stamp;
+            }
+            catch (Exception ex)
             {
-                reader.Read();
-
-                TextBoxCoinName.Text = reader.GetString(0);
-                TextBoxCoinValue.Text = $"{reader.GetInt32(1):c0}";
-                TextBoxCoinDiameter.Text = $"{reader.GetDecimal(2)} mm";
-                TextBoxCoinFineness.Text = reader.GetString(3);
-                TextBoxCoinWeight.Text = $"{reader.GetDecimal(4)} g";
-                TextBoxCoinEdition.Text = $"{reader.GetInt32(5):n0}";
-                TextBoxCoinEmission.Text = $"{reader.GetDateTime(6):d}";
-                TextBoxCoinStamp.Text = reader.GetString(7);
+                Database.AddError(ex.Message, "CoinDetailsForm.cs", "CoinDetailsForm_Load(object sender, EventArgs e)");
+                Program.ShowError("Wystąpił błąd podczas pobierania szczegółów o numizmacie.");
+                DialogResult = DialogResult.Abort;                
             }
         }
     }

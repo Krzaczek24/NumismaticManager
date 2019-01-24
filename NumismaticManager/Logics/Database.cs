@@ -86,6 +86,40 @@ namespace NumismaticManager.Logics
             return coins;
         }
 
+        public static Coin GetCoin(int coinId)
+        {
+            string query = "SELECT Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp FROM Coin Where Id = @id;";
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                { "id", coinId }
+            };
+
+            using (SQLiteDataReader reader = Program.Connector.ExecuteReader(query, parameters))
+            {
+                if (reader.HasRows)
+                {
+                    reader.Read();
+
+                    return new Coin
+                    {
+                        Name = reader.GetString(0),
+                        Value = reader.GetInt32(1),
+                        Diameter = reader.GetDecimal(2),
+                        Fineness = reader.GetString(3),
+                        Weight = reader.GetDecimal(4),
+                        Edition = reader.GetInt32(5),
+                        Emission = reader.GetDateTime(6),
+                        Stamp = reader.GetString(7)
+                    };
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         public static void Insert(Coin coin)
         {
             string query = "INSERT INTO Coin(Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp) " +
@@ -378,19 +412,6 @@ namespace NumismaticManager.Logics
             {
                 Program.Connector.RollbackTransaction();
                 throw new InvalidOperationException();
-            }
-        }
-
-        public static void Backup()
-        {
-            if (File.Exists(Program.DatabaseFile))
-            {
-                int lastSlashPosition = Program.DatabaseFile.LastIndexOf("\\");
-                string destinationPath = $"{Program.DatabaseFile.Remove(lastSlashPosition)}\\backup\\{DateTime.Now.ToString().Replace(":", ".")}";
-
-                if (!Directory.Exists(destinationPath)) Directory.CreateDirectory(destinationPath);
-
-                File.Copy(Program.DatabaseFile, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
             }
         }
 

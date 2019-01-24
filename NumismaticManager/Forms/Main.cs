@@ -17,7 +17,7 @@ namespace NumismaticManager.Forms
         #region "Class variables"
         private bool justLoggedIn = true;
         private bool columnsChanged = false;
-        private int rowIndex;
+        private bool handleEnter = true;
         #endregion
 
         #region "Form events"
@@ -37,7 +37,7 @@ namespace NumismaticManager.Forms
         {
             LabelStatus.Text = null;
 
-            if (Properties.Settings.Default.Backup) Database.Backup();
+            Program.CreateDatabaseBackup();
         }
 
         private void Main_Shown(object sender, EventArgs e)
@@ -303,12 +303,16 @@ namespace NumismaticManager.Forms
         #endregion
 
         #region "DataGridView events"
+        private void DataGridViewCoins_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridViewCoins.SelectionChanged += DataGridViewCoins_SelectionChanged;
+        }
+
         private void DataGridViewCoins_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex < 0)
             {
-                Properties.Settings.Default.LastSelectedCoin = Convert.ToInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Id"].Value);
-                Properties.Settings.Default.Save();
+                DataGridViewCoins.SelectionChanged -= DataGridViewCoins_SelectionChanged;
             }
         }
 
@@ -380,8 +384,12 @@ namespace NumismaticManager.Forms
                 }
                 else if (e.KeyCode == Keys.Enter)
                 {
-                    //TODO: Enter otwiera okno ze zmianą ilości
-                    //DataGridViewCoins_CellDoubleClick(sender, new DataGridViewCellEventArgs(0, rowIndex));
+                    if (handleEnter)
+                    {
+                        DataGridViewCoins_CellDoubleClick(sender, new DataGridViewCellEventArgs(0, DataGridViewCoins.CurrentRow.Index));
+                    }
+
+                    handleEnter = !handleEnter;
                 }
             }
         }
@@ -390,7 +398,9 @@ namespace NumismaticManager.Forms
         {
             if (DataGridViewCoins.CurrentRow != null)
             {
-                rowIndex = DataGridViewCoins.CurrentRow.Index;
+                Properties.Settings.Default.LastSelectedCoin = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value);
+                int i = Properties.Settings.Default.LastSelectedCoin;
+                Properties.Settings.Default.Save();
             }
         }
         #endregion
@@ -403,6 +413,7 @@ namespace NumismaticManager.Forms
 
             DataGridViewCoins.ColumnDisplayIndexChanged -= DataGridViewCoins_ColumnDisplayIndexChanged;
             DataGridViewCoins.ColumnWidthChanged -= DataGridViewCoins_ColumnWidthChanged;
+            DataGridViewCoins.SelectionChanged -= DataGridViewCoins_SelectionChanged;
 
             GetDataSourceForDataGridView(button);
             FormatColumnsInDataGridView();
@@ -412,6 +423,7 @@ namespace NumismaticManager.Forms
 
             DataGridViewCoins.ColumnDisplayIndexChanged += DataGridViewCoins_ColumnDisplayIndexChanged;
             DataGridViewCoins.ColumnWidthChanged += DataGridViewCoins_ColumnWidthChanged;
+            DataGridViewCoins.SelectionChanged += DataGridViewCoins_SelectionChanged;
         }
 
         private void SaveDataGridViewColumnSettings()

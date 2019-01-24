@@ -36,13 +36,13 @@ namespace NumismaticManager.Logics
                 {
                     try
                     {
-                        _connector = new SQLiteConnector(DatabaseFile);
+                        _connector = new SQLiteConnector(DatabaseFilePath);
 
-                        if (!File.Exists(DatabaseFile)) Database.Create();
+                        if (!File.Exists(DatabaseFilePath)) Database.Create();
                     }
                     catch (InvalidOperationException)
                     {
-                        ShowError($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFile}");
+                        ShowError($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFilePath}");
                         Environment.Exit(0);
                     }
                 }
@@ -51,9 +51,23 @@ namespace NumismaticManager.Logics
             }
         }
 
-        internal static string DatabaseFile
+        internal static string DatabaseFilePath
         {
             get => $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\{Properties.Settings.Default.DatabaseFile}";
+        }
+
+        internal static void CreateDatabaseBackup()
+        {
+            if (Properties.Settings.Default.Backup && File.Exists(DatabaseFilePath))
+            {
+                //TODO: sprawdzenie czy warto robic kopie
+                int lastSlashPosition = DatabaseFilePath.LastIndexOf("\\");
+                string destinationPath = $"{DatabaseFilePath.Remove(lastSlashPosition)}\\backup\\{DateTime.Now.ToString().Replace(":", ".")}";
+
+                if (!Directory.Exists(destinationPath)) Directory.CreateDirectory(destinationPath);
+
+                File.Copy(DatabaseFilePath, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
+            }
         }
 
         internal static string HashSHA256(string input)
