@@ -17,6 +17,7 @@ namespace NumismaticManager.Forms
         #region "Class variables"
         private bool justLoggedIn = true;
         private bool columnsChanged = false;
+        private int rowIndex;
         #endregion
 
         #region "Form events"
@@ -350,7 +351,11 @@ namespace NumismaticManager.Forms
 
         private void DataGridViewCoins_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Add || e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Oemplus)
+            if (e.KeyCode == Keys.Subtract 
+            || e.KeyCode == Keys.OemMinus
+            || e.KeyCode == Keys.Add
+            || e.KeyCode == Keys.Oemplus
+            || e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -361,18 +366,31 @@ namespace NumismaticManager.Forms
         {
             if (DataGridViewCoins.SelectedRows.Count > 0)
             {
-                if ((e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Subtract) && Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
+                if ((e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus) && Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
                 {
                     Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), false);
 
                     DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
                 }
-                else if (e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.Add)
+                else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
                 {
                     Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), true);
 
                     DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
                 }
+                else if (e.KeyCode == Keys.Enter)
+                {
+                    //TODO: Enter otwiera okno ze zmianą ilości
+                    //DataGridViewCoins_CellDoubleClick(sender, new DataGridViewCellEventArgs(0, rowIndex));
+                }
+            }
+        }
+
+        private void DataGridViewCoins_SelectionChanged(object sender, EventArgs e)
+        {
+            if (DataGridViewCoins.CurrentRow != null)
+            {
+                rowIndex = DataGridViewCoins.CurrentRow.Index;
             }
         }
         #endregion
@@ -446,7 +464,7 @@ namespace NumismaticManager.Forms
             {
                 foreach (DataGridViewRow row in DataGridViewCoins.Rows)
                 {
-                    if (Convert.ToUInt32(row.Cells["Id"].Value) == Properties.Settings.Default.LastSelectedCoin)
+                    if (Convert.ToInt32(row.Cells["Id"].Value) == Properties.Settings.Default.LastSelectedCoin)
                     {
                         row.Cells["Name"].Selected = true;
                         break;
