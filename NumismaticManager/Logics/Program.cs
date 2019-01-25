@@ -1,6 +1,7 @@
 ﻿using NumismaticManager.Forms;
 using SQLite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -51,23 +52,92 @@ namespace NumismaticManager.Logics
             }
         }
 
+        internal static string ProgramDirectoryPath
+        {
+            get => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        }
+
         internal static string DatabaseFilePath
         {
-            get => $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\{Properties.Settings.Default.DatabaseFile}";
+            get => $"{ProgramDirectoryPath}\\{Properties.Settings.Default.DatabaseFile}";
         }
 
         internal static void CreateDatabaseBackup()
         {
             if (Properties.Settings.Default.Backup && File.Exists(DatabaseFilePath))
             {
-                //TODO: sprawdzenie czy warto robic kopie
                 int lastSlashPosition = DatabaseFilePath.LastIndexOf("\\");
-                string destinationPath = $"{DatabaseFilePath.Remove(lastSlashPosition)}\\backup\\{DateTime.Now.ToString().Replace(":", ".")}";
+                string backupFolderPath = $"{ProgramDirectoryPath}\\backup";
+                string destinationPath = $"{backupFolderPath}\\{DateTime.Now.ToString().Replace(":", ".")}";
 
-                if (!Directory.Exists(destinationPath)) Directory.CreateDirectory(destinationPath);
+                string newestBackupFile = FindNewestBackup(backupFolderPath);
 
-                File.Copy(DatabaseFilePath, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
+                if (!CheckIfSameFiles(DatabaseFilePath, newestBackupFile))
+                {
+                    if (!Directory.Exists(destinationPath))
+                    {
+                        Directory.CreateDirectory(destinationPath);
+                    }
+
+                    File.Copy(DatabaseFilePath, $"{destinationPath}\\{Properties.Settings.Default.DatabaseFile}");
+                }
             }
+        }
+
+        internal static string FindNewestBackup(string backupFolderPath)
+        {
+            IEnumerable<string> backupFiles = Directory.EnumerateFiles(backupFolderPath, Properties.Settings.Default.DatabaseFile, SearchOption.AllDirectories);
+
+            string newestBackupPath = "";
+            DateTime newestBackup = DateTime.MinValue;
+
+            foreach (string filePath in backupFiles)
+            {
+                DateTime temp;
+                if ((temp = File.GetCreationTime(filePath)) > newestBackup)
+                {
+                    newestBackup = temp;
+                    newestBackupPath = filePath;
+                }
+            }
+
+            return newestBackupPath;
+        }
+
+        internal static bool CheckIfSameFiles(string firstFilePath, string secondFilePath)
+        {
+            const int BYTEST_TO_READ = sizeof(int);
+
+            FileInfo firstFile = new FileInfo(firstFilePath);
+            FileInfo secondFile = new FileInfo(secondFilePath);
+
+            if (firstFile.Length != secondFile.Length)
+            {
+                return false;
+            }
+
+            using (FileStream firstFileStream = firstFile.OpenRead())
+            {
+                using (FileStream secondFileStream = secondFile.OpenRead())
+                {
+                    byte[] firstFileBytes = new byte[BYTEST_TO_READ];
+                    byte[] secondFileBytes = new byte[BYTEST_TO_READ];
+
+                    int i = 0;
+                    while (i++ < (int)Math.Ceiling((double)firstFile.Length / BYTEST_TO_READ))
+                    {
+                        firstFileStream.Read(firstFileBytes, 0, BYTEST_TO_READ);
+                        secondFileStream.Read(secondFileBytes, 0, BYTEST_TO_READ);
+
+                        if (BitConverter.ToInt32(firstFileBytes, 0) != BitConverter.ToInt32(secondFileBytes, 0))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         internal static string HashSHA256(string input)
