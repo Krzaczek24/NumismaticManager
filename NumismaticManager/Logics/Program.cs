@@ -1,4 +1,6 @@
 ﻿using NumismaticManager.Forms;
+using NumismaticManager.Models.Changes;
+using NumismaticManager.Models.UndoAbleChanges;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -24,8 +26,9 @@ namespace NumismaticManager.Logics
         }
 
         #region "Class variables"
-        public static SQLiteConnector _connector;
-        public static Thread statusRefresher;
+        private static SQLiteConnector connector;
+        private static Thread statusRefresher;
+        private static Stack<IUndoable> changes = new Stack<IUndoable>();
         #endregion
 
         #region "Static methods"
@@ -33,22 +36,61 @@ namespace NumismaticManager.Logics
         {
             get
             {
-                if (_connector == null)
+                if (connector == null)
                 {
                     try
                     {
-                        _connector = new SQLiteConnector(DatabaseFilePath);
+                        connector = new SQLiteConnector(DatabaseFilePath);
 
-                        if (!File.Exists(DatabaseFilePath)) Database.Create();
+                        if (!File.Exists(DatabaseFilePath))
+                        {
+                            Database.Create();
+                        }
                     }
                     catch (InvalidOperationException)
                     {
-                        ShowError($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFilePath}");
+                        ShowError($"Podczas próby utworzenia pliku z bazą danych wystąpił błąd!\n\nPróba utworzenia pliku pod adresem:\n{DatabaseFilePath}\nzakończona niepowodzeniem.\nAplikacja zostanie zamknięta.");
                         Environment.Exit(0);
                     }
                 }
 
-                return _connector;
+                return connector;
+            }
+        }
+
+        internal static void AddNewChange(IUndoable change)
+        {
+            changes.Push(change);
+        }
+
+        internal static bool UndoLastChange()
+        {
+            //try
+            //{
+            //    if (changes.Count > 0)
+            //    {
+            //        changes.Pop().Undo();
+            //    }
+            //    else
+            //    {
+            //        ShowInformation("Brak zmian do cofnięcia.");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ShowError("Wystąpił błąd podczas próby cofanięcia ostaniej akcji.");
+            //    Database.AddError(ex.Message, "Program.cs", "UndoLastChange()");
+            //}
+
+            if (changes.Count > 0)
+            {
+                changes.Pop().Undo();
+                return true;
+            }
+            else
+            {
+                ShowInformation("Brak zmian do cofnięcia.");
+                return false;
             }
         }
 
@@ -72,7 +114,7 @@ namespace NumismaticManager.Logics
 
                 string newestBackupFile = FindNewestBackup(backupFolderPath);
 
-                if (!CheckIfSameFiles(DatabaseFilePath, newestBackupFile))
+                if (newestBackupFile.Length > 0 && !CheckIfSameFiles(DatabaseFilePath, newestBackupFile))
                 {
                     if (!Directory.Exists(destinationPath))
                     {
@@ -181,6 +223,14 @@ namespace NumismaticManager.Logics
             StatusStrip statusStrip = (StatusStrip)main.Controls["StatusStrip"];
             ToolStripStatusLabel summaryLabel = (ToolStripStatusLabel)statusStrip.Items["LabelSummary"];
             summaryLabel.Text = info;
+        }
+
+        internal static void TurnOffRefresher()
+        {
+            if (statusRefresher != null)
+            {
+                statusRefresher.Abort();
+            }
         }
 
         internal static void SetCursor(Cursor cursor)

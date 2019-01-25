@@ -1,8 +1,10 @@
-﻿namespace NumismaticManager.Models.UndoAbleChanges
+﻿using NumismaticManager.Logics;
+
+namespace NumismaticManager.Models.Changes
 {
     class ChangedCoinAmount : ChangeBase
     {
-        private int changedFrom;
+        private readonly int changedFrom;
 
         public ChangedCoinAmount(int coinId, int changedFrom) : base(coinId)
         {
@@ -11,7 +13,7 @@
 
         public override void Undo()
         {
-            //tutaj funkcja do bazy cofająca zmianę
+            Database.SetCoinPreviousAmount(coinId, changedFrom);
         }
     }
 }

@@ -53,10 +53,7 @@ namespace NumismaticManager.Forms
             Properties.Settings.Default.MainHeight = Size.Height;
             Properties.Settings.Default.Save();
 
-            if (Program.statusRefresher != null)
-            {
-                Program.statusRefresher.Abort();
-            }
+            Program.TurnOffRefresher();
         }
 
         private void Main_KeyDown(object sender, KeyEventArgs e)
@@ -203,6 +200,22 @@ namespace NumismaticManager.Forms
             }
         }
 
+        private void ButtonSummary_Click(object sender, EventArgs e)
+        {
+            using (SummaryForm summaryForm = new SummaryForm())
+            {
+                summaryForm.ShowDialog();
+            }
+        }
+
+        private void ButtonUndo_Click(object sender, EventArgs e)
+        {
+            if(Program.UndoLastChange())
+            {
+                RefreshDataGridView();
+            }
+        }
+
         private void ButtonAddCoin_Click(object sender, EventArgs e)
         {
             using (NewCoinForm newCoinForm = new NewCoinForm())
@@ -211,14 +224,6 @@ namespace NumismaticManager.Forms
                 {
                     RefreshDataGridView();
                 }
-            }
-        }
-
-        private void ButtonSummary_Click(object sender, EventArgs e)
-        {
-            using (SummaryForm summaryForm = new SummaryForm())
-            {
-                summaryForm.ShowDialog();
             }
         }
 

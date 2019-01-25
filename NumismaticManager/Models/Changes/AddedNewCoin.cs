@@ -1,4 +1,6 @@
-﻿namespace NumismaticManager.Models.UndoAbleChanges
+﻿using NumismaticManager.Logics;
+
+namespace NumismaticManager.Models.Changes
 {
     class AddedNewCoin : ChangeBase
     {
@@ -6,7 +8,7 @@
 
         public override void Undo()
         {
-            //tutaj funkcja do bazy cofająca dodanie nowej monetki
+            Database.RemoveCoin(coinId);
         }
     }
 }

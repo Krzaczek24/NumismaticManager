@@ -188,10 +188,10 @@
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\NBPCoin.cs" />
     <Compile Include="Logics\Program.cs" />
-    <Compile Include="Models\UndoAbleChanges\AddedNewCoin.cs" />
-    <Compile Include="Models\UndoAbleChanges\ChangeBase.cs" />
-    <Compile Include="Models\UndoAbleChanges\ChangedCoinAmount.cs" />
-    <Compile Include="Models\UndoAbleChanges\IUndoable.cs" />
+    <Compile Include="Models\Changes\AddedNewCoin.cs" />
+    <Compile Include="Models\Changes\ChangeBase.cs" />
+    <Compile Include="Models\Changes\ChangedCoinAmount.cs" />
+    <Compile Include="Models\Changes\IUndoable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>

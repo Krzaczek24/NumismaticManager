@@ -1,4 +1,4 @@
-﻿namespace NumismaticManager.Models.UndoAbleChanges
+﻿namespace NumismaticManager.Models.Changes
 {
     public interface IUndoable
     {

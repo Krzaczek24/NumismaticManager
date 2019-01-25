@@ -1,8 +1,8 @@
-﻿namespace NumismaticManager.Models.UndoAbleChanges
+﻿namespace NumismaticManager.Models.Changes
 {
     abstract class ChangeBase : IUndoable
     {
-        private int coinId;
+        protected readonly int coinId;
 
         public ChangeBase(int coinId)
         {

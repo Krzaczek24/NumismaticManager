@@ -1,4 +1,5 @@
 ﻿using NumismaticManager.Logics;
+using NumismaticManager.Models.Changes;
 using System;
 using System.Windows.Forms;
 
@@ -8,6 +9,7 @@ namespace NumismaticManager.Forms
     {
         private int coinId;
         private string name;
+        private readonly int previousAmount;
         private int amount;
 
         public CoinAmountForm(int coinId, string name, int amount)
@@ -17,6 +19,8 @@ namespace NumismaticManager.Forms
             this.coinId = coinId;
             this.name = name;
             this.amount = amount;
+
+            previousAmount = amount;
         }
 
         private void CoinAmountForm_Load(object sender, EventArgs e)
@@ -71,6 +75,7 @@ namespace NumismaticManager.Forms
         private void ButtonSave_Click(object sender, EventArgs e)
         {
             Database.ChangeAmount(coinId, amount);
+            Program.AddNewChange(new ChangedCoinAmount(coinId, previousAmount));
 
             DialogResult = DialogResult.OK;
         }

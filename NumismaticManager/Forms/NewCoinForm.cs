@@ -1,5 +1,6 @@
 ﻿using NumismaticManager.Logics;
 using NumismaticManager.Models;
+using NumismaticManager.Models.Changes;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
@@ -56,6 +57,7 @@ namespace NumismaticManager.Forms
                 try
                 {
                     Database.Insert(coin);
+                    Program.AddNewChange(new AddedNewCoin(Database.GetNewestCoinId()));
 
                     DialogResult = DialogResult.OK;
                 }
