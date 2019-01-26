@@ -442,7 +442,7 @@ namespace NumismaticManager.Logics
         #region "Undo changes functionality"
         public static void SetCoinPreviousAmount(int coinId, int amount)
         {
-            string query = "SELECT Name FROM Coin WHERE Id = @coin; UPDATE Coin SET Amount = @amount WHERE Id = @coin;";
+            string query = "UPDATE Coin SET Amount = @amount WHERE Id = @coin;";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
@@ -452,8 +452,7 @@ namespace NumismaticManager.Logics
 
             try
             {
-                string coinName = Convert.ToString(Program.Connector.ExecuteScalar(query, parameters));
-                Program.ShowInformation($"Pomyślnie cofnięto zmianę ilości monety:\n{coinName}");
+                Program.Connector.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
@@ -464,7 +463,7 @@ namespace NumismaticManager.Logics
 
         public static void RemoveCoin(int coinId)
         {
-            string query = "SELECT Name FROM Coin WHERE Id = @coin; DELETE FROM Coin WHERE Id = @coin;";
+            string query = "DELETE FROM Coin WHERE Id = @coin;";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
@@ -473,8 +472,7 @@ namespace NumismaticManager.Logics
 
             try
             {
-                string coinName = Convert.ToString(Program.Connector.ExecuteScalar(query, parameters));
-                Program.ShowInformation($"Pomyślnie usunięto numizmat:\n{coinName}");
+                Program.Connector.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
