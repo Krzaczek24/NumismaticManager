@@ -1,4 +1,5 @@
 ﻿using NumismaticManager.Logics;
+using NumismaticManager.Models.Changes;
 using PDF;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ namespace NumismaticManager.Forms
         #region "Class variables"
         private bool justLoggedIn = true;
         private bool columnsChanged = false;
-        private bool handleEnter = true;
         #endregion
 
         #region "Form events"
@@ -58,20 +58,33 @@ namespace NumismaticManager.Forms
 
         private void Main_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.E && !TextBoxSearch.Focused)
+            if (ModifierKeys == Keys.Control)
             {
                 e.Handled = true;
-                e.SuppressKeyPress = true;
             }
         }
 
         private void Main_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.E && !TextBoxSearch.Focused)
+            if (ModifierKeys == Keys.Control)
             {
-                using (ErrorsForm errorsForm = new ErrorsForm())
+                switch (e.KeyCode)
                 {
-                    errorsForm.ShowDialog();
+                    case Keys.E: new ErrorsForm().ShowDialog(); break;
+                    case Keys.H: ButtonShortcuts_Click(sender, EventArgs.Empty); break;
+                    case Keys.S: ButtonExport_Click(sender, EventArgs.Empty); break;
+                    case Keys.Z: ButtonUndo_Click(sender, EventArgs.Empty); break;
+                }
+            }
+            else if (ModifierKeys == Keys.None)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.F1: ButtonShow_Click(ButtonShowAllCoins, EventArgs.Empty); break;
+                    case Keys.F2: ButtonShow_Click(ButtonShowOwnedCoins, EventArgs.Empty); break;
+                    case Keys.F3: ButtonShow_Click(ButtonShowRedundantCoins, EventArgs.Empty); break;
+                    case Keys.F4: ButtonShow_Click(ButtonShowMissingCoins, EventArgs.Empty); break;
+                    case Keys.F5: RefreshDataGridView(); break;
                 }
             }
         }
@@ -111,6 +124,7 @@ namespace NumismaticManager.Forms
                 saveFileDialog.OverwritePrompt = true;
                 saveFileDialog.Filter = "Excel Files (*.csv)|*.csv|Text Files (*.txt)|*.txt|PDF Files (*.pdf)|*.pdf";
                 saveFileDialog.AddExtension = true;
+                //saveFileDialog.InitialDirectory = Program.ProgramDirectoryPath;
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -238,6 +252,14 @@ namespace NumismaticManager.Forms
             }
         }
 
+        private void ButtonShortcuts_Click(object sender, EventArgs e)
+        {
+            using (ShortcutsForm shortcutsForm = new ShortcutsForm())
+            {
+                shortcutsForm.ShowDialog();
+            }
+        }
+
         private void ButtonAbout_Click(object sender, EventArgs e)
         {
             using (AboutForm aboutForm = new AboutForm())
@@ -284,18 +306,9 @@ namespace NumismaticManager.Forms
             ApplyDataGridViewFilter();
         }
 
-        private void TextBoxSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
         private void TextBoxSearch_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (ModifierKeys == Keys.None && e.KeyCode == Keys.Enter)
             {
                 DataGridViewCoins.Focus();
             }
@@ -325,8 +338,8 @@ namespace NumismaticManager.Forms
         {
             if (e.RowIndex >= 0)
             {
+                string name = Convert.ToString(DataGridViewCoins.Rows[e.RowIndex].Cells["Name"].Value);
                 int coinId = Convert.ToInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Id"].Value);
-                string name = DataGridViewCoins.Rows[e.RowIndex].Cells["Name"].Value.ToString();
                 int amount = Convert.ToInt32(DataGridViewCoins.Rows[e.RowIndex].Cells["Amount"].Value);
 
                 using (CoinAmountForm coinAmountForm = new CoinAmountForm(coinId, name, amount))
@@ -358,43 +371,43 @@ namespace NumismaticManager.Forms
             columnsChanged = true;
         }
 
-        private void DataGridViewCoins_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Subtract 
-            || e.KeyCode == Keys.OemMinus
-            || e.KeyCode == Keys.Add
-            || e.KeyCode == Keys.Oemplus
-            || e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
         private void DataGridViewCoins_KeyUp(object sender, KeyEventArgs e)
         {
-            if (DataGridViewCoins.SelectedRows.Count > 0)
+            if (DataGridViewCoins.SelectedRows.Count > 0 && ModifierKeys == Keys.Control)
             {
-                if ((e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus) && Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) > 0)
+                if (e.KeyCode == Keys.Enter)
                 {
-                    Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), false);
-
-                    DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) - 1;
+                    DataGridViewCoins_CellDoubleClick(sender, new DataGridViewCellEventArgs(0, DataGridViewCoins.CurrentRow.Index));
                 }
-                else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
+                else if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
                 {
-                    Database.ChangeAmount(Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value), true);
+                    int coinId = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Id"].Value);
+                    int amount = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value);
+                    int newAmount;
 
-                    DataGridViewCoins.CurrentRow.Cells["Amount"].Value = Convert.ToInt32(DataGridViewCoins.CurrentRow.Cells["Amount"].Value) + 1;
-                }
-                else if (e.KeyCode == Keys.Enter)
-                {
-                    if (handleEnter)
-                    {
-                        DataGridViewCoins_CellDoubleClick(sender, new DataGridViewCellEventArgs(0, DataGridViewCoins.CurrentRow.Index));
+                    if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
+                    { //positive keys like '+'
+                        newAmount = amount + 1;
+                    }
+                    else if (amount == 0)
+                    { //negative keys like '-' but unfulfilled conditions
+                        return;
+                    }
+                    else
+                    { //negative keys like '-' with fulfilled conditions
+                        newAmount = amount - 1;
                     }
 
-                    handleEnter = !handleEnter;
+                    Database.ChangeAmount(coinId, newAmount);
+
+                    Program.AddNewChange(new ChangedCoinAmount(coinId, amount, newAmount));
+
+                    if (Program.GetLastChangeCoinId() == coinId && Program.GetLastChangeCoinPreviousAmount() == newAmount)
+                    {
+                        Program.DismissLastChange();
+                    }
+
+                    DataGridViewCoins.CurrentRow.Cells["Amount"].Value = newAmount;
                 }
             }
         }

@@ -9,6 +9,11 @@
             this.coinId = coinId;
         }
 
+        public int CoinId
+        {
+            get => coinId;
+        }
+
         public abstract void Undo();
     }
 }

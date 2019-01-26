@@ -31,31 +31,15 @@ namespace NumismaticManager.Forms
             ButtonSave.Select();
         }
 
-        private void CoinAmountForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Subtract
-            || e.KeyCode == Keys.OemMinus
-            || e.KeyCode == Keys.Down
-            || e.KeyCode == Keys.Left
-            || e.KeyCode == Keys.Add
-            || e.KeyCode == Keys.Oemplus
-            || e.KeyCode == Keys.Up
-            || e.KeyCode == Keys.Right)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
         private void CoinAmountForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Down || e.KeyCode == Keys.Left)
+            if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus)
             {
-                ButtonDecrement_Click(sender, null);
+                ButtonDecrement_Click(sender, EventArgs.Empty);
             }
-            else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.Up || e.KeyCode == Keys.Right)
+            else if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
             {
-                ButtonIncrement_Click(sender, null);
+                ButtonIncrement_Click(sender, EventArgs.Empty);
             }
         }
 
@@ -74,10 +58,12 @@ namespace NumismaticManager.Forms
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            Database.ChangeAmount(coinId, amount);
-            Program.AddNewChange(new ChangedCoinAmount(coinId, previousAmount));
-
-            DialogResult = DialogResult.OK;
+            if (previousAmount != amount)
+            {
+                Database.ChangeAmount(coinId, amount);
+                Program.AddNewChange(new ChangedCoinAmount(coinId, previousAmount, amount));
+                DialogResult = DialogResult.OK;
+            }
         }
     }
 }

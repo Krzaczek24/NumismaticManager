@@ -1,5 +1,6 @@
 ﻿using NumismaticManager.Logics;
 using NumismaticManager.Models;
+using NumismaticManager.Models.Changes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

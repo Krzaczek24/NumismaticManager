@@ -116,7 +116,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Liczba monet";
             this.Load += new System.EventHandler(this.CoinAmountForm_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CoinAmountForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CoinAmountForm_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();

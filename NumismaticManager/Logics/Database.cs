@@ -150,28 +150,6 @@ namespace NumismaticManager.Logics
             }
         }
 
-        public static void ChangeAmount(int coinId, bool increment)
-        {
-            char sign = increment ? '+' : '-';
-
-            string query = $"UPDATE Coin SET Amount = Amount {sign} 1 WHERE Id = @coin;";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "coin", coinId }
-            };
-
-            try
-            {
-                Program.Connector.ExecuteNonQuery(query, parameters);
-            }
-            catch (Exception ex)
-            {
-                Program.ShowError("Wystąpił błąd podczas próby zmiany ilości posiadanych monet.");
-                AddError($"{ex.Message}\n{query}", "Database.cs", "ChangeAmount(int coinId, bool increment)");
-            } 
-        }
-
         public static void ChangeAmount(int coinId, int amount)
         {
             string query = $"UPDATE Coin SET Amount = @amount WHERE Id = @coin;";

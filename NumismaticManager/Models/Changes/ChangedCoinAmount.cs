@@ -4,16 +4,20 @@ namespace NumismaticManager.Models.Changes
 {
     class ChangedCoinAmount : ChangeBase
     {
-        private readonly int changedFrom;
+        //private readonly int changedFrom;
 
-        public ChangedCoinAmount(int coinId, int changedFrom) : base(coinId)
+        public int PreviousAmount { get; }
+        public int TargetAmount { get; }
+
+        public ChangedCoinAmount(int coinId, int changedFrom, int changedTo) : base(coinId)
         {
-            this.changedFrom = changedFrom;
+            PreviousAmount = changedFrom;
+            TargetAmount = changedTo;
         }
 
         public override void Undo()
         {
-            Database.SetCoinPreviousAmount(coinId, changedFrom);
+            Database.SetCoinPreviousAmount(coinId, PreviousAmount);
         }
     }
 }

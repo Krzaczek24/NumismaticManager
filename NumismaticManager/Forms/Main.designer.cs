@@ -38,8 +38,10 @@
             this.ButtonExport = new System.Windows.Forms.ToolStripMenuItem();
             this.lolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonAddCoin = new System.Windows.Forms.ToolStripMenuItem();
+            this.ButtonUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ButtonSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.ButtonShortcuts = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ButtonFinish = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +65,6 @@
             this.ButtonClearSearch = new System.Windows.Forms.ToolStripButton();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.DataGridViewCoins = new System.Windows.Forms.DataGridView();
-            this.ButtonUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.ToolStrip.SuspendLayout();
@@ -92,6 +93,7 @@
             this.ButtonUndo,
             this.toolStripSeparator4,
             this.ButtonSettings,
+            this.ButtonShortcuts,
             this.ButtonAbout,
             this.toolStripSeparator3,
             this.ButtonFinish});
@@ -164,6 +166,15 @@
             this.ButtonAddCoin.Text = "&Dodaj monetę";
             this.ButtonAddCoin.Click += new System.EventHandler(this.ButtonAddCoin_Click);
             // 
+            // ButtonUndo
+            // 
+            this.ButtonUndo.Image = global::NumismaticManager.Properties.Resources.Remove;
+            this.ButtonUndo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ButtonUndo.Name = "ButtonUndo";
+            this.ButtonUndo.Size = new System.Drawing.Size(196, 38);
+            this.ButtonUndo.Text = "&Cofnij zmianę";
+            this.ButtonUndo.Click += new System.EventHandler(this.ButtonUndo_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -177,6 +188,15 @@
             this.ButtonSettings.Size = new System.Drawing.Size(196, 38);
             this.ButtonSettings.Text = "&Ustawienia";
             this.ButtonSettings.Click += new System.EventHandler(this.ButtonSettings_Click);
+            // 
+            // ButtonShortcuts
+            // 
+            this.ButtonShortcuts.Image = global::NumismaticManager.Properties.Resources.Spotlight_Blue_Button;
+            this.ButtonShortcuts.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ButtonShortcuts.Name = "ButtonShortcuts";
+            this.ButtonShortcuts.Size = new System.Drawing.Size(196, 38);
+            this.ButtonShortcuts.Text = "Skróty &klawiszowe";
+            this.ButtonShortcuts.Click += new System.EventHandler(this.ButtonShortcuts_Click);
             // 
             // ButtonAbout
             // 
@@ -357,7 +377,6 @@
             this.TextBoxSearch.Name = "TextBoxSearch";
             this.TextBoxSearch.Size = new System.Drawing.Size(176, 36);
             this.TextBoxSearch.ToolTipText = "Wyszukaj numizmaty za pomocą wpisanej frazy";
-            this.TextBoxSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxSearch_KeyDown);
             this.TextBoxSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBoxSearch_KeyUp);
             this.TextBoxSearch.TextChanged += new System.EventHandler(this.TextBoxSearch_TextChanged);
             // 
@@ -401,17 +420,7 @@
             this.DataGridViewCoins.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DataGridViewCoins_ColumnWidthChanged);
             this.DataGridViewCoins.SelectionChanged += new System.EventHandler(this.DataGridViewCoins_SelectionChanged);
             this.DataGridViewCoins.Sorted += new System.EventHandler(this.DataGridViewCoins_Sorted);
-            this.DataGridViewCoins.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridViewCoins_KeyDown);
             this.DataGridViewCoins.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DataGridViewCoins_KeyUp);
-            // 
-            // ButtonUndo
-            // 
-            this.ButtonUndo.Image = global::NumismaticManager.Properties.Resources.Remove;
-            this.ButtonUndo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ButtonUndo.Name = "ButtonUndo";
-            this.ButtonUndo.Size = new System.Drawing.Size(196, 38);
-            this.ButtonUndo.Text = "&Cofnij zmianę";
-            this.ButtonUndo.Click += new System.EventHandler(this.ButtonUndo_Click);
             // 
             // Main
             // 
@@ -483,5 +492,6 @@
         private System.Windows.Forms.ToolStripMenuItem ButtonSupermonety;
         private System.Windows.Forms.ToolStripButton ButtonShowDetails;
         private System.Windows.Forms.ToolStripMenuItem ButtonUndo;
+        private System.Windows.Forms.ToolStripMenuItem ButtonShortcuts;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using NumismaticManager.Forms;
 using NumismaticManager.Models.Changes;
-using NumismaticManager.Models.UndoAbleChanges;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -60,28 +59,23 @@ namespace NumismaticManager.Logics
 
         internal static void AddNewChange(IUndoable change)
         {
-            changes.Push(change);
+            if (changes.Count == 0)
+            {
+                ChangeBase changeBase = (ChangeBase)change;
+
+                if (changeBase.CoinId != GetLastChangeCoinId())
+                {
+                    changes.Push(change);
+                }
+                else if (changeBase is ChangedCoinAmount && ((ChangedCoinAmount)changeBase).TargetAmount == GetLastChangeCoinPreviousAmount())
+                {
+                    DismissLastChange();
+                }
+            }
         }
 
         internal static bool UndoLastChange()
         {
-            //try
-            //{
-            //    if (changes.Count > 0)
-            //    {
-            //        changes.Pop().Undo();
-            //    }
-            //    else
-            //    {
-            //        ShowInformation("Brak zmian do cofnięcia.");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ShowError("Wystąpił błąd podczas próby cofanięcia ostaniej akcji.");
-            //    Database.AddError(ex.Message, "Program.cs", "UndoLastChange()");
-            //}
-
             if (changes.Count > 0)
             {
                 changes.Pop().Undo();
@@ -92,6 +86,34 @@ namespace NumismaticManager.Logics
                 ShowInformation("Brak zmian do cofnięcia.");
                 return false;
             }
+        }
+
+        internal static void DismissLastChange()
+        {
+            if (changes.Count > 0)
+            {
+                changes.Pop();
+            }
+        }
+
+        internal static int GetLastChangeCoinPreviousAmount()
+        {
+            if (changes.Count > 0 && changes.Peek() is ChangedCoinAmount)
+            {
+                return ((ChangedCoinAmount)changes.Peek()).PreviousAmount;
+            }
+
+            return -1;
+        }
+
+        internal static int GetLastChangeCoinId()
+        {
+            if (changes.Count > 0)
+            {
+                return ((ChangeBase)changes.Peek()).CoinId;
+            }
+
+            return -1;
         }
 
         internal static string ProgramDirectoryPath
