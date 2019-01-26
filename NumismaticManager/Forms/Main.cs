@@ -399,13 +399,7 @@ namespace NumismaticManager.Forms
                     }
 
                     Database.ChangeAmount(coinId, newAmount);
-
                     Program.AddNewChange(new ChangedCoinAmount(coinId, amount, newAmount));
-
-                    if (Program.GetLastChangeCoinId() == coinId && Program.GetLastChangeCoinPreviousAmount() == newAmount)
-                    {
-                        Program.DismissLastChange();
-                    }
 
                     DataGridViewCoins.CurrentRow.Cells["Amount"].Value = newAmount;
                 }

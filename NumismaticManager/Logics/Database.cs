@@ -464,7 +464,7 @@ namespace NumismaticManager.Logics
 
         public static void RemoveCoin(int coinId)
         {
-            string query = "SELECT Name FROM Coin WHERE Id = @coin; REMOVE Coin WHERE Id = @coin;";
+            string query = "SELECT Name FROM Coin WHERE Id = @coin; DELETE FROM Coin WHERE Id = @coin;";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {

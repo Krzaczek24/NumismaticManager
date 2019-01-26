@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -59,17 +58,22 @@ namespace NumismaticManager.Logics
 
         internal static void AddNewChange(IUndoable change)
         {
-            if (changes.Count == 0)
+            if (changes.Count == 0 || change is AddedNewCoin || changes.Peek() is AddedNewCoin || ((ChangeBase)change).CoinId != ((ChangeBase)changes.Peek()).CoinId)
             {
-                ChangeBase changeBase = (ChangeBase)change;
+                changes.Push(change);
+            }
+            else //here I know that there is at least one change AND previous one is not an AddedNewCoin AND new one is an ChangedCoinAmount change AND they have got the same CoinId
+            {
+                ChangedCoinAmount changedCoinAmount = (ChangedCoinAmount)change;
+                ChangedCoinAmount previousChangedCoinAmount = (ChangedCoinAmount)changes.Peek();
 
-                if (changeBase.CoinId != GetLastChangeCoinId())
+                if (changedCoinAmount.TargetAmount == previousChangedCoinAmount.PreviousAmount)
                 {
-                    changes.Push(change);
+                    changes.Pop();
                 }
-                else if (changeBase is ChangedCoinAmount && ((ChangedCoinAmount)changeBase).TargetAmount == GetLastChangeCoinPreviousAmount())
+                else
                 {
-                    DismissLastChange();
+                    previousChangedCoinAmount.TargetAmount = changedCoinAmount.TargetAmount;
                 }
             }
         }
@@ -86,34 +90,6 @@ namespace NumismaticManager.Logics
                 ShowInformation("Brak zmian do cofnięcia.");
                 return false;
             }
-        }
-
-        internal static void DismissLastChange()
-        {
-            if (changes.Count > 0)
-            {
-                changes.Pop();
-            }
-        }
-
-        internal static int GetLastChangeCoinPreviousAmount()
-        {
-            if (changes.Count > 0 && changes.Peek() is ChangedCoinAmount)
-            {
-                return ((ChangedCoinAmount)changes.Peek()).PreviousAmount;
-            }
-
-            return -1;
-        }
-
-        internal static int GetLastChangeCoinId()
-        {
-            if (changes.Count > 0)
-            {
-                return ((ChangeBase)changes.Peek()).CoinId;
-            }
-
-            return -1;
         }
 
         internal static string ProgramDirectoryPath
@@ -204,16 +180,6 @@ namespace NumismaticManager.Logics
             return true;
         }
 
-        internal static string HashSHA256(string input)
-        {
-            byte[] bytes = System.Text.Encoding.Unicode.GetBytes(input);
-            SHA256Managed hashstring = new SHA256Managed();
-            byte[] hash = hashstring.ComputeHash(bytes);
-            string output = string.Empty;
-            foreach (byte x in hash) output += string.Format("{0:x2}", x);
-            return output;
-        }
-
         internal static void SetStatus(string info)
         {
             Main main = (Main)Application.OpenForms["Main"];
@@ -237,14 +203,6 @@ namespace NumismaticManager.Logics
             StatusStrip statusStrip = (StatusStrip)main.Controls["StatusStrip"];
             ToolStripStatusLabel statusLabel = (ToolStripStatusLabel)statusStrip.Items["LabelStatus"];
             statusLabel.Text = null;
-        }
-
-        internal static void SetSummary(string info)
-        {
-            Main main = (Main)Application.OpenForms["Main"];
-            StatusStrip statusStrip = (StatusStrip)main.Controls["StatusStrip"];
-            ToolStripStatusLabel summaryLabel = (ToolStripStatusLabel)statusStrip.Items["LabelSummary"];
-            summaryLabel.Text = info;
         }
 
         internal static void TurnOffRefresher()

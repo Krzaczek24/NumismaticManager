@@ -7,7 +7,7 @@ namespace NumismaticManager.Models.Changes
         //private readonly int changedFrom;
 
         public int PreviousAmount { get; }
-        public int TargetAmount { get; }
+        public int TargetAmount { get; set; }
 
         public ChangedCoinAmount(int coinId, int changedFrom, int changedTo) : base(coinId)
         {
