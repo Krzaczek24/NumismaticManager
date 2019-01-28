@@ -1,6 +1,7 @@
 # NumismaticManager
 
 [EN] This application was created for anyone who want to manage his numismatic collection easier.
+
 [PL] Ta aplikacja powstała dla każdego kto chce łatwiej zarządzać swoją kolekcją numizmatów.
 
 # [EN] How it works
