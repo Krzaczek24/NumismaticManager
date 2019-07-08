@@ -1,6 +1,6 @@
 ﻿using NumismaticManager.Logics;
-using NumismaticManager.Models;
 using NumismaticManager.Models.Changes;
+using NumismaticManager.Models.Coins;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
@@ -42,7 +42,7 @@ namespace NumismaticManager.Forms
 
             if (validation == "OK")
             {
-                Coin coin = new Coin
+                DatabaseCoin coin = new DatabaseCoin
                 {
                     Name = TextBoxName.Text,
                     Value = int.Parse(TextBoxValue.Text),

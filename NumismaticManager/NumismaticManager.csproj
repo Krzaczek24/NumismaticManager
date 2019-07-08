@@ -190,9 +190,9 @@
     <Compile Include="Logics\AES.cs" />
     <Compile Include="Logics\Database.cs" />
     <Compile Include="Logics\NBP.cs" />
-    <Compile Include="Models\Coin.cs" />
+    <Compile Include="Models\Coins\DatabaseCoin.cs" />
     <Compile Include="Models\Error.cs" />
-    <Compile Include="Models\NBPCoin.cs" />
+    <Compile Include="Models\Coins\NBPCoin.cs" />
     <Compile Include="Logics\Program.cs" />
     <Compile Include="Models\Changes\AddedNewCoin.cs" />
     <Compile Include="Models\Changes\ChangeBase.cs" />

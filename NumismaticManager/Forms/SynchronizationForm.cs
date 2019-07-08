@@ -1,6 +1,5 @@
 ﻿using NumismaticManager.Logics;
-using NumismaticManager.Models;
-using NumismaticManager.Models.Changes;
+using NumismaticManager.Models.Coins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +18,8 @@ namespace NumismaticManager.Forms
         {
             Program.SetCursor(Cursors.WaitCursor);
 
-            List<Coin> nbpCoins = null;
-            List<Coin> databaseCoins = null;
+            List<DatabaseCoin> nbpCoins = null;
+            List<DatabaseCoin> databaseCoins = null;
 
             int websiteCoinsCount = 0;
             int newCoinsCount = 0;

@@ -1,4 +1,4 @@
-﻿using NumismaticManager.Models;
+﻿using NumismaticManager.Models.Coins;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -50,9 +50,9 @@ namespace NumismaticManager.Logics
             }
         }
 
-        public static List<Coin> DownloadAllCoins()
+        public static List<DatabaseCoin> DownloadAllCoins()
         {
-            List<Coin> coins = new List<Coin>();
+            List<DatabaseCoin> coins = new List<DatabaseCoin>();
 
             string query = "SELECT Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp FROM Coin;";
 
@@ -62,7 +62,7 @@ namespace NumismaticManager.Logics
                 {
                     while (reader.Read())
                     {
-                        coins.Add(new Coin()
+                        coins.Add(new DatabaseCoin()
                         {
                             Name = reader.GetString(0),
                             Value = reader.GetInt32(1),
@@ -85,7 +85,7 @@ namespace NumismaticManager.Logics
             return coins;
         }
 
-        public static Coin GetCoin(int coinId)
+        public static DatabaseCoin GetCoin(int coinId)
         {
             string query = "SELECT Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp FROM Coin Where Id = @coin;";
 
@@ -100,7 +100,7 @@ namespace NumismaticManager.Logics
                 {
                     reader.Read();
 
-                    return new Coin
+                    return new DatabaseCoin
                     {
                         Name = reader.GetString(0),
                         Value = reader.GetInt32(1),
@@ -119,7 +119,7 @@ namespace NumismaticManager.Logics
             }
         }
 
-        public static void Insert(Coin coin)
+        public static void Insert(DatabaseCoin coin)
         {
             string query = "INSERT INTO Coin(Name, Value, Diameter, Fineness, Weight, Edition, Emission, Stamp) " +
                             "VALUES(@name, @value, @diameter, @fineness, @weight, @edition, @emission, @stamp);";

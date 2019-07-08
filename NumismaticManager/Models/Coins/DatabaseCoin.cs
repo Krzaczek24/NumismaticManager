@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using Levenshtein;
 
-namespace NumismaticManager.Models
+namespace NumismaticManager.Models.Coins
 {
-    public class Coin
+    public class DatabaseCoin
     {
         [DisplayName("Nazwa monety")]
         public string Name { get; set; }
@@ -56,15 +56,15 @@ namespace NumismaticManager.Models
 
         public override bool Equals(object obj)
         {
-            return obj is Coin && this == (Coin)obj;
+            return obj is DatabaseCoin && this == (DatabaseCoin)obj;
         }
 
-        public static bool operator !=(Coin x, Coin y)
+        public static bool operator !=(DatabaseCoin x, DatabaseCoin y)
         {
             return !(x == y);
         }
 
-        public static bool operator ==(Coin x, Coin y)
+        public static bool operator ==(DatabaseCoin x, DatabaseCoin y)
         {
             return x.Name == y.Name
                 && x.Value == y.Value
@@ -76,7 +76,7 @@ namespace NumismaticManager.Models
                 && x.Stamp == y.Stamp;
         }
 
-        public static double[] Similarity(Coin x, Coin y)
+        public static double[] Similarity(DatabaseCoin x, DatabaseCoin y)
         {
             double[] fieldsSimilarity = new double[8];
 
@@ -92,27 +92,27 @@ namespace NumismaticManager.Models
             return fieldsSimilarity;
         }
 
-        public double[] Similarity(Coin coin)
+        public double[] Similarity(DatabaseCoin coin)
         {
             return Similarity(this, coin);
         }
 
-        public static double AverageSimilarity(Coin x, Coin y)
+        public static double AverageSimilarity(DatabaseCoin x, DatabaseCoin y)
         {
             return Similarity(x, y).Average();
         }
 
-        public double AverageSimilarity(Coin coin)
+        public double AverageSimilarity(DatabaseCoin coin)
         {
             return AverageSimilarity(this, coin);
         }
 
-        public static bool AreSimilar(Coin x, Coin y, double threshold)
+        public static bool AreSimilar(DatabaseCoin x, DatabaseCoin y, double threshold)
         {
             return Similarity(x, y).All(similarity => similarity > threshold);
         }
 
-        public bool AreSimilar(Coin coin, double threshold)
+        public bool AreSimilar(DatabaseCoin coin, double threshold)
         {
             return AreSimilar(this, coin, threshold);
         }

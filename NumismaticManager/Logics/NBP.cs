@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack;
-using NumismaticManager.Forms;
-using NumismaticManager.Models;
+using NumismaticManager.Models.Coins;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -9,13 +8,13 @@ namespace NumismaticManager.Logics
 {
     static class NBP
     {
-        public static List<Coin> DownloadAllCoins()
+        public static List<DatabaseCoin> DownloadAllCoins()
         {
             //Przygotowanie wątków
             List<Thread> threads = new List<Thread>();
 
             //Przygotowanie listy dla wszystkich znalezionych monet
-            ConcurrentBag<Coin> foundCoins = new ConcurrentBag<Coin>();
+            ConcurrentBag<DatabaseCoin> foundCoins = new ConcurrentBag<DatabaseCoin>();
 
             //Pobranie treści strony zawierającej spis roczników
             HtmlAgilityPack.HtmlDocument catalogWebsite = new HtmlWeb().Load(Properties.Settings.Default.NBPSite);
@@ -46,10 +45,10 @@ namespace NumismaticManager.Logics
             }
 
             //Zwrócenie listy pobranych monet
-            return new List<Coin>(foundCoins.ToArray());
+            return new List<DatabaseCoin>(foundCoins.ToArray());
         }
 
-        private static void DownloadCoinsFromYear(string year, ConcurrentBag<Coin> foundCoins)
+        private static void DownloadCoinsFromYear(string year, ConcurrentBag<DatabaseCoin> foundCoins)
         {
             //Pobranie strony z monetami z podanego roku
             int lastSlashPosition = Properties.Settings.Default.NBPSite.LastIndexOf('/');

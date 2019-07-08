@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace NumismaticManager.Models
+namespace NumismaticManager.Models.Coins
 {
     class NBPCoin
     {
@@ -71,9 +71,9 @@ namespace NumismaticManager.Models
             get => _stamp;
         }
 
-        public Coin Normalised
+        public DatabaseCoin Normalised
         {
-            get => new Coin()
+            get => new DatabaseCoin()
             {
                 Name = _name,
                 Value = int.Parse(_value),

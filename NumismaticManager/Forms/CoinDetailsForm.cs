@@ -1,5 +1,5 @@
 ﻿using NumismaticManager.Logics;
-using NumismaticManager.Models;
+using NumismaticManager.Models.Coins;
 using System;
 using System.Windows.Forms;
 
@@ -20,7 +20,7 @@ namespace NumismaticManager.Forms
         {
             try
             {
-                Coin coin = Database.GetCoin(coinId);
+                DatabaseCoin coin = Database.GetCoin(coinId);
 
                 TextBoxCoinName.Text = coin.Name;
                 TextBoxCoinValue.Text = $"{coin.Value:c0}";
