@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using NumismaticManager.Models.Coins;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -65,44 +66,60 @@ namespace NumismaticManager.Logics
                 coinTables = coinsWebsite.DocumentNode.SelectNodes("//table[@class='monety']//table");
             }
 
+            int nonProcessedCoins = 0;
+
             //Przejście po wszystkich elementach odpowiadających indywidualnym monetom
             foreach (HtmlNode coinTable in coinTables)
             {
-                //przygotowanie słownika dla danych o znalezionej monecie
-                NBPCoin foundCoin = new NBPCoin();
+                try
+                {
+                    //przygotowanie słownika dla danych o znalezionej monecie
+                    NBPCoin foundCoin = new NBPCoin();
 
-                //Wybranie wszystkich elementów [tr] z wybranej tabeli
-                HtmlNodeCollection rows = coinTable.SelectNodes(".//tr[not(@class)]");
+                    //Wybranie wszystkich elementów [tr] z wybranej tabeli
+                    HtmlNodeCollection rows = coinTable.SelectNodes(".//tr[not(@class)]");
 
-                //Wybranie pierwszej linii [tr] z dwoma elementami [td] (nazwa | nominał)
-                HtmlNodeCollection coinMainDetailsCells = rows[0].SelectNodes(".//td");
+                    //Wybranie pierwszej linii [tr] z dwoma elementami [td] (nazwa | nominał)
+                    HtmlNodeCollection coinMainDetailsCells = rows[0].SelectNodes(".//td");
 
-                //Wybranie ostatnich linii [tr] od końca z typami parametrów i ich wartościami
-                int rowsCount = rows.Count - (rows[rows.Count - 1].SelectSingleNode(".//td").InnerText.Contains("Uwagi") ? 1 : 0);
-                HtmlNodeCollection keys = rows[rowsCount - 2].SelectNodes(".//td");
-                HtmlNodeCollection values = rows[rowsCount - 1].SelectNodes(".//td");
+                    //Wybranie ostatnich linii [tr] od końca z typami parametrów i ich wartościami
+                    int rowsCount = rows.Count - (rows[rows.Count - 1].SelectSingleNode(".//td").InnerText.Contains("Uwagi") ? 1 : 0);
+                    HtmlNodeCollection keys = rows[rowsCount - 2].SelectNodes(".//td");
+                    HtmlNodeCollection values = rows[rowsCount - 1].SelectNodes(".//td");
 
-                //Utworzenie słownika do parsowania
-                Dictionary<string, string> preparsedCoin = new Dictionary<string, string>();
+                    //Utworzenie słownika do parsowania
+                    Dictionary<string, string> preparsedCoin = new Dictionary<string, string>();
 
-                //Przygotowanie pozostałych parametrów do parsowania
-                for (int i = 0; i < keys.Count; i++) preparsedCoin.Add(keys[i].InnerText.Trim(' '), values[i].InnerText.Trim(' '));
+                    //Przygotowanie pozostałych parametrów do parsowania
+                    for (int i = 0; i < keys.Count; i++) preparsedCoin.Add(keys[i].InnerText.Trim(' '), values[i].InnerText.Trim(' '));
 
-                //Wpisanie danych ze strony do obiektu monety
-                foundCoin.Name = coinMainDetailsCells[0].InnerText;
-                foundCoin.Value = coinMainDetailsCells[1].InnerText;
-                if (preparsedCoin.ContainsKey("Wymiary"))       foundCoin.Diameter = preparsedCoin["Wymiary"];
-                else if (preparsedCoin.ContainsKey("Rozmiar"))  foundCoin.Diameter = preparsedCoin["Rozmiar"];
-                else                                            foundCoin.Diameter = preparsedCoin["Średnica"];
-                if (preparsedCoin.ContainsKey("Stop"))  foundCoin.Fineness = preparsedCoin["Stop"];
-                else                                    foundCoin.Fineness = preparsedCoin["Próba"];
-                foundCoin.Weight = preparsedCoin["Masa"];
-                foundCoin.Edition = preparsedCoin["Nakład"];
-                foundCoin.Emission = preparsedCoin["Data emisji"];
-                foundCoin.Stamp = preparsedCoin["Stempel"];
+                    //Wpisanie danych ze strony do obiektu monety
+                    foundCoin.Name = coinMainDetailsCells[0].InnerText;
+                    foundCoin.Value = coinMainDetailsCells[1].InnerText;
+                    if (preparsedCoin.ContainsKey("Wymiary")) foundCoin.Diameter = preparsedCoin["Wymiary"];
+                    else if (preparsedCoin.ContainsKey("Rozmiar")) foundCoin.Diameter = preparsedCoin["Rozmiar"];
+                    else foundCoin.Diameter = preparsedCoin["Średnica"];
+                    if (preparsedCoin.ContainsKey("Stop")) foundCoin.Fineness = preparsedCoin["Stop"];
+                    else foundCoin.Fineness = preparsedCoin["Próba"];
+                    foundCoin.Weight = preparsedCoin["Masa"];
+                    foundCoin.Edition = preparsedCoin["Nakład"];
+                    foundCoin.Emission = preparsedCoin["Data emisji"];
+                    foundCoin.Stamp = preparsedCoin["Stempel"];
 
-                //Dodanie przeparsowanej monety do kolekcji pobieranych monet
-                foundCoins.Add(foundCoin.Normalised);
+                    //Dodanie przeparsowanej monety do kolekcji pobieranych monet
+                    foundCoins.Add(foundCoin.Normalised);
+                }
+                catch (Exception ex)
+                {
+                    nonProcessedCoins++;
+
+                    Database.AddError(ex.Message, "NBP.cs", "DownloadCoinsFromYear(string year, ConcurrentBag<DatabaseCoin> foundCoins)");
+                }
+            }
+
+            if (nonProcessedCoins > 0)
+            {
+                Program.ShowWarning($"Nie udało się przetworzyć {nonProcessedCoins} monet/y.");
             }
         }
     }
